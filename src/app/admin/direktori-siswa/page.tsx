@@ -13,6 +13,7 @@ interface Student {
   name: string
   quote: string
   photo: string
+  date?: string
   photos?: string[]
   createdAt: Timestamp
 }
@@ -24,6 +25,7 @@ export default function DirektoriSiswaPage() {
   const [name, setName] = useState("")
   const [quote, setQuote] = useState("")
   const [photo, setPhoto] = useState("")
+  const [date, setDate] = useState("")
   const [photos, setPhotos] = useState<string[]>([])
 
   useEffect(() => {
@@ -34,10 +36,24 @@ export default function DirektoriSiswaPage() {
     return unsub
   }, [])
 
+  function toInputDate(dateStr?: string) {
+    if (!dateStr) return ""
+    const d = new Date(dateStr)
+    if (isNaN(d.getTime())) return ""
+    return d.toISOString().split("T")[0]
+  }
+
+  function toDisplayDate(dateStr: string) {
+    const d = new Date(dateStr)
+    if (isNaN(d.getTime())) return ""
+    return d.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })
+  }
+
   const resetForm = () => {
     setName("")
     setQuote("")
     setPhoto("")
+    setDate("")
     setPhotos([])
     setEditing(null)
     setShowModal(false)
@@ -53,6 +69,7 @@ export default function DirektoriSiswaPage() {
     setName(s.name)
     setQuote(s.quote)
     setPhoto(s.photo)
+    setDate(toInputDate(s.date))
     setPhotos(s.photos || [])
     setShowModal(true)
   }
@@ -63,6 +80,7 @@ export default function DirektoriSiswaPage() {
       name,
       quote: quote || "—",
       photo,
+      date: date ? toDisplayDate(date) : new Date().toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" }),
       photos,
       createdAt: serverTimestamp(),
     }
@@ -189,6 +207,15 @@ export default function DirektoriSiswaPage() {
                   onChange={(e) => setQuote(e.target.value)}
                   className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-[16px] leading-[1.6] focus:ring-2 focus:ring-secondary/30 focus:border-secondary outline-none"
                   placeholder='"Motto hidup..."'
+                />
+              </div>
+              <div>
+                <label className="block font-[600] text-[13px] leading-[1.2] tracking-[0.05em] text-primary mb-1">Tanggal</label>
+                <input
+                  type="date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-[16px] leading-[1.6] focus:ring-2 focus:ring-secondary/30 focus:border-secondary outline-none"
                 />
               </div>
               <div>

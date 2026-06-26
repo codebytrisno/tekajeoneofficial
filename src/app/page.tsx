@@ -15,6 +15,73 @@ interface Memory {
   imageUrl: string
 }
 
+function PolaroidStack() {
+  const cards = [
+    { src: "/wadon.jpg", label: "7 Mei 2024" },
+    { src: "/wadon-2.jpg", label: "7 Mei 2024" },
+    { src: "/wadon-4.jpg", label: "Foto 3" },
+    { src: "/wadon4.jpg", label: "30 Sep 2024" },
+  ]
+
+  const [order, setOrder] = useState(cards.map((_, i) => i))
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setOrder((prev) => {
+        const next = [...prev]
+        const [first] = next.splice(0, 1)
+        next.push(first)
+        return next
+      })
+    }, 3000)
+    return () => clearInterval(timer)
+  }, [])
+
+  const positions = [
+    { x: -12, y: -8, r: -6, s: 1 },
+    { x: 12, y: 8, r: 4, s: 1 },
+    { x: 32, y: -20, r: 2, s: 0.9 },
+    { x: 36, y: 20, r: -3, s: 0.85 },
+  ]
+
+  return (
+    <div className="relative w-full h-full flex items-center justify-center">
+      {order.map((cardIndex, i) => {
+        const card = cards[cardIndex]
+        const isFront = i === order.length - 1
+        const pos = positions[cardIndex] || { x: 0, y: 0, r: 0, s: 1 }
+
+        return (
+          <div
+            key={cardIndex}
+            className="polaroid w-48 sm:w-56 md:w-72 select-none absolute"
+            style={{
+              zIndex: i,
+              transform: `translate(${pos.x}px, ${pos.y}px) rotate(${pos.r}deg) scale(${isFront ? 1 : pos.s})`,
+              transition: "all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)",
+            }}
+          >
+            <div className="bg-white p-2 shadow-lg">
+              <div className="aspect-square overflow-hidden">
+                <img
+                  className="w-full h-full object-cover"
+                  src={card.src}
+                  alt={card.label}
+                />
+              </div>
+              <div className="pt-3 pb-1 text-center">
+                <p className="font-headline text-[18px] md:text-[22px] leading-[1.4] font-semibold text-primary">
+                  {card.label}
+                </p>
+              </div>
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
 export default function HomePage() {
   const [memories, setMemories] = useState<Memory[]>([])
 
@@ -80,26 +147,9 @@ export default function HomePage() {
               </a>
             </div>
           </div>
-          <div className="relative flex justify-center items-center">
-            <div className="polaroid z-20 w-64 md:w-80 absolute -translate-x-12 -translate-y-8 rotate-[-6deg]">
-              <img
-                className="w-full aspect-square object-cover mb-4"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwRdkm7JPdn-HS5Tpee0s0Copx_GSj3c-JiU_0D3iaec0doFggW4yRME4ZKtX7wr62r7vdkLqEqVvScHvjG1GxcuFbL8YUV4ONq5FjkwAh365nfCf3PMrrAwZHq6acKY2C46YgH2NolWkZ3UvLCuTpE-SQaGW2F3m4mWCI1k6lnnaVbJrko_EC8GAPO3MlnV8KcZkXKLrUsil0_27UHrdBG8H5BkfP0EElA6BOD7pCGmQJZlCTwJXlFOnBtLqZuKhueinRBiv_ptq5"
-              />
-              <div className="font-headline text-[24px] leading-[1.4] font-semibold text-primary text-center">
-                Kelas XI-B, 2024
-              </div>
-            </div>
-            <div className="polaroid z-10 w-64 md:w-80 translate-x-12 translate-y-8 rotate-[4deg]">
-              <img
-                className="w-full aspect-square object-cover mb-4"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBPN0HntyCJe19Ifav_njl7nA8BuPT21BfzNLac0MNQijkHA8VsRL-Uk5J_T_9ArtL04ETsnDscA1BFPfqP9RCHxquf0_xdlccKBmyxIxPn2ZOC4aTG18Q43BcVRaMcXIp5-3z4a8TqC7Uv1JYqLHZ2QSyeaIlmlWteo806OajfS2XFGi3vTV7QKy8cvfQrSc470M5JvnnOoTb9d-y5dT15EN9OZSWHlPIREdDyWgCqL8s8sdoCm6_nSXtVFN6FLj5sgKWfbUhv2Tz"
-              />
-              <div className="font-headline text-[24px] leading-[1.4] font-semibold text-primary text-center">
-                Impian 2026
-              </div>
-            </div>
-            <div className="absolute inset-0 bg-secondary/5 rounded-full blur-3xl -z-0" />
+          <div className="relative flex justify-center items-center h-[420px] md:h-[520px]">
+            <PolaroidStack />
+            <div className="absolute inset-0 bg-secondary/5 rounded-full blur-3xl -z-10" />
           </div>
         </div>
       </section>

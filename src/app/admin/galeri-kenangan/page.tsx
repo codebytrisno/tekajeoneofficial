@@ -28,6 +28,7 @@ export default function GaleriKenanganPage() {
   const [title, setTitle] = useState("")
   const [category, setCategory] = useState("daily-class")
   const [coverImageUrl, setCoverImageUrl] = useState("")
+  const [date, setDate] = useState("")
   const [photos, setPhotos] = useState<string[]>([])
 
   useEffect(() => {
@@ -38,10 +39,24 @@ export default function GaleriKenanganPage() {
     return unsub
   }, [])
 
+  function toInputDate(dateStr?: string) {
+    if (!dateStr) return ""
+    const d = new Date(dateStr)
+    if (isNaN(d.getTime())) return ""
+    return d.toISOString().split("T")[0]
+  }
+
+  function toDisplayDate(dateStr: string) {
+    const d = new Date(dateStr)
+    if (isNaN(d.getTime())) return ""
+    return d.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })
+  }
+
   const resetForm = () => {
     setTitle("")
     setCategory("daily-class")
     setCoverImageUrl("")
+    setDate("")
     setPhotos([])
     setEditing(null)
     setShowModal(false)
@@ -57,6 +72,7 @@ export default function GaleriKenanganPage() {
     setTitle(item.title)
     setCategory(item.category)
     setCoverImageUrl(item.coverImageUrl || item.imageUrl || "")
+    setDate(toInputDate(item.date))
     setPhotos(item.photos || (item.imageUrl ? [item.imageUrl] : []))
     setShowModal(true)
   }
@@ -66,7 +82,7 @@ export default function GaleriKenanganPage() {
     const data = {
       title,
       category,
-      date: new Date().toLocaleDateString("id-ID", { month: "long", year: "numeric" }),
+      date: date ? toDisplayDate(date) : new Date().toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" }),
       coverImageUrl,
       photos,
       createdAt: serverTimestamp(),
@@ -196,6 +212,15 @@ export default function GaleriKenanganPage() {
                   onChange={(e) => setTitle(e.target.value)}
                   className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-[16px] leading-[1.6] focus:ring-2 focus:ring-secondary/30 focus:border-secondary outline-none"
                   placeholder="Judul album..."
+                />
+              </div>
+              <div>
+                <label className="block font-[600] text-[13px] leading-[1.2] tracking-[0.05em] text-primary mb-1">Tanggal</label>
+                <input
+                  type="date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-[16px] leading-[1.6] focus:ring-2 focus:ring-secondary/30 focus:border-secondary outline-none"
                 />
               </div>
               <div>
