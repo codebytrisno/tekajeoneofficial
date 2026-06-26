@@ -1,0 +1,547 @@
+<!doctype html>
+<html class="scroll-smooth" lang="en" style="">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>Galeri Kenangan Abadi | Alumni 2026</title>
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+            rel="stylesheet"
+        />
+        <script id="tailwind-config">
+            tailwind.config = {
+                darkMode: "class",
+                theme: {
+                    extend: {
+                        colors: {
+                            "on-tertiary": "#ffffff",
+                            "outline-variant": "#c4c6cd",
+                            "on-secondary-container": "#745c00",
+                            "on-tertiary-container": "#96948f",
+                            "on-primary-fixed-variant": "#35485f",
+                            "error-container": "#ffdad6",
+                            tertiary: "#181815",
+                            "surface-container": "#efeded",
+                            "primary-container": "#1a2e44",
+                            "inverse-primary": "#b4c8e4",
+                            "secondary-fixed-dim": "#e9c349",
+                            "on-error": "#ffffff",
+                            "on-secondary-fixed": "#241a00",
+                            primary: "#03192e",
+                            "on-primary-fixed": "#061d32",
+                            "on-surface-variant": "#43474d",
+                            "on-surface": "#1b1c1c",
+                            "secondary-fixed": "#ffe088",
+                            "primary-fixed-dim": "#b4c8e4",
+                            "surface-variant": "#e4e2e2",
+                            "primary-fixed": "#d1e4ff",
+                            error: "#ba1a1a",
+                            "tertiary-container": "#2d2d29",
+                            "inverse-on-surface": "#f2f0f0",
+                            "surface-container-lowest": "#ffffff",
+                            "on-secondary-fixed-variant": "#574500",
+                            "on-tertiary-fixed": "#1c1c18",
+                            "surface-tint": "#4c6078",
+                            outline: "#74777d",
+                            "surface-container-high": "#eae8e7",
+                            "on-error-container": "#93000a",
+                            "surface-container-highest": "#e4e2e2",
+                            "on-primary-container": "#8296b0",
+                            background: "#fbf9f8",
+                            "surface-bright": "#fbf9f8",
+                            "surface-dim": "#dbd9d9",
+                            "inverse-surface": "#303030",
+                            "tertiary-fixed": "#e5e2dc",
+                            secondary: "#735c00",
+                            "on-primary": "#ffffff",
+                            "on-background": "#1b1c1c",
+                            "surface-container-low": "#f5f3f3",
+                            "on-tertiary-fixed-variant": "#474743",
+                            "tertiary-fixed-dim": "#c9c6c1",
+                            surface: "#fbf9f8",
+                            "secondary-container": "#fed65b",
+                            "on-secondary": "#ffffff",
+                        },
+                        borderRadius: {
+                            DEFAULT: "0.125rem",
+                            lg: "0.25rem",
+                            xl: "0.5rem",
+                            full: "0.75rem",
+                        },
+                        spacing: {
+                            "card-gap": "32px",
+                            "section-padding": "80px",
+                            base: "8px",
+                            "container-max": "1200px",
+                            gutter: "24px",
+                        },
+                        fontFamily: {
+                            "headline-lg-mobile": ["Libre Caslon Text"],
+                            "body-lg": ["Plus Jakarta Sans"],
+                            "headline-lg": ["Libre Caslon Text"],
+                            "label-sm": ["Plus Jakarta Sans"],
+                            "headline-md": ["Libre Caslon Text"],
+                            "headline-xl": ["Libre Caslon Text"],
+                            "body-md": ["Plus Jakarta Sans"],
+                        },
+                        fontSize: {
+                            "headline-lg-mobile": [
+                                "28px",
+                                { lineHeight: "1.3", fontWeight: "600" },
+                            ],
+                            "body-lg": [
+                                "18px",
+                                { lineHeight: "1.6", fontWeight: "400" },
+                            ],
+                            "headline-lg": [
+                                "32px",
+                                { lineHeight: "1.3", fontWeight: "600" },
+                            ],
+                            "label-sm": [
+                                "13px",
+                                {
+                                    lineHeight: "1.2",
+                                    letterSpacing: "0.05em",
+                                    fontWeight: "600",
+                                },
+                            ],
+                            "headline-md": [
+                                "24px",
+                                { lineHeight: "1.4", fontWeight: "600" },
+                            ],
+                            "headline-xl": [
+                                "48px",
+                                {
+                                    lineHeight: "1.2",
+                                    letterSpacing: "-0.02em",
+                                    fontWeight: "700",
+                                },
+                            ],
+                            "body-md": [
+                                "16px",
+                                { lineHeight: "1.6", fontWeight: "400" },
+                            ],
+                        },
+                    },
+                },
+            };
+        </script>
+        <style>
+            .paper-texture {
+                background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+                mix-blend-mode: multiply;
+                pointer-events: none;
+            }
+            .masonry-grid {
+                columns: 1;
+                column-gap: 32px;
+            }
+            @media (min-width: 768px) {
+                .masonry-grid {
+                    columns: 2;
+                }
+            }
+            @media (min-width: 1024px) {
+                .masonry-grid {
+                    columns: 3;
+                }
+            }
+            .gallery-item {
+                break-inside: avoid;
+                margin-bottom: 32px;
+            }
+            .polaroid-border {
+                border: 12px solid #ffffff;
+                box-shadow: 0 10px 30px -10px rgba(26, 46, 68, 0.1);
+            }
+            .material-symbols-outlined {
+                font-variation-settings:
+                    "FILL" 0,
+                    "wght" 400,
+                    "GRAD" 0,
+                    "opsz" 24;
+            }
+        </style>
+    </head>
+    <body
+        class="bg-background text-on-background font-body-md relative overflow-x-hidden"
+    >
+        <!-- Paper Texture Overlay -->
+        <div class="fixed inset-0 paper-texture opacity-10 z-[100]"></div>
+        <!-- TopNavBar -->
+        <header
+            class="w-full top-0 sticky z-50 bg-background/80 backdrop-blur-md shadow-sm"
+        >
+            <nav
+                class="flex justify-between items-center px-gutter py-4 max-w-container-max mx-auto transition-all duration-300 ease-in-out"
+            >
+                <div
+                    class="font-headline-lg text-headline-lg text-primary italic"
+                >
+                    TekajeOneOfficial
+                </div>
+                <div class="hidden md:flex items-center gap-8">
+                    <a
+                        class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-body-md text-body-md"
+                        href="{{DATA:SCREEN:SCREEN_5}}"
+                        >Home</a
+                    >
+                    <a
+                        class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-body-md text-body-md"
+                        href="{{DATA:SCREEN:SCREEN_16}}"
+                        >Students</a
+                    >
+                    <a
+                        class="text-secondary border-b-2 border-secondary font-bold font-body-md text-body-md"
+                        href="{{DATA:SCREEN:SCREEN_2}}"
+                        >Gallery</a
+                    >
+                </div>
+                <a
+                    href="{{DATA:SCREEN:SCREEN_4}}"
+                    class="bg-primary-container text-on-primary-container px-6 py-2 rounded-full font-label-sm text-label-sm hover:opacity-90 transition-opacity inline-block"
+                    >Login</a
+                >
+            </nav>
+        </header>
+        <main class="max-w-container-max mx-auto px-gutter py-section-padding">
+            <!-- Hero Section -->
+            <section class="text-center mb-16">
+                <h1 class="font-headline-xl text-headline-xl text-primary mb-4">
+                    Galeri Kenangan Abadi
+                </h1>
+                <p
+                    class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto"
+                >
+                    Buku tempel digital dari perjalanan bersama kita. Setiap
+                    bingkai menceritakan sebuah kisah, setiap senyuman
+                    mengabadikan momen dari tahun-tahun tak terlupakan kita
+                    bersama.
+                </p>
+            </section>
+            <!-- Filter Navigation -->
+            <div
+                class="flex flex-wrap justify-center gap-4 mb-12"
+                id="filter-container"
+            ></div>
+            <!-- Masonry Gallery -->
+            <div class="masonry-grid" id="gallery-grid">
+                <!-- Item 1: Study Tour -->
+                <div
+                    class="gallery-item group cursor-pointer"
+                    data-category="study-tour"
+                >
+                    <div
+                        class="polaroid-border bg-white p-2 transition-transform duration-500 group-hover:-rotate-2 group-hover:scale-[1.02]"
+                    >
+                        <div class="relative overflow-hidden aspect-[3/4]">
+                            <img
+                                class="w-full h-full object-cover"
+                                data-alt="A nostalgic film-style photograph of a group of high school students laughing together in front of a historic temple during a sunset study tour. The lighting is warm and golden, casting soft shadows. The overall aesthetic is sentimental and clean, with a slight vintage grain consistent with a premium alumni scrapbook theme."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDivfPfELxLcxfsdFqQ0rX_0FDXUSKOUaX1f8nSyjSqMODOxvNcKYyfrAuay6489V0WqpbwM3C_2293qcwCY0pH9bfXzA-EWzBkkBI5_CkLRR3xw4mmKNObcnnSzftpld96gjv_q3XSFcXY4kLxBcoHaQAm42pHgzSDfznh7ieS3KaS0nU6sH9IX-bfPQ8z-V8GFHYgSUpXuOsF3Dqcetfge0Wr7r8CpkamHfRalYpEBXZwU4hRnwj_KXAmHIlYWstqjfuynhb_x4s9"
+                            />
+                            <div
+                                class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                            >
+                                <span
+                                    class="material-symbols-outlined text-white text-4xl"
+                                    >zoom_in</span
+                                >
+                            </div>
+                        </div>
+                        <div class="pt-4 pb-2 px-2 text-center">
+                            <p
+                                class="font-headline-md text-headline-md text-primary"
+                            >
+                                Candi Borobudur Trip
+                            </p>
+                            <p
+                                class="font-label-sm text-label-sm text-secondary italic"
+                            >
+                                August 2024 • Study Tour
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Item 2: Daily Class -->
+                <div
+                    class="gallery-item group cursor-pointer"
+                    data-category="daily-class"
+                >
+                    <div
+                        class="polaroid-border bg-white p-2 transition-transform duration-500 group-hover:rotate-1 group-hover:scale-[1.02]"
+                    >
+                        <div class="relative overflow-hidden aspect-square">
+                            <img
+                                class="w-full h-full object-cover"
+                                data-alt="A candid light-filled shot of students collaborating on a science project in a modern classroom. Sunlight streams through large windows, illuminating vibrant sticky notes and scientific equipment. The color palette features soft creams, deep blues, and gold accents, capturing the essence of focused academic life and friendship in a prestigious institution."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLzU6WeZWtZ948mK9ndyjWD-vCvg7PttQW-gI4qMM5teiRHntAJz6wctxWtD25vEAa5aL4_keXFK1Xt7ZDLvkPn5zQPQ51mM4TRtYEVodrMTjuzOYup0O1yoHaLwNUZdgVQUYWjP4S12VTf7dr1wsJYkSVtET1dS0ghwxru4H9M1Jn2_PxC1wl5j2s_K_2l6RXfGuIUfTkW1rVaPVMcSpSmqllj4N6marP10Xt17MbtFnn8BmDZzUieiSGJX7vurhrChldmvNOvWw1"
+                            />
+                            <div
+                                class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                            >
+                                <span
+                                    class="material-symbols-outlined text-white text-4xl"
+                                    >zoom_in</span
+                                >
+                            </div>
+                        </div>
+                        <div class="pt-4 pb-2 px-2 text-center">
+                            <p
+                                class="font-headline-md text-headline-md text-primary"
+                            >
+                                Chemistry Lab Fun
+                            </p>
+                            <p
+                                class="font-label-sm text-label-sm text-secondary italic"
+                            >
+                                October 2024 • Daily Class
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Item 3: Special Events -->
+                <div
+                    class="gallery-item group cursor-pointer"
+                    data-category="special-events"
+                >
+                    <div
+                        class="polaroid-border bg-white p-2 transition-transform duration-500 group-hover:-rotate-1 group-hover:scale-[1.02]"
+                    >
+                        <div class="relative overflow-hidden aspect-[4/3]">
+                            <img
+                                class="w-full h-full object-cover"
+                                data-alt="A high-end, elegant photograph of a graduation gala night. Students are dressed in formal attire, dancing under a canopy of fairy lights. The mood is celebratory yet dignified, with a deep blue night sky as a backdrop. The image is crisp and professional, fitting for a digital memory gallery of a class of 2026 alumni."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqTmO-4n8IpL_SaVTU9MtRnkNk6tINmFWwiZkGUIvgE6SS00hHO_pkj6WezY46a0lODTraG8uQctW3etA9p_U_GCYEjVaz9d3lHgx5r0Ujx8j5cI7M1MMS1OvLR4vtq-UlxVIbtKbGvWljm5whlhZ_MFVsYJPzBgDh7thj_dYZ13fjl52d8Y6HNa_Z0zcIoOo6jQSboH4AfJkFW65FYPuE-vKy6V2zoSqzUyNkxm48dO7WJv5cVkQUPIx580kohcfgELdEZ2BSay12"
+                            />
+                            <div
+                                class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                            >
+                                <span
+                                    class="material-symbols-outlined text-white text-4xl"
+                                    >zoom_in</span
+                                >
+                            </div>
+                        </div>
+                        <div class="pt-4 pb-2 px-2 text-center">
+                            <p
+                                class="font-headline-md text-headline-md text-primary"
+                            >
+                                Annual Gala Night
+                            </p>
+                            <p
+                                class="font-label-sm text-label-sm text-secondary italic"
+                            >
+                                December 2025 • Special Events
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Item 4: Daily Class -->
+                <div
+                    class="gallery-item group cursor-pointer"
+                    data-category="daily-class"
+                >
+                    <div
+                        class="polaroid-border bg-white p-2 transition-transform duration-500 group-hover:rotate-2 group-hover:scale-[1.02]"
+                    >
+                        <div class="relative overflow-hidden aspect-[3/4]">
+                            <img
+                                class="w-full h-full object-cover"
+                                data-alt="A serene morning shot in the school library, showing rows of classic oak bookshelves and students reading quietly in comfortable armchairs. The lighting is soft and ambient, creating a peaceful academic atmosphere. The aesthetic balances traditional academic heritage with clean, modern minimalism, reflecting the Class of 2026 brand identity."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmgUfl9Yqq-scO848NOkuQPRz17wU8G4qVVsn2AYo2oEazk-ZcZs9akW0U3gbhzCGfBy1nd1k7cjVRcHGOHznnzliaSJE2x2-AP6kyntljGgHoAHUzlbobGmX463dOBBs2O6dBrIYQzBFxzmcRC24CfZiXnqRoaXviIilzjZAPXTOVZWY3ZxutomRKpXEP7T7Ozq-az_mDfwpuOW5MZA8dGsX1F3iB7Cn83mW1MXONYCUqaRjosHqBRbLJY5b6eq7a-dTjw84oAbYz"
+                            />
+                            <div
+                                class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                            >
+                                <span
+                                    class="material-symbols-outlined text-white text-4xl"
+                                    >zoom_in</span
+                                >
+                            </div>
+                        </div>
+                        <div class="pt-4 pb-2 px-2 text-center">
+                            <p
+                                class="font-headline-md text-headline-md text-primary"
+                            >
+                                Library Mornings
+                            </p>
+                            <p
+                                class="font-label-sm text-label-sm text-secondary italic"
+                            >
+                                March 2025 • Daily Class
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Item 5: Study Tour -->
+                <div
+                    class="gallery-item group cursor-pointer"
+                    data-category="study-tour"
+                >
+                    <div
+                        class="polaroid-border bg-white p-2 transition-transform duration-500 group-hover:-rotate-2 group-hover:scale-[1.02]"
+                    >
+                        <div class="relative overflow-hidden aspect-video">
+                            <img
+                                class="w-full h-full object-cover"
+                                data-alt="A breathtaking panoramic view of students hiking a lush green mountain ridge during an environmental study tour. The sky is a clear, vibrant blue, and the distant peaks are shrouded in soft mist. The photograph is expansive and airy, using the layout's generous margins to emphasize the scale of the landscape and the spirit of adventure."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuC91o_gcIPGQVZBQ6io4RDZJNxre4Uo-8Y12EfSziUxIn75649_a5d7QAQ-pBhUYV5ftKMzQ6o3oHqTJ_0aFGMgqtJLJBkoZtpSRCrGt0QbnvCWSG4aoKCvyjnelYEFyX9qU8lCjtGZ-gZMT0hoN48WvVUOd2TdcC_P4mplxvG3LWUuk7GL2k-SefVN1p39fdWVg0rJz6DLPqfTED7SRpz6KucO3Hjqilzis5jhKw6MgMx5P5G56yBDZCoq-WuO8OAl1DqQWLn5ievI"
+                            />
+                            <div
+                                class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                            >
+                                <span
+                                    class="material-symbols-outlined text-white text-4xl"
+                                    >zoom_in</span
+                                >
+                            </div>
+                        </div>
+                        <div class="pt-4 pb-2 px-2 text-center">
+                            <p
+                                class="font-headline-md text-headline-md text-primary"
+                            >
+                                Mountain Exploration
+                            </p>
+                            <p
+                                class="font-label-sm text-label-sm text-secondary italic"
+                            >
+                                June 2025 • Study Tour
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Item 6: Special Events -->
+                <div
+                    class="gallery-item group cursor-pointer"
+                    data-category="special-events"
+                >
+                    <div
+                        class="polaroid-border bg-white p-2 transition-transform duration-500 group-hover:rotate-1 group-hover:scale-[1.02]"
+                    >
+                        <div class="relative overflow-hidden aspect-square">
+                            <img
+                                class="w-full h-full object-cover"
+                                data-alt="Action-packed shot of a school sports day competition. Students in team colors are racing on a professional track under bright, clear daylight. The image captures motion and emotion, with a focus on sportsmanship. The visual style is crisp and dynamic, maintaining the clean lines and high-end feel of the alumni memory portal."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfz-URLyL0H5N9EzMzP1P8kUYhamT8qzhBnAI-QGXFV4Huxl4S40QPJoXIRaWWvhAW-L9j_DlZ_7l1cJvlCF0KM2ctsDuWYnNHNjxSd-nRjK8ZW-yIeHVVdm3GMQ1zaJyxdjeZw6Qkz02ouGWGvSNhgnBci3G8ORpRC9OYXuh8rTSpfGP-cSnG1ohtngU6W9y0QlvjDkv0nhoT3THbG_Vx5gXjhxjADiWxxGB9xTEQgywkl7WtGZ6Hjlz1b7TbRzMq5te1N6D9YaUz"
+                            />
+                            <div
+                                class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                            >
+                                <span
+                                    class="material-symbols-outlined text-white text-4xl"
+                                    >zoom_in</span
+                                >
+                            </div>
+                        </div>
+                        <div class="pt-4 pb-2 px-2 text-center">
+                            <p
+                                class="font-headline-md text-headline-md text-primary"
+                            >
+                                Spirit Sports Day
+                            </p>
+                            <p
+                                class="font-label-sm text-label-sm text-secondary italic"
+                            >
+                                September 2025 • Special Events
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- Lightbox Modal -->
+        <div
+            class="fixed inset-0 z-[200] hidden bg-primary/95 flex items-center justify-center p-8 backdrop-blur-xl"
+            id="lightbox"
+        >
+            <button
+                class="absolute top-8 right-8 text-white hover:text-secondary transition-colors"
+                onclick="closeLightbox()"
+            >
+                <span class="material-symbols-outlined text-4xl">close</span>
+            </button>
+            <div class="max-w-4xl w-full flex flex-col items-center">
+                <img
+                    alt="Full view memory"
+                    class="max-h-[819px] object-contain mb-8 rounded-lg shadow-2xl border-4 border-white/10"
+                    id="lightbox-img"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQVQzqwc5fxCIVvROq8drSgEPb7v6_Jl0KkkZu29JuGz8QecIMdkIJi06oFGSO87BDrhIYd212I-7PDgWGLx8ZVaEO0Xl-S2Zv7xuXqgdL7Q1Oicmu2dgLVG9_OUf-QpUIzIGVLJm51DP2s0zPEOFktDu9QfKO93dLrRdigl8syE30rF1ysNf6xgG2DPLh1tYUCEO3z-kiiLnv0u-_QvqvPYtpEkshA0_CoD58XB91h8Bz2QtrrgUHp1KN3AZbYpb-DCbUPc2OHmD_"
+                />
+                <div class="text-center">
+                    <h3
+                        class="font-headline-lg text-headline-lg text-white mb-2"
+                        id="lightbox-title"
+                    >
+                        Memory Title
+                    </h3>
+                    <p
+                        class="font-body-md text-body-md text-on-primary-container"
+                        id="lightbox-meta"
+                    >
+                        Date • Category
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- Footer -->
+        <footer
+            class="w-full mt-section-padding bg-surface-container border-t border-outline-variant"
+        >
+            <div
+                class="flex flex-col md:flex-row justify-between items-center gap-base p-gutter max-w-container-max mx-auto opacity-90 hover:opacity-100 transition-all"
+            >
+                <div class="flex gap-6"></div>
+            </div>
+        </footer>
+        <script>
+            function filterGallery(category) {
+                const items = document.querySelectorAll('.gallery-item');
+                const btns = document.querySelectorAll('.filter-btn');
+
+                // Update buttons
+                btns.forEach(btn => {
+                    btn.classList.remove('active', 'bg-secondary', 'text-white', 'border-secondary');
+                    btn.classList.add('border-outline', 'text-on-surface-variant');
+                });
+                event.target.classList.add('active', 'bg-secondary', 'text-white', 'border-secondary');
+                event.target.classList.remove('border-outline', 'text-on-surface-variant');
+
+                // Filter items
+                items.forEach(item => {
+                    if (category === 'all' || item.getAttribute('data-category') === category) {
+                        item.style.display = 'block';
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                            item.style.transform = 'scale(1)';
+                        }, 50);
+                    } else {
+                        item.style.opacity = '0';
+                        item.style.transform = 'scale(0.9)';
+                        setTimeout(() => {
+                            item.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            }
+
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxTitle = document.getElementById('lightbox-title');
+            const lightboxMeta = document.getElementById('lightbox-meta');
+
+            galleryItems.forEach(item => {
+                item.
+        </script>
+    </body>
+</html>

@@ -1,0 +1,988 @@
+<!doctype html>
+<html class="light" lang="id" style="">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>Alumni 2026 | Kenangan Abadi</title>
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+            rel="stylesheet"
+        />
+        <script id="tailwind-config">
+            tailwind.config = {
+                darkMode: "class",
+                theme: {
+                    extend: {
+                        colors: {
+                            "on-tertiary": "#ffffff",
+                            "outline-variant": "#c4c6cd",
+                            "on-secondary-container": "#745c00",
+                            "on-tertiary-container": "#96948f",
+                            "on-primary-fixed-variant": "#35485f",
+                            "error-container": "#ffdad6",
+                            tertiary: "#181815",
+                            "surface-container": "#efeded",
+                            "primary-container": "#1a2e44",
+                            "inverse-primary": "#b4c8e4",
+                            "secondary-fixed-dim": "#e9c349",
+                            "on-error": "#ffffff",
+                            "on-secondary-fixed": "#241a00",
+                            primary: "#03192e",
+                            "on-primary-fixed": "#061d32",
+                            "on-surface-variant": "#43474d",
+                            "on-surface": "#1b1c1c",
+                            "secondary-fixed": "#ffe088",
+                            "primary-fixed-dim": "#b4c8e4",
+                            "surface-variant": "#e4e2e2",
+                            "primary-fixed": "#d1e4ff",
+                            error: "#ba1a1a",
+                            "tertiary-container": "#2d2d29",
+                            "inverse-on-surface": "#f2f0f0",
+                            "surface-container-lowest": "#ffffff",
+                            "on-secondary-fixed-variant": "#574500",
+                            "on-tertiary-fixed": "#1c1c18",
+                            "surface-tint": "#4c6078",
+                            outline: "#74777d",
+                            "surface-container-high": "#eae8e7",
+                            "on-error-container": "#93000a",
+                            "surface-container-highest": "#e4e2e2",
+                            "on-primary-container": "#8296b0",
+                            background: "#fbf9f8",
+                            "surface-bright": "#fbf9f8",
+                            "surface-dim": "#dbd9d9",
+                            "inverse-surface": "#303030",
+                            "tertiary-fixed": "#e5e2dc",
+                            secondary: "#735c00",
+                            "on-primary": "#ffffff",
+                            "on-background": "#1b1c1c",
+                            "surface-container-low": "#f5f3f3",
+                            "on-tertiary-fixed-variant": "#474743",
+                            "tertiary-fixed-dim": "#c9c6c1",
+                            surface: "#fbf9f8",
+                            "secondary-container": "#fed65b",
+                            "on-secondary": "#ffffff",
+                        },
+                        borderRadius: {
+                            DEFAULT: "0.125rem",
+                            lg: "0.25rem",
+                            xl: "0.5rem",
+                            full: "0.75rem",
+                        },
+                        spacing: {
+                            "card-gap": "32px",
+                            "section-padding": "80px",
+                            base: "8px",
+                            "container-max": "1200px",
+                            gutter: "24px",
+                        },
+                        fontFamily: {
+                            "headline-lg-mobile": ["Libre Caslon Text"],
+                            "body-lg": ["Plus Jakarta Sans"],
+                            "headline-lg": ["Libre Caslon Text"],
+                            "label-sm": ["Plus Jakarta Sans"],
+                            "headline-md": ["Libre Caslon Text"],
+                            "headline-xl": ["Libre Caslon Text"],
+                            "body-md": ["Plus Jakarta Sans"],
+                        },
+                        fontSize: {
+                            "headline-lg-mobile": [
+                                "28px",
+                                { lineHeight: "1.3", fontWeight: "600" },
+                            ],
+                            "body-lg": [
+                                "18px",
+                                { lineHeight: "1.6", fontWeight: "400" },
+                            ],
+                            "headline-lg": [
+                                "32px",
+                                { lineHeight: "1.3", fontWeight: "600" },
+                            ],
+                            "label-sm": [
+                                "13px",
+                                {
+                                    lineHeight: "1.2",
+                                    letterSpacing: "0.05em",
+                                    fontWeight: "600",
+                                },
+                            ],
+                            "headline-md": [
+                                "24px",
+                                { lineHeight: "1.4", fontWeight: "600" },
+                            ],
+                            "headline-xl": [
+                                "48px",
+                                {
+                                    lineHeight: "1.2",
+                                    letterSpacing: "-0.02em",
+                                    fontWeight: "700",
+                                },
+                            ],
+                            "body-md": [
+                                "16px",
+                                { lineHeight: "1.6", fontWeight: "400" },
+                            ],
+                        },
+                    },
+                },
+            };
+        </script>
+        <style>
+            body {
+                background-color: #fbf9f8;
+                background-image: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+                scroll-behavior: smooth;
+            }
+            .paper-card {
+                box-shadow: 0 10px 30px -5px rgba(26, 46, 68, 0.05);
+                border: 1px solid rgba(115, 92, 0, 0.1);
+            }
+            .polaroid {
+                padding: 12px 12px 48px 12px;
+                background: white;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+                transform: rotate(-1deg);
+                transition: transform 0.3s ease;
+            }
+            .polaroid:hover {
+                transform: rotate(1deg) scale(1.02);
+            }
+            .material-symbols-outlined {
+                font-variation-settings:
+                    "FILL" 0,
+                    "wght" 400,
+                    "GRAD" 0,
+                    "opsz" 24;
+            }
+
+            /* Marquee Animation */
+            @keyframes marquee {
+                0% {
+                    transform: translateX(0);
+                }
+                100% {
+                    transform: translateX(-50%);
+                }
+            }
+            .animate-marquee {
+                display: flex;
+                width: fit-content;
+                animation: marquee 60s linear infinite;
+            }
+            .marquee-container:hover .animate-marquee {
+                animation-play-state: paused;
+            }
+
+            /* New marquee for memory cards */
+            @keyframes cards-marquee {
+                0% {
+                    transform: translateX(0);
+                }
+                100% {
+                    transform: translateX(-50%);
+                }
+            }
+            .animate-cards-marquee {
+                display: flex;
+                width: max-content;
+                animation: cards-marquee 40s linear infinite;
+            }
+            .cards-marquee-container:hover .animate-cards-marquee {
+                animation-play-state: paused;
+            }
+
+            .nostalgic-photo {
+                filter: sepia(0.3) contrast(0.9) brightness(1.1) saturate(0.8);
+                opacity: 0.15;
+                transition: opacity 0.5s ease;
+            }
+            .nostalgic-photo:hover {
+                opacity: 0.25;
+            }
+            .no-scrollbar::-webkit-scrollbar {
+                display: none;
+            }
+        </style>
+    </head>
+    <body class="text-on-surface">
+        <!-- TopNavBar -->
+        <nav
+            class="w-full top-0 sticky bg-background/80 backdrop-blur-md shadow-sm z-50"
+        >
+            <div
+                class="flex justify-between items-center px-gutter py-4 max-w-container-max mx-auto"
+            >
+                <div
+                    class="font-headline-lg text-headline-lg text-primary dark:text-primary-fixed italic"
+                >
+                    TekajeOneOfficial
+                </div>
+                <div class="hidden md:flex gap-8 items-center">
+                    <a
+                        class="text-secondary dark:text-secondary-fixed-dim border-b-2 border-secondary font-bold transition-all duration-300 ease-in-out"
+                        href="{{DATA:SCREEN:SCREEN_5}}"
+                        >Home</a
+                    ><a
+                        class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-all duration-300 ease-in-out"
+                        href="{{DATA:SCREEN:SCREEN_16}}"
+                        >Students</a
+                    ><a
+                        class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-all duration-300 ease-in-out"
+                        href="{{DATA:SCREEN:SCREEN_2}}"
+                        >Gallery</a
+                    >
+                </div>
+                <a
+                    href="{{DATA:SCREEN:SCREEN_4}}"
+                    class="bg-primary text-on-primary px-6 py-2 rounded-lg font-label-sm hover:shadow-lg transition-all inline-block"
+                    >Login</a
+                >
+            </div>
+        </nav>
+        <!-- Hero Banner -->
+        <section
+            class="relative overflow-hidden pt-12 pb-24 md:pt-24 md:pb-32 min-h-[600px] flex items-center"
+        >
+            <!-- Scrolling Background Marquee -->
+            <div
+                class="absolute inset-0 z-0 pointer-events-none marquee-container overflow-hidden"
+            >
+                <div class="animate-marquee flex gap-8 py-12">
+                    <!-- First Set -->
+                    <img
+                        alt="Memory"
+                        class="h-[400px] w-auto nostalgic-photo rounded-xl object-cover"
+                        src="https://lh3.googleusercontent.com/aida/AP1WRLt2-jTb27WUUTtWv8qWB0ILfPQ8_tdb60CeJCSEbXhKBYFBPJrxBF4eHXQ8VrhF_YY9NICU9jrwSsdLZPO25OtKVNOBFtQPLMP4QEys4N8AROw9vQda_EyUGhWeIXck1N08wYE1vlDxMsLypB78ua3ZST56drcmCKCLlgZN_EpDGd5WSvSV0c1bFqknZPRLKF6Ljd0OZmKplnLJKDcdni3yzokwAzEnokRhR52kk2w5dx-25CXsMquA4A6c"
+                    />
+                    <img
+                        alt="Memory"
+                        class="h-[400px] w-auto nostalgic-photo rounded-xl object-cover"
+                        src="https://lh3.googleusercontent.com/aida/AP1WRLtyOtfEF9lEbVr9dtIagND3X0Tv8DLHFbga5Rt6FKHADNoUJ4RGUg_1NA1NOlbGcz_XZB2Pjire6g1QKBgvNTbqivo6pCDSZtpLahS8nj7M9xhAv8W15UKGTHo-eTTZHWpSPkcjpf5oLx3aWlF8jRhkF0HMrGqkgbedDDbMRsd-hbNJgtc3MtrcMY1SwVS85Bw43gTUmJCs2duRl-1h1kUaWvmtAGn2UntYQbQ_kLiZn-xqA3KB_XhgseMI"
+                    />
+                    <img
+                        alt="Memory"
+                        class="h-[400px] w-auto nostalgic-photo rounded-xl object-cover"
+                        src="https://lh3.googleusercontent.com/aida/AP1WRLv-jzohIZ9Eh5XoUGc5Yg8BTuD74UxToNlxpwNOBOE9d3HAvFwTUS0W_TAu9M9oGAnre2lJe9E_6LgGLU3OvPUt1qB37LpTbUw1vAKWB9hqGsCWCkLvKfGglSlaimjuAExBVknZMm9t300HbNcgHuWUykCqbxfC7HkpQtRaz_t1WLhOwlve58DbRNPa5qK18W7qNAGiq79Tlk_3RCw4YtwSuOkRHlltVW6wz2NYeibdf5YdATZtjqG0LLGR"
+                    />
+                    <img
+                        alt="Memory"
+                        class="h-[400px] w-auto nostalgic-photo rounded-xl object-cover"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDS4iWjrzPcMNLwibVN9OSPuZWuI3Or7JNTCjnL-gZxQEAT1oBz0vUJZe9x2_MDKognLKTyvbQgoNnrJnlOSh-dZOH-3m-BJXM8hw-K7Y9ikuRnpXYSwT6esJgaVGF7ZXI3lcvSNe2dnmBlNzdgVU8OPLkkb5qDCHa1Haq_cAKH2w8ShcLCSqczyyJCbOUOYCFC_48lm9ad1krVZk4KPV3_nfOe_I8BVYJaEprg9rvLLpdyC_vQtysqGxBtyeHkGb60D47e7d29K3r2"
+                    />
+                    <!-- Duplicated Set for Infinite Loop -->
+                    <img
+                        alt="Memory"
+                        class="h-[400px] w-auto nostalgic-photo rounded-xl object-cover"
+                        src="https://lh3.googleusercontent.com/aida/AP1WRLt2-jTb27WUUTtWv8qWB0ILfPQ8_tdb60CeJCSEbXhKBYFBPJrxBF4eHXQ8VrhF_YY9NICU9jrwSsdLZPO25OtKVNOBFtQPLMP4QEys4N8AROw9vQda_EyUGhWeIXck1N08wYE1vlDxMsLypB78ua3ZST56drcmCKCLlgZN_EpDGd5WSvSV0c1bFqknZPRLKF6Ljd0OZmKplnLJKDcdni3yzokwAzEnokRhR52kk2w5dx-25CXsMquA4A6c"
+                    />
+                    <img
+                        alt="Memory"
+                        class="h-[400px] w-auto nostalgic-photo rounded-xl object-cover"
+                        src="https://lh3.googleusercontent.com/aida/AP1WRLtyOtfEF9lEbVr9dtIagND3X0Tv8DLHFbga5Rt6FKHADNoUJ4RGUg_1NA1NOlbGcz_XZB2Pjire6g1QKBgvNTbqivo6pCDSZtpLahS8nj7M9xhAv8W15UKGTHo-eTTZHWpSPkcjpf5oLx3aWlF8jRhkF0HMrGqkgbedDDbMRsd-hbNJgtc3MtrcMY1SwVS85Bw43gTUmJCs2duRl-1h1kUaWvmtAGn2UntYQbQ_kLiZn-xqA3KB_XhgseMI"
+                    />
+                    <img
+                        alt="Memory"
+                        class="h-[400px] w-auto nostalgic-photo rounded-xl object-cover"
+                        src="https://lh3.googleusercontent.com/aida/AP1WRLv-jzohIZ9Eh5XoUGc5Yg8BTuD74UxToNlxpwNOBOE9d3HAvFwTUS0W_TAu9M9oGAnre2lJe9E_6LgGLU3OvPUt1qB37LpTbUw1vAKWB9hqGsCWCkLvKfGglSlaimjuAExBVknZMm9t300HbNcgHuWUykCqbxfC7HkpQtRaz_t1WLhOwlve58DbRNPa5qK18W7qNAGiq79Tlk_3RCw4YtwSuOkRHlltVW6wz2NYeibdf5YdATZtjqG0LLGR"
+                    />
+                    <img
+                        alt="Memory"
+                        class="h-[400px] w-auto nostalgic-photo rounded-xl object-cover"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDS4iWjrzPcMNLwibVN9OSPuZWuI3Or7JNTCjnL-gZxQEAT1oBz0vUJZe9x2_MDKognLKTyvbQgoNnrJnlOSh-dZOH-3m-BJXM8hw-K7Y9ikuRnpXYSwT6esJgaVGF7ZXI3lcvSNe2dnmBlNzdgVU8OPLkkb5qDCHa1Haq_cAKH2w8ShcLCSqczyyJCbOUOYCFC_48lm9ad1krVZk4KPV3_nfOe_I8BVYJaEprg9rvLLpdyC_vQtysqGxBtyeHkGb60D47e7d29K3r2"
+                    />
+                </div>
+                <!-- Subtle Overlay for Readability -->
+                <div
+                    class="absolute inset-0 bg-background/60 backdrop-blur-[2px]"
+                ></div>
+            </div>
+            <div
+                class="max-w-container-max mx-auto px-gutter grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10"
+            >
+                <div class="">
+                    <h1
+                        class="font-headline-xl text-headline-xl text-primary mb-6 leading-tight"
+                    >
+                        Mengenang Kenangan<br /><span
+                            class="text-secondary italic"
+                            >TekajeOneOfficial Angkatan2024/2025</span
+                        >
+                    </h1>
+                    <p
+                        class="font-body-lg text-body-lg text-on-surface-variant mb-8 max-w-lg"
+                    >
+                        Website untuk merayakan setiap tawa, mengabadikan setiap
+                        momen, dan menjaga erat tali persahabatan yang telah
+                        kita jalin bersama di masa sekolah.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <button
+                            class="bg-primary text-on-primary px-8 py-4 rounded-lg font-label-sm flex items-center gap-2 hover:translate-y-[-2px] transition-transform"
+                        >
+                            Eksplor Galeri
+                            <span class="material-symbols-outlined text-[18px]"
+                                >arrow_forward</span
+                            >
+                        </button>
+                        <button
+                            class="border border-primary text-primary px-8 py-4 rounded-lg font-label-sm hover:bg-primary/5 transition-colors"
+                        >
+                            Tentang Kami
+                        </button>
+                    </div>
+                </div>
+                <div class="relative flex justify-center items-center">
+                    <div
+                        class="polaroid z-20 w-64 md:w-80 absolute -translate-x-12 -translate-y-8 rotate-[-6deg]"
+                    >
+                        <img
+                            class="w-full aspect-square object-cover mb-4"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwRdkm7JPdn-HS5Tpee0s0Copx_GSj3c-JiU_0D3iaec0doFggW4yRME4ZKtX7wr62r7vdkLqEqVvScHvjG1GxcuFbL8YUV4ONq5FjkwAh365nfCf3PMrrAwZHq6acKY2C46YgH2NolWkZ3UvLCuTpE-SQaGW2F3m4mWCI1k6lnnaVbJrko_EC8GAPO3MlnV8KcZkXKLrUsil0_27UHrdBG8H5BkfP0EElA6BOD7pCGmQJZlCTwJXlFOnBtLqZuKhueinRBiv_ptq5"
+                        />
+                        <div
+                            class="font-headline-md text-headline-md text-primary text-center"
+                        >
+                            Kelas XI-B, 2024
+                        </div>
+                    </div>
+                    <div
+                        class="polaroid z-10 w-64 md:w-80 translate-x-12 translate-y-8 rotate-[4deg]"
+                    >
+                        <img
+                            class="w-full aspect-square object-cover mb-4"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBPN0HntyCJe19Ifav_njl7nA8BuPT21BfzNLac0MNQijkHA8VsRL-Uk5J_T_9ArtL04ETsnDscA1BFPfqP9RCHxquf0_xdlccKBmyxIxPn2ZOC4aTG18Q43BcVRaMcXIp5-3z4a8TqC7Uv1JYqLHZ2QSyeaIlmlWteo806OajfS2XFGi3vTV7QKy8cvfQrSc470M5JvnnOoTb9d-y5dT15EN9OZSWHlPIREdDyWgCqL8s8sdoCm6_nSXtVFN6FLj5sgKWfbUhv2Tz"
+                        />
+                        <div
+                            class="font-headline-md text-headline-md text-primary text-center"
+                        >
+                            Impian 2026
+                        </div>
+                    </div>
+                    <div
+                        class="absolute inset-0 bg-secondary/5 rounded-full blur-3xl -z-0"
+                    ></div>
+                </div>
+            </div>
+        </section>
+        <!-- Short Memories Slider -->
+        <section class="py-section-padding overflow-hidden">
+            <div
+                class="max-w-container-max mx-auto px-gutter mb-12 flex justify-between items-end"
+            >
+                <div>
+                    <h2
+                        class="font-headline-lg text-headline-lg text-primary mb-2"
+                    >
+                        Kenangan Kelas
+                    </h2>
+                    <p class="font-body-md text-on-surface-variant">
+                        Kilas balik momen-momen terbaik kita
+                    </p>
+                </div>
+                <div class="flex gap-4">
+                    <button
+                        class="w-12 h-12 rounded-full border border-outline flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all"
+                        onclick="scrollSlider(-1)"
+                    >
+                        <span class="material-symbols-outlined"
+                            >chevron_left</span
+                        >
+                    </button>
+                    <button
+                        class="w-12 h-12 rounded-full border border-outline flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all"
+                        onclick="scrollSlider(1)"
+                    >
+                        <span class="material-symbols-outlined"
+                            >chevron_right</span
+                        >
+                    </button>
+                </div>
+            </div>
+            <div
+                class="cards-marquee-container overflow-hidden w-full relative"
+            >
+                <div
+                    class="animate-cards-marquee flex gap-card-gap px-gutter"
+                    id="memory-slider"
+                >
+                    <!-- Original Set -->
+                    <div class="flex-none w-80 md:w-96">
+                        <div
+                            class="paper-card bg-white rounded-xl overflow-hidden group h-full"
+                        >
+                            <div class="relative h-64 overflow-hidden">
+                                <img
+                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqFfuC1E5eJYx--6SNGQYd7lAPIlSnQTy_Vdjnsy0wFf09xHn0VL1Kgcv_jk8ICrSU14Vt1BT6THfj0vAP_y7ObM9cVnCLovuvlkgaRxX8DWIWxeWWK2rlnsS7IRI7NxCmH2JolVvb6Ugy1QsutlK2b1Lan85cB0lwoB7oURf5_NI3y4kb1zuIQuIshxIAlNU03mOT8jg35Amnl_uye5iL0jyTaV7WQB0OmSrL7tKgHxBHSHMzae5uncTdiRV6qsC_30RccVKW1Yjb"
+                                />
+                                <div
+                                    class="absolute top-4 right-4 bg-secondary text-on-secondary px-3 py-1 rounded-full text-[12px] font-label-sm"
+                                >
+                                    Olahraga
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3
+                                    class="font-headline-md text-headline-md text-primary mb-2"
+                                >
+                                    Latih Tanding Sore
+                                </h3>
+                                <p
+                                    class="font-body-md text-body-md text-on-surface-variant mb-4 line-clamp-2"
+                                >
+                                    Keringat dan tawa di lapangan basket saat
+                                    persiapan piala sekolah tahun lalu.
+                                </p>
+                                <div
+                                    class="flex items-center gap-2 text-secondary"
+                                >
+                                    <span
+                                        class="material-symbols-outlined text-[18px]"
+                                        >calendar_today</span
+                                    >
+                                    <span class="font-label-sm"
+                                        >Oktober 2024</span
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-none w-80 md:w-96">
+                        <div
+                            class="paper-card bg-white rounded-xl overflow-hidden group h-full"
+                        >
+                            <div class="relative h-64 overflow-hidden">
+                                <img
+                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3yqBKUvXie9BC4YLuxsLhQA5QvqigssBJcCHe9q02icRdikHnYRjb3rYvim7YwWPjncJ74n8P0segrbasLz-QtfMj6k1hhmQxGSgrVwpoIr5J_YqeZe7vod_NiF4ZvGLmbd3VaYB3NqdmiY8yhl8e4oS3wzJSCSL5lY7ulVEIPjURZ-Wfr_sUk93QAh3gysCWLGraGxNmVJp0_6vo0bOJDwrgWDm4VIC6ZHbH2SSr-dcsc66SJ2aBElZ1bd6aMUcrtIDY-g6ffeIr"
+                                />
+                                <div
+                                    class="absolute top-4 right-4 bg-secondary text-on-secondary px-3 py-1 rounded-full text-[12px] font-label-sm"
+                                >
+                                    Akademik
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3
+                                    class="font-headline-md text-headline-md text-primary mb-2"
+                                >
+                                    Projek Sains Akhir
+                                </h3>
+                                <p
+                                    class="font-body-md text-body-md text-on-surface-variant mb-4 line-clamp-2"
+                                >
+                                    Begadang di lab kimia demi menyelesaikan
+                                    eksperimen termokimia kita.
+                                </p>
+                                <div
+                                    class="flex items-center gap-2 text-secondary"
+                                >
+                                    <span
+                                        class="material-symbols-outlined text-[18px]"
+                                        >calendar_today</span
+                                    >
+                                    <span class="font-label-sm"
+                                        >Februari 2025</span
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-none w-80 md:w-96">
+                        <div
+                            class="paper-card bg-white rounded-xl overflow-hidden group h-full"
+                        >
+                            <div class="relative h-64 overflow-hidden">
+                                <img
+                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhSAqQcYPElBd9gghEFeoMgP9ZbLQ1n5-mR7v9ahBoEh4UIUpjVLIrnsVeX7jzsDzW4hvgrSNVm538HyK8fVWr3PuiIA62O6kiniSD9Aaf-zGZOie3HJN1xobhkdZOc_YaalajKYnt5MQZzCtfbYfxp-buxomWAJ4GBObSy4tOJ7T45E0NpVhNQx4Szy1eRWdwFdrbqu3mk3zIhcD70ri3hozcVODYKyv7ABL7QVkZVrQz_AbcMuyJ8IY0MFH4FWo9nEh_14PypygF"
+                                />
+                                <div
+                                    class="absolute top-4 right-4 bg-secondary text-on-secondary px-3 py-1 rounded-full text-[12px] font-label-sm"
+                                >
+                                    Festival
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3
+                                    class="font-headline-md text-headline-md text-primary mb-2"
+                                >
+                                    Pesta Seni Budaya
+                                </h3>
+                                <p
+                                    class="font-body-md text-body-md text-on-surface-variant mb-4 line-clamp-2"
+                                >
+                                    Momen kebersamaan saat seluruh angkatan
+                                    bersatu menampilkan drama kolosal.
+                                </p>
+                                <div
+                                    class="flex items-center gap-2 text-secondary"
+                                >
+                                    <span
+                                        class="material-symbols-outlined text-[18px]"
+                                        >calendar_today</span
+                                    >
+                                    <span class="font-label-sm">Mei 2024</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-none w-80 md:w-96">
+                        <div
+                            class="paper-card bg-white rounded-xl overflow-hidden group h-full"
+                        >
+                            <div class="relative h-64 overflow-hidden">
+                                <img
+                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwF6xVzMwvuStZMozSrOMEVbuIS76IQbcyKlejdq_6Ustt2kJpLK4vggqqNqGOWZ2L8ymJmqanWigWU-4RzhBbtYpy0D_9NEFLcDt7tHh07oVI07jJutyLRoP0Opq7gxnmIGcnSodfejAkEuS4M6TDq55Ysk3lSgOwfGyatTEbkbP12QE8AGIHs0n2BC1I0dyZ0Nu9Y4iPuxnxcDaqkwp5ioU_dp5-42YbHaBJadaKavhJA3Z8vdm7Zj56FdRdkJRCJPj2auxHrdMq"
+                                />
+                                <div
+                                    class="absolute top-4 right-4 bg-secondary text-on-secondary px-3 py-1 rounded-full text-[12px] font-label-sm"
+                                >
+                                    Harian
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3
+                                    class="font-headline-md text-headline-md text-primary mb-2"
+                                >
+                                    Sore di Perpustakaan
+                                </h3>
+                                <p
+                                    class="font-body-md text-body-md text-on-surface-variant mb-4 line-clamp-2"
+                                >
+                                    Tempat favorit untuk berdiskusi hal-hal
+                                    kecil di sela waktu istirahat.
+                                </p>
+                                <div
+                                    class="flex items-center gap-2 text-secondary"
+                                >
+                                    <span
+                                        class="material-symbols-outlined text-[18px]"
+                                        >calendar_today</span
+                                    >
+                                    <span class="font-label-sm"
+                                        >Januari 2025</span
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-none w-80 md:w-96">
+                        <div
+                            class="paper-card bg-white rounded-xl overflow-hidden group h-full"
+                        >
+                            <div class="relative h-64 overflow-hidden">
+                                <img
+                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDS4iWjrzPcMNLwibVN9OSPuZWuI3Or7JNTCjnL-gZxQEAT1oBz0vUJZe9x2_MDKognLKTyvbQgoNnrJnlOSh-dZOH-3m-BJXM8hw-K7Y9ikuRnpXYSwT6esJgaVGF7ZXI3lcvSNe2dnmBlNzdgVU8OPLkkb5qDCHa1Haq_cAKH2w8ShcLCSqczyyJCbOUOYCFC_48lm9ad1krVZk4KPV3_nfOe_I8BVYJaEprg9rvLLpdyC_vQtysqGxBtyeHkGb60D47e7d29K3r2"
+                                />
+                                <div
+                                    class="absolute top-4 right-4 bg-secondary text-on-secondary px-3 py-1 rounded-full text-[12px] font-label-sm"
+                                >
+                                    Keseharian
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3
+                                    class="font-headline-md text-headline-md text-primary mb-2"
+                                >
+                                    Canda di Kelas
+                                </h3>
+                                <p
+                                    class="font-body-md text-body-md text-on-surface-variant mb-4 line-clamp-2"
+                                >
+                                    Momen istirahat yang selalu penuh tawa di
+                                    sela pelajaran.
+                                </p>
+                                <div
+                                    class="flex items-center gap-2 text-secondary"
+                                >
+                                    <span
+                                        class="material-symbols-outlined text-[18px]"
+                                        >calendar_today</span
+                                    >
+                                    <span class="font-label-sm"
+                                        >Januari 2025</span
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-none w-80 md:w-96">
+                        <div
+                            class="paper-card bg-white rounded-xl overflow-hidden group h-full"
+                        >
+                            <div class="relative h-64 overflow-hidden">
+                                <img
+                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    src="https://lh3.googleusercontent.com/aida/AP1WRLtyOtfEF9lEbVr9dtIagND3X0Tv8DLHFbga5Rt6FKHADNoUJ4RGUg_1NA1NOlbGcz_XZB2Pjire6g1QKBgvNTbqivo6pCDSZtpLahS8nj7M9xhAv8W15UKGTHo-eTTZHWpSPkcjpf5oLx3aWlF8jRhkF0HMrGqkgbedDDbMRsd-hbNJgtc3MtrcMY1SwVS85Bw43gTUmJCs2duRl-1h1kUaWvmtAGn2UntYQbQ_kLiZn-xqA3KB_XhgseMI"
+                                />
+                                <div
+                                    class="absolute top-4 right-4 bg-secondary text-on-secondary px-3 py-1 rounded-full text-[12px] font-label-sm"
+                                >
+                                    Festival
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3
+                                    class="font-headline-md text-headline-md text-primary mb-2"
+                                >
+                                    Festival Senja
+                                </h3>
+                                <p
+                                    class="font-body-md text-body-md text-on-surface-variant mb-4 line-clamp-2"
+                                >
+                                    Kemeriahan festival sekolah di bawah langit
+                                    sore yang hangat.
+                                </p>
+                                <div
+                                    class="flex items-center gap-2 text-secondary"
+                                >
+                                    <span
+                                        class="material-symbols-outlined text-[18px]"
+                                        >calendar_today</span
+                                    >
+                                    <span class="font-label-sm"
+                                        >Maret 2025</span
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Duplicated Set for Loop -->
+                    <div class="flex-none w-80 md:w-96">
+                        <div
+                            class="paper-card bg-white rounded-xl overflow-hidden group h-full"
+                        >
+                            <div class="relative h-64 overflow-hidden">
+                                <img
+                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqFfuC1E5eJYx--6SNGQYd7lAPIlSnQTy_Vdjnsy0wFf09xHn0VL1Kgcv_jk8ICrSU14Vt1BT6THfj0vAP_y7ObM9cVnCLovuvlkgaRxX8DWIWxeWWK2rlnsS7IRI7NxCmH2JolVvb6Ugy1QsutlK2b1Lan85cB0lwoB7oURf5_NI3y4kb1zuIQuIshxIAlNU03mOT8jg35Amnl_uye5iL0jyTaV7WQB0OmSrL7tKgHxBHSHMzae5uncTdiRV6qsC_30RccVKW1Yjb"
+                                />
+                                <div
+                                    class="absolute top-4 right-4 bg-secondary text-on-secondary px-3 py-1 rounded-full text-[12px] font-label-sm"
+                                >
+                                    Olahraga
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3
+                                    class="font-headline-md text-headline-md text-primary mb-2"
+                                >
+                                    Latih Tanding Sore
+                                </h3>
+                                <p
+                                    class="font-body-md text-body-md text-on-surface-variant mb-4 line-clamp-2"
+                                >
+                                    Keringat dan tawa di lapangan basket saat
+                                    persiapan piala sekolah tahun lalu.
+                                </p>
+                                <div
+                                    class="flex items-center gap-2 text-secondary"
+                                >
+                                    <span
+                                        class="material-symbols-outlined text-[18px]"
+                                        >calendar_today</span
+                                    >
+                                    <span class="font-label-sm"
+                                        >Oktober 2024</span
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-none w-80 md:w-96">
+                        <div
+                            class="paper-card bg-white rounded-xl overflow-hidden group h-full"
+                        >
+                            <div class="relative h-64 overflow-hidden">
+                                <img
+                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3yqBKUvXie9BC4YLuxsLhQA5QvqigssBJcCHe9q02icRdikHnYRjb3rYvim7YwWPjncJ74n8P0segrbasLz-QtfMj6k1hhmQxGSgrVwpoIr5J_YqeZe7vod_NiF4ZvGLmbd3VaYB3NqdmiY8yhl8e4oS3wzJSCSL5lY7ulVEIPjURZ-Wfr_sUk93QAh3gysCWLGraGxNmVJp0_6vo0bOJDwrgWDm4VIC6ZHbH2SSr-dcsc66SJ2aBElZ1bd6aMUcrtIDY-g6ffeIr"
+                                />
+                                <div
+                                    class="absolute top-4 right-4 bg-secondary text-on-secondary px-3 py-1 rounded-full text-[12px] font-label-sm"
+                                >
+                                    Akademik
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3
+                                    class="font-headline-md text-headline-md text-primary mb-2"
+                                >
+                                    Projek Sains Akhir
+                                </h3>
+                                <p
+                                    class="font-body-md text-body-md text-on-surface-variant mb-4 line-clamp-2"
+                                >
+                                    Begadang di lab kimia demi menyelesaikan
+                                    eksperimen termokimia kita.
+                                </p>
+                                <div
+                                    class="flex items-center gap-2 text-secondary"
+                                >
+                                    <span
+                                        class="material-symbols-outlined text-[18px]"
+                                        >calendar_today</span
+                                    >
+                                    <span class="font-label-sm"
+                                        >Februari 2025</span
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-none w-80 md:w-96">
+                        <div
+                            class="paper-card bg-white rounded-xl overflow-hidden group h-full"
+                        >
+                            <div class="relative h-64 overflow-hidden">
+                                <img
+                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhSAqQcYPElBd9gghEFeoMgP9ZbLQ1n5-mR7v9ahBoEh4UIUpjVLIrnsVeX7jzsDzW4hvgrSNVm538HyK8fVWr3PuiIA62O6kiniSD9Aaf-zGZOie3HJN1xobhkdZOc_YaalajKYnt5MQZzCtfbYfxp-buxomWAJ4GBObSy4tOJ7T45E0NpVhNQx4Szy1eRWdwFdrbqu3mk3zIhcD70ri3hozcVODYKyv7ABL7QVkZVrQz_AbcMuyJ8IY0MFH4FWo9nEh_14PypygF"
+                                />
+                                <div
+                                    class="absolute top-4 right-4 bg-secondary text-on-secondary px-3 py-1 rounded-full text-[12px] font-label-sm"
+                                >
+                                    Festival
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3
+                                    class="font-headline-md text-headline-md text-primary mb-2"
+                                >
+                                    Pesta Seni Budaya
+                                </h3>
+                                <p
+                                    class="font-body-md text-body-md text-on-surface-variant mb-4 line-clamp-2"
+                                >
+                                    Momen kebersamaan saat seluruh angkatan
+                                    bersatu menampilkan drama kolosal.
+                                </p>
+                                <div
+                                    class="flex items-center gap-2 text-secondary"
+                                >
+                                    <span
+                                        class="material-symbols-outlined text-[18px]"
+                                        >calendar_today</span
+                                    >
+                                    <span class="font-label-sm">Mei 2024</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-none w-80 md:w-96">
+                        <div
+                            class="paper-card bg-white rounded-xl overflow-hidden group h-full"
+                        >
+                            <div class="relative h-64 overflow-hidden">
+                                <img
+                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwF6xVzMwvuStZMozSrOMEVbuIS76IQbcyKlejdq_6Ustt2kJpLK4vggqqNqGOWZ2L8ymJmqanWigWU-4RzhBbtYpy0D_9NEFLcDt7tHh07oVI07jJutyLRoP0Opq7gxnmIGcnSodfejAkEuS4M6TDq55Ysk3lSgOwfGyatTEbkbP12QE8AGIHs0n2BC1I0dyZ0Nu9Y4iPuxnxcDaqkwp5ioU_dp5-42YbHaBJadaKavhJA3Z8vdm7Zj56FdRdkJRCJPj2auxHrdMq"
+                                />
+                                <div
+                                    class="absolute top-4 right-4 bg-secondary text-on-secondary px-3 py-1 rounded-full text-[12px] font-label-sm"
+                                >
+                                    Harian
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3
+                                    class="font-headline-md text-headline-md text-primary mb-2"
+                                >
+                                    Sore di Perpustakaan
+                                </h3>
+                                <p
+                                    class="font-body-md text-body-md text-on-surface-variant mb-4 line-clamp-2"
+                                >
+                                    Tempat favorit untuk berdiskusi hal-hal
+                                    kecil di sela waktu istirahat.
+                                </p>
+                                <div
+                                    class="flex items-center gap-2 text-secondary"
+                                >
+                                    <span
+                                        class="material-symbols-outlined text-[18px]"
+                                        >calendar_today</span
+                                    >
+                                    <span class="font-label-sm"
+                                        >Januari 2025</span
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-none w-80 md:w-96">
+                        <div
+                            class="paper-card bg-white rounded-xl overflow-hidden group h-full"
+                        >
+                            <div class="relative h-64 overflow-hidden">
+                                <img
+                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDS4iWjrzPcMNLwibVN9OSPuZWuI3Or7JNTCjnL-gZxQEAT1oBz0vUJZe9x2_MDKognLKTyvbQgoNnrJnlOSh-dZOH-3m-BJXM8hw-K7Y9ikuRnpXYSwT6esJgaVGF7ZXI3lcvSNe2dnmBlNzdgVU8OPLkkb5qDCHa1Haq_cAKH2w8ShcLCSqczyyJCbOUOYCFC_48lm9ad1krVZk4KPV3_nfOe_I8BVYJaEprg9rvLLpdyC_vQtysqGxBtyeHkGb60D47e7d29K3r2"
+                                />
+                                <div
+                                    class="absolute top-4 right-4 bg-secondary text-on-secondary px-3 py-1 rounded-full text-[12px] font-label-sm"
+                                >
+                                    Keseharian
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3
+                                    class="font-headline-md text-headline-md text-primary mb-2"
+                                >
+                                    Canda di Kelas
+                                </h3>
+                                <p
+                                    class="font-body-md text-body-md text-on-surface-variant mb-4 line-clamp-2"
+                                >
+                                    Momen istirahat yang selalu penuh tawa di
+                                    sela pelajaran.
+                                </p>
+                                <div
+                                    class="flex items-center gap-2 text-secondary"
+                                >
+                                    <span
+                                        class="material-symbols-outlined text-[18px]"
+                                        >calendar_today</span
+                                    >
+                                    <span class="font-label-sm"
+                                        >Januari 2025</span
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-none w-80 md:w-96">
+                        <div
+                            class="paper-card bg-white rounded-xl overflow-hidden group h-full"
+                        >
+                            <div class="relative h-64 overflow-hidden">
+                                <img
+                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    src="https://lh3.googleusercontent.com/aida/AP1WRLtyOtfEF9lEbVr9dtIagND3X0Tv8DLHFbga5Rt6FKHADNoUJ4RGUg_1NA1NOlbGcz_XZB2Pjire6g1QKBgvNTbqivo6pCDSZtpLahS8nj7M9xhAv8W15UKGTHo-eTTZHWpSPkcjpf5oLx3aWlF8jRhkF0HMrGqkgbedDDbMRsd-hbNJgtc3MtrcMY1SwVS85Bw43gTUmJCs2duRl-1h1kUaWvmtAGn2UntYQbQ_kLiZn-xqA3KB_XhgseMI"
+                                />
+                                <div
+                                    class="absolute top-4 right-4 bg-secondary text-on-secondary px-3 py-1 rounded-full text-[12px] font-label-sm"
+                                >
+                                    Festival
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3
+                                    class="font-headline-md text-headline-md text-primary mb-2"
+                                >
+                                    Festival Senja
+                                </h3>
+                                <p
+                                    class="font-body-md text-body-md text-on-surface-variant mb-4 line-clamp-2"
+                                >
+                                    Kemeriahan festival sekolah di bawah langit
+                                    sore yang hangat.
+                                </p>
+                                <div
+                                    class="flex items-center gap-2 text-secondary"
+                                >
+                                    <span
+                                        class="material-symbols-outlined text-[18px]"
+                                        >calendar_today</span
+                                    >
+                                    <span class="font-label-sm"
+                                        >Maret 2025</span
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Message from the Class President -->
+        <!-- Memory Wall Preview -->
+        <section
+            class="max-w-container-max mx-auto px-gutter mb-section-padding"
+        >
+            <div
+                class="bg-primary text-on-primary rounded-2xl p-8 md:p-16 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden"
+            >
+                <div
+                    class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-32 translate-x-32"
+                ></div>
+                <div class="z-10 text-center md:text-left">
+                    <h2 class="font-headline-lg text-headline-lg mb-4">
+                        Ingin Menambahkan Kenangan?
+                    </h2>
+                    <p class="font-body-md opacity-80 max-w-md">
+                        Kirimkan foto atau cerita pendekmu untuk dimuat dalam
+                        website ini.
+                    </p>
+                </div>
+                <button
+                    class="z-10 bg-secondary-container text-on-secondary-container px-10 py-5 rounded-lg font-label-sm hover:shadow-xl transition-all whitespace-nowrap"
+                >
+                    Unggah Sekarang
+                </button>
+            </div>
+        </section>
+        <!-- Footer -->
+        <footer
+            class="bg-surface-container dark:bg-tertiary-container w-full mt-section-padding border-t border-outline-variant"
+        >
+            <div
+                class="flex flex-col md:flex-row justify-between items-center gap-base p-gutter max-w-container-max mx-auto"
+            >
+                <div
+                    class="flex flex-col items-center md:items-start gap-2"
+                ></div>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a
+                        class="text-on-surface-variant dark:text-on-tertiary-container hover:text-primary underline transition-all"
+                        href="{{DATA:SCREEN:SCREEN_5}}"
+                        >Home</a
+                    ><a
+                        class="text-on-surface-variant dark:text-on-tertiary-container hover:text-primary underline transition-all"
+                        href="{{DATA:SCREEN:SCREEN_16}}"
+                        >Students</a
+                    ><a
+                        class="text-on-surface-variant dark:text-on-tertiary-container hover:text-primary underline transition-all"
+                        href="{{DATA:SCREEN:SCREEN_2}}"
+                        >Gallery</a
+                    >
+
+                    <a
+                        class="text-on-surface-variant dark:text-on-tertiary-container hover:text-primary underline transition-all"
+                        href="#"
+                        >Instagram</a
+                    >
+                    <a
+                        class="text-on-surface-variant dark:text-on-tertiary-container hover:text-primary underline transition-all"
+                        href="#"
+                        >YouTube</a
+                    >
+                </div>
+            </div>
+            <div
+                class="text-center py-6 text-on-surface-variant/60 font-label-sm border-t border-outline-variant/30 mt-4"
+            >
+                © 2026CodeByTrisno.
+            </div>
+        </footer>
+        <script>
+            function scrollSlider(direction) {
+                const marquee = document.querySelector(
+                    ".animate-cards-marquee",
+                );
+                // Manual scrolling override
+                const currentTransform = new WebKitCSSMatrix(
+                    window.getComputedStyle(marquee).transform,
+                ).m41;
+                const scrollAmount = direction * 400;
+                marquee.style.transform = `translateX(${currentTransform - scrollAmount}px)`;
+                marquee.style.animation = "none"; // Pause animation when manual controls used
+            }
+
+            // Reset animation if user stops interacting (optional enhancement)
+        </script>
+    </body>
+</html>

@@ -1,0 +1,835 @@
+<!doctype html>
+<html class="light" lang="id" style="">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>Portal Alumni 2026 - Admin Dashboard</title>
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            body {
+                font-family: "Plus Jakarta Sans", sans-serif;
+                background-color: #fbf9f8; /* background from config */
+                background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+                background-blend-mode: multiply;
+            }
+            .serif {
+                font-family: "Libre Caslon Text", serif;
+            }
+            .material-symbols-outlined {
+                font-variation-settings:
+                    "FILL" 0,
+                    "wght" 400,
+                    "GRAD" 0,
+                    "opsz" 24;
+            }
+            .active-nav-shadow {
+                box-shadow: 0 4px 12px rgba(3, 25, 46, 0.08);
+            }
+            .card-texture {
+                position: relative;
+            }
+            .card-texture::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: url("https://www.transparenttextures.com/patterns/cream-paper.png");
+                opacity: 0.05;
+                pointer-events: none;
+                z-index: 1;
+            }
+            /* Custom scrollbar for a cleaner look */
+            ::-webkit-scrollbar {
+                width: 6px;
+            }
+            ::-webkit-scrollbar-track {
+                background: #f5f3f3;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: #c4c6cd;
+                border-radius: 10px;
+            }
+        </style>
+        <script id="tailwind-config">
+            tailwind.config = {
+                darkMode: "class",
+                theme: {
+                    extend: {
+                        colors: {
+                            "surface-container": "#efeded",
+                            "on-secondary-fixed": "#241a00",
+                            "on-error-container": "#93000a",
+                            "surface-container-highest": "#e4e2e2",
+                            "primary-container": "#1a2e44",
+                            "surface-container-high": "#eae8e7",
+                            "tertiary-container": "#2d2d29",
+                            "on-tertiary": "#ffffff",
+                            background: "#fbf9f8",
+                            error: "#ba1a1a",
+                            "on-tertiary-container": "#96948f",
+                            "on-surface-variant": "#43474d",
+                            "inverse-surface": "#303030",
+                            outline: "#74777d",
+                            "tertiary-fixed-dim": "#c9c6c1",
+                            "on-secondary-fixed-variant": "#574500",
+                            "on-primary": "#ffffff",
+                            "on-secondary-container": "#745c00",
+                            "on-tertiary-fixed-variant": "#474743",
+                            tertiary: "#181815",
+                            "surface-bright": "#fbf9f8",
+                            "primary-fixed-dim": "#b4c8e4",
+                            "on-secondary": "#ffffff",
+                            "on-primary-container": "#8296b0",
+                            "surface-variant": "#e4e2e2",
+                            "secondary-fixed-dim": "#e9c349",
+                            "inverse-primary": "#b4c8e4",
+                            surface: "#fbf9f8",
+                            "on-background": "#1b1c1c",
+                            secondary: "#735c00",
+                            "on-surface": "#1b1c1c",
+                            "surface-container-low": "#f5f3f3",
+                            "outline-variant": "#c4c6cd",
+                            primary: "#03192e",
+                            "surface-tint": "#4c6078",
+                            "surface-dim": "#dbd9d9",
+                            "secondary-fixed": "#ffe088",
+                            "on-primary-fixed": "#061d32",
+                            "on-tertiary-fixed": "#1c1c18",
+                            "on-error": "#ffffff",
+                            "surface-container-lowest": "#ffffff",
+                            "on-primary-fixed-variant": "#35485f",
+                            "error-container": "#ffdad6",
+                            "tertiary-fixed": "#e5e2dc",
+                            "primary-fixed": "#d1e4ff",
+                            "secondary-container": "#fed65b",
+                            "inverse-on-surface": "#f2f0f0",
+                        },
+                        borderRadius: {
+                            DEFAULT: "0.125rem",
+                            lg: "0.25rem",
+                            xl: "0.5rem",
+                            full: "0.75rem",
+                        },
+                        spacing: {
+                            "container-max": "1200px",
+                            "card-gap": "32px",
+                            base: "8px",
+                            gutter: "24px",
+                            "section-padding": "80px",
+                        },
+                        fontFamily: {
+                            "label-sm": ["Plus Jakarta Sans"],
+                            "headline-lg": ["Libre Caslon Text"],
+                            "body-md": ["Plus Jakarta Sans"],
+                            "headline-lg-mobile": ["Libre Caslon Text"],
+                            "headline-xl": ["Libre Caslon Text"],
+                            "body-lg": ["Plus Jakarta Sans"],
+                            "headline-md": ["Libre Caslon Text"],
+                        },
+                        fontSize: {
+                            "label-sm": [
+                                "13px",
+                                {
+                                    lineHeight: "1.2",
+                                    letterSpacing: "0.05em",
+                                    fontWeight: "600",
+                                },
+                            ],
+                            "headline-lg": [
+                                "32px",
+                                { lineHeight: "1.3", fontWeight: "600" },
+                            ],
+                            "body-md": [
+                                "16px",
+                                { lineHeight: "1.6", fontWeight: "400" },
+                            ],
+                            "headline-lg-mobile": [
+                                "28px",
+                                { lineHeight: "1.3", fontWeight: "600" },
+                            ],
+                            "headline-xl": [
+                                "48px",
+                                {
+                                    lineHeight: "1.2",
+                                    letterSpacing: "-0.02em",
+                                    fontWeight: "700",
+                                },
+                            ],
+                            "body-lg": [
+                                "18px",
+                                { lineHeight: "1.6", fontWeight: "400" },
+                            ],
+                            "headline-md": [
+                                "24px",
+                                { lineHeight: "1.4", fontWeight: "600" },
+                            ],
+                        },
+                    },
+                },
+            };
+        </script>
+    </head>
+    <body class="bg-background text-on-surface antialiased overflow-x-hidden">
+        <!-- Sidebar Navigation -->
+        <aside
+            class="h-screen w-64 fixed left-0 top-0 bg-surface-container dark:bg-surface-container-high shadow-sm flex flex-col py-base z-50"
+        >
+            <div class="px-gutter mb-10 mt-4">
+                <h1
+                    class="font-headline-md text-headline-md text-primary dark:text-primary-fixed-dim leading-none"
+                >
+                    <a
+                        href="{{DATA:SCREEN:SCREEN_5}}"
+                        class="hover:text-secondary transition-colors"
+                        >TekajeOne
+                        <div class="">Official</div></a
+                    >
+                </h1>
+                <p
+                    class="text-[10px] uppercase tracking-widest text-on-surface-variant mt-2 opacity-70"
+                >
+                    Portal Administrasi
+                </p>
+            </div>
+            <nav class="flex-1 space-y-1 px-4 overflow-y-auto">
+                <!-- Active State Dashboard -->
+                <a
+                    class="flex items-center gap-3 bg-primary-container text-on-primary-container font-bold rounded-lg px-4 py-3 active-nav-shadow transition-transform active:scale-[0.98]"
+                    href="#"
+                >
+                    <span
+                        class="material-symbols-outlined"
+                        data-icon="dashboard"
+                        >dashboard</span
+                    >
+                    <span class="font-body-md text-body-md">Dashboard</span>
+                </a>
+                <a
+                    class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200 px-4 py-3 rounded-lg"
+                    href="#"
+                >
+                    <span
+                        class="material-symbols-outlined"
+                        data-icon="auto_stories"
+                        >auto_stories</span
+                    >
+                    <span class="font-body-md text-body-md"
+                        >Kenangan Kelas</span
+                    >
+                </a>
+                <a
+                    class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200 px-4 py-3 rounded-lg"
+                    href="#"
+                >
+                    <span class="material-symbols-outlined" data-icon="group"
+                        >group</span
+                    >
+                    <span class="font-body-md text-body-md"
+                        >Direktori Siswa</span
+                    >
+                </a>
+                <a
+                    class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200 px-4 py-3 rounded-lg"
+                    href="#"
+                >
+                    <span
+                        class="material-symbols-outlined"
+                        data-icon="auto_awesome_motion"
+                        >auto_awesome_motion</span
+                    >
+                    <span class="font-body-md text-body-md"
+                        >Galeri Kenangan&nbsp;</span
+                    >
+                </a>
+                <a
+                    class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200 px-4 py-3 rounded-lg mt-auto"
+                    href="#"
+                >
+                    <span class="material-symbols-outlined" data-icon="settings"
+                        >settings</span
+                    >
+                    <span class="font-body-md text-body-md">Pengaturan</span>
+                </a>
+                <a
+                    class="flex items-center gap-3 text-error hover:bg-error/10 transition-colors duration-200 px-4 py-3 rounded-lg mt-2"
+                    href="{{DATA:SCREEN:SCREEN_4}}"
+                    ><span class="material-symbols-outlined">logout</span
+                    ><span class="font-body-md text-body-md">Keluar</span></a
+                >
+            </nav>
+            <div class="px-4 mt-8">
+                <button
+                    class="w-full flex items-center justify-center gap-2 bg-primary text-on-primary py-3 rounded-xl hover:shadow-lg transition-all duration-300 font-label-sm text-label-sm group"
+                >
+                    <span
+                        class="material-symbols-outlined text-[20px]"
+                        data-icon="add"
+                        >add</span
+                    >
+                    <span class="">Tambah Memori Baru</span>
+                </button>
+            </div>
+        </aside>
+        <!-- Main Content Area -->
+        <main class="ml-64 min-h-screen">
+            <!-- Top App Bar -->
+            <header
+                class="flex justify-between items-center w-full px-gutter h-16 sticky top-0 bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md border-b border-outline-variant/30 z-40"
+            >
+                <div class="flex items-center gap-4 flex-1 max-w-xl">
+                    <div class="relative w-full">
+                        <span
+                            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]"
+                            data-icon="search"
+                            >search</span
+                        >
+                        <input
+                            class="w-full bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-body-md focus:ring-2 focus:ring-secondary/30 transition-all placeholder:text-on-surface-variant/50"
+                            placeholder="Cari kenangan, siswa, atau data alumni..."
+                            type="text"
+                        />
+                    </div>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div
+                        class="flex items-center gap-4 border-r border-outline-variant/30 pr-6"
+                    >
+                        <button
+                            class="text-on-surface-variant hover:text-primary transition-all duration-300 active:scale-95"
+                        >
+                            <span
+                                class="material-symbols-outlined"
+                                data-icon="notifications"
+                                >notifications</span
+                            >
+                        </button>
+                        <button
+                            class="text-on-surface-variant hover:text-primary transition-all duration-300 active:scale-95"
+                        >
+                            <span
+                                class="material-symbols-outlined"
+                                data-icon="history_edu"
+                                >history_edu</span
+                            >
+                        </button>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="text-right">
+                            <p
+                                class="font-label-sm text-label-sm text-primary leading-none"
+                            >
+                                Admin Profile
+                            </p>
+                            <p class="text-[10px] text-on-surface-variant mt-1">
+                                Koordinator 2026
+                            </p>
+                        </div>
+                        <div
+                            class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container shadow-sm"
+                        >
+                            <img
+                                class="w-full h-full object-cover"
+                                data-alt="A professional studio portrait of a modern administrator with a friendly expression. The lighting is soft and high-key, set against a warm beige textured wall that suggests a dignified academic setting. The person is wearing a subtle navy blue blazer, maintaining the professional but nostalgic brand aesthetic."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVQvSJkRajwR6rhOXf--JVem-C35hZmcSSP7hIjjAFsISooC_pdm6JD0VzMjdCq2DX8kIYLUgDo5thtZyrVp8IxRbTEfPMaC_A84kP4YlXBhFxaK-9p0S2ylm5aQ4WC2XnCcWiFO1-KRclhw72UqwXzJsrv-w8beP9vPuZcO2nxB9aDFC-2A6P8uEYbD8fkzPH1nU9bsjuroNX1f5FxPhyRZMmP07FGje7hvLd_qyz7s0cZ0mGx6SlLsoXjc-D5ScNjj46hSqs7A3S"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- Dashboard Canvas -->
+            <section
+                class="p-gutter max-w-container-max mx-auto space-y-card-gap pb-section-padding"
+            >
+                <!-- Hero Greeting -->
+                <div class="pt-8">
+                    <h2 class="font-headline-lg text-headline-lg text-primary">
+                        Selamat Datang di Dashboard TKJOneOfficial, Admin.
+                    </h2>
+                    <p
+                        class="font-body-lg text-body-lg text-on-surface-variant mt-2 max-w-2xl italic opacity-80"
+                    >
+                        "Setiap arsip yang Anda simpan hari ini adalah jembatan
+                        nostalgia bagi mereka di masa depan."
+                    </p>
+                </div>
+                <!-- Stats Bento Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+                    <div
+                        class="bg-surface-container-low p-6 rounded-xl border border-outline-variant/20 card-texture hover:shadow-md transition-shadow group"
+                    >
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p
+                                    class="font-label-sm text-label-sm text-on-surface-variant"
+                                >
+                                    Total Memories
+                                </p>
+                                <h3
+                                    class="font-headline-xl text-headline-xl text-primary mt-2 group-hover:scale-105 transition-transform origin-left"
+                                >
+                                    1,284
+                                </h3>
+                            </div>
+                            <span
+                                class="material-symbols-outlined text-secondary text-[32px] opacity-40"
+                                data-icon="auto_stories"
+                                >auto_stories</span
+                            >
+                        </div>
+                        <div
+                            class="mt-4 flex items-center gap-2 text-[12px] text-green-700 font-bold"
+                        >
+                            <span
+                                class="material-symbols-outlined text-[16px]"
+                                data-icon="trending_up"
+                                >trending_up</span
+                            >
+                            <span class="">+12% Bulan ini</span>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-surface-container-low p-6 rounded-xl border border-outline-variant/20 card-texture hover:shadow-md transition-shadow group"
+                    >
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p
+                                    class="font-label-sm text-label-sm text-on-surface-variant"
+                                >
+                                    Gallery Uploads
+                                </p>
+                                <h3
+                                    class="font-headline-xl text-headline-xl text-primary mt-2 group-hover:scale-105 transition-transform origin-left"
+                                >
+                                    892
+                                </h3>
+                            </div>
+                            <span
+                                class="material-symbols-outlined text-secondary text-[32px] opacity-40"
+                                data-icon="photo_library"
+                                >photo_library</span
+                            >
+                        </div>
+                        <div
+                            class="mt-4 flex items-center gap-2 text-[12px] text-on-surface-variant"
+                        >
+                            <span
+                                class="material-symbols-outlined text-[16px]"
+                                data-icon="cloud_upload"
+                                >cloud_upload</span
+                            >
+                            <span class="">24 file baru hari ini</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Main Management Table Section -->
+                <div
+                    class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden"
+                >
+                    <div
+                        class="p-6 border-b border-outline-variant/20 flex justify-between items-center bg-surface-container-low/50"
+                    >
+                        <div>
+                            <h4
+                                class="font-headline-md text-headline-md text-primary"
+                            >
+                                Daftar Kenangan Kelas
+                            </h4>
+                            <p
+                                class="font-body-md text-body-md text-on-surface-variant"
+                            >
+                                Manajemen arsip foto dan cerita kolektif alumni.
+                            </p>
+                        </div>
+                        <div class="flex gap-3">
+                            <button
+                                class="flex items-center gap-2 px-4 py-2 border border-outline-variant rounded-lg font-label-sm text-label-sm hover:bg-surface-container transition-colors"
+                            >
+                                <span
+                                    class="material-symbols-outlined text-[18px]"
+                                    data-icon="filter_list"
+                                    >filter_list</span
+                                >
+                                Filter
+                            </button>
+                            <button
+                                class="flex items-center gap-2 px-4 py-2 border border-outline-variant rounded-lg font-label-sm text-label-sm hover:bg-surface-container transition-colors"
+                            >
+                                <span
+                                    class="material-symbols-outlined text-[18px]"
+                                    data-icon="download"
+                                    >download</span
+                                >
+                                Export
+                            </button>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr
+                                    class="bg-surface-container-low/30 border-b border-outline-variant/10 text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider"
+                                >
+                                    <th class="px-6 py-4 font-semibold">
+                                        Judul Memori
+                                    </th>
+                                    <th class="px-6 py-4 font-semibold">
+                                        Kategori
+                                    </th>
+                                    <th class="px-6 py-4 font-semibold">
+                                        Pengirim
+                                    </th>
+                                    <th class="px-6 py-4 font-semibold">
+                                        Tanggal
+                                    </th>
+                                    <th class="px-6 py-4 font-semibold">
+                                        Status
+                                    </th>
+                                    <th
+                                        class="px-6 py-4 font-semibold text-right"
+                                    >
+                                        Aksi
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody
+                                class="divide-y divide-outline-variant/10 font-body-md text-body-md"
+                            >
+                                <!-- Entry 1 -->
+                                <tr
+                                    class="hover:bg-surface-container-low/50 transition-colors group"
+                                    style="
+                                        transform: translateX(0px);
+                                        transition: transform 0.3s
+                                            cubic-bezier(0.34, 1.56, 0.64, 1);
+                                    "
+                                >
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="w-12 h-12 rounded border border-outline-variant/20 overflow-hidden bg-surface-variant flex-shrink-0"
+                                            >
+                                                <img
+                                                    class="w-full h-full object-cover grayscale-[0.3]"
+                                                    data-alt="A nostalgic, slightly faded vintage-style photograph of a high school graduation ceremony from the year 2026. The students are wearing traditional caps and gowns, and the lighting is warm and golden-hour style. The overall mood is emotional and celebratory, reflecting a cherished class memory."
+                                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9fTGOddoTUuqIK1TwlqdiW-jQw1CoIe7KRHfpTTUaFwqFFp5qOlhFGrtwZseLEu4ihbFm7ewdoA3NoGEYqJrRKRwe8QV5TTjVi8ThIBbzxvSxHX_YcRtP5LSWyzKqIrUCoxaXGCC9runKDd_6eATjnXUmNXULg8vYPyAw_Bh_md9Re3L6B5TmNThC-fT4gJmDlJwkRjbQnhYkkglNgpdtPcTSk53x650ibCy7WiVZ2AlFETzhu4SxovjVzFyw6q3bWvEwxsmWBrcW"
+                                                />
+                                            </div>
+                                            <div>
+                                                <p
+                                                    class="font-bold text-primary"
+                                                >
+                                                    Malam Perpisahan 2026
+                                                </p>
+                                                <p
+                                                    class="text-sm text-on-surface-variant/70 italic"
+                                                >
+                                                    32 Foto Terlampir
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">Acara Formal</td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-2">
+                                            <div
+                                                class="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-[10px] font-bold text-primary"
+                                            >
+                                                AD
+                                            </div>
+                                            <span class="">Andi Dermawan</span>
+                                        </div>
+                                    </td>
+                                    <td
+                                        class="px-6 py-4 text-sm text-on-surface-variant"
+                                    >
+                                        15 Okt 2026
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="px-3 py-1 bg-green-100 text-green-800 text-[11px] font-bold rounded-full uppercase tracking-tight"
+                                            >Published</span
+                                        >
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <div
+                                            class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                                        >
+                                            <button
+                                                class="p-2 hover:bg-secondary/10 text-secondary rounded transition-colors"
+                                                title="Edit"
+                                            >
+                                                <span
+                                                    class="material-symbols-outlined text-[20px]"
+                                                    data-icon="edit"
+                                                    >edit</span
+                                                >
+                                            </button>
+                                            <button
+                                                class="p-2 hover:bg-error/10 text-error rounded transition-colors"
+                                                title="Delete"
+                                            >
+                                                <span
+                                                    class="material-symbols-outlined text-[20px]"
+                                                    data-icon="delete"
+                                                    >delete</span
+                                                >
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Entry 2 -->
+                                <tr
+                                    class="hover:bg-surface-container-low/50 transition-colors group"
+                                    style="
+                                        transform: translateX(0px);
+                                        transition: transform 0.3s
+                                            cubic-bezier(0.34, 1.56, 0.64, 1);
+                                    "
+                                >
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="w-12 h-12 rounded border border-outline-variant/20 overflow-hidden bg-surface-variant flex-shrink-0"
+                                            >
+                                                <img
+                                                    class="w-full h-full object-cover grayscale-[0.3]"
+                                                    data-alt="A candid action shot of high school students playing soccer on a grassy field during a lunch break. The style is like a physical yearbook photo with rich, warm colors and soft edges. The students are laughing and energetic, perfectly capturing the spirit of casual class memories."
+                                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhi1daFGswyulCi1ex2CamvyPe44GtzlYyACmIjGcDXI0h0wAtHqGva6dquHJPH5AHtMQHXy2AdDns0lbBfmVtKt8cROCvOic_NoPMfjqDI2lXWrG2aXDE-bKnC_L26RAlo5eaK04Xu1cnGVm9JYjAlLeelPVKcNhutUCL6koeHUN8orF7dy4oRngJnq7g6OcQz5Juzi4tIeaSKCm1v-5svRZGvYQmgXF-zq5OfqZwp9zbNWCJCeau17rJrNuU_Fgm1pvYGXUPTRXC"
+                                                />
+                                            </div>
+                                            <div>
+                                                <p
+                                                    class="font-bold text-primary"
+                                                >
+                                                    Kantin &amp; Gelak Tawa
+                                                </p>
+                                                <p
+                                                    class="text-sm text-on-surface-variant/70 italic"
+                                                >
+                                                    Cerita &amp; 5 Foto
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">Keseharian</td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-2">
+                                            <div
+                                                class="w-6 h-6 rounded-full bg-secondary/20 flex items-center justify-center text-[10px] font-bold text-secondary"
+                                            >
+                                                BS
+                                            </div>
+                                            <span class="">Budi Santoso</span>
+                                        </div>
+                                    </td>
+                                    <td
+                                        class="px-6 py-4 text-sm text-on-surface-variant"
+                                    >
+                                        12 Okt 2026
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="px-3 py-1 bg-surface-container-highest text-on-surface-variant text-[11px] font-bold rounded-full uppercase tracking-tight"
+                                            >Draft</span
+                                        >
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <div
+                                            class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                                        >
+                                            <button
+                                                class="p-2 hover:bg-secondary/10 text-secondary rounded transition-colors"
+                                                title="Edit"
+                                            >
+                                                <span
+                                                    class="material-symbols-outlined text-[20px]"
+                                                    data-icon="edit"
+                                                    >edit</span
+                                                >
+                                            </button>
+                                            <button
+                                                class="p-2 hover:bg-error/10 text-error rounded transition-colors"
+                                                title="Delete"
+                                            >
+                                                <span
+                                                    class="material-symbols-outlined text-[20px]"
+                                                    data-icon="delete"
+                                                    >delete</span
+                                                >
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Entry 3 -->
+                                <tr
+                                    class="hover:bg-surface-container-low/50 transition-colors group"
+                                    style="
+                                        transform: translateX(0px);
+                                        transition: transform 0.3s
+                                            cubic-bezier(0.34, 1.56, 0.64, 1);
+                                    "
+                                >
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="w-12 h-12 rounded border border-outline-variant/20 overflow-hidden bg-surface-variant flex-shrink-0"
+                                            >
+                                                <img
+                                                    class="w-full h-full object-cover grayscale-[0.3]"
+                                                    data-alt="A serene landscape photo of a school field during a quiet afternoon, with long shadows from tall trees. The aesthetic is extremely nostalgic, reminiscent of an old polaroid photo with subtle paper texture. It evokes a feeling of peace and looking back on one's school years."
+                                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDokQmQX0MuuhtFg6k7rcWk-YmJZENAeQpxV-k1I1c-jNTcAhDfE9WX-yN4BUU6uvxFj7OghXxEZKQTdFCVz_UyTody8eJ1d8S3u1Py41Lt-QjjQPteNao_JR1_ttLWEIkJEGwt4tIdw_HfRY3Jn11-ghTJpHvD6peDBUEILApob2oP7q9s8N1-eBhgKAjlFVVu49Uhk3L6P4fqH7korBLROa-EIUhmycPoRdRhO7VfWnuezp7QYiR5lVNm-Mj-nwsntNdANZM3R2ld"
+                                                />
+                                            </div>
+                                            <div>
+                                                <p
+                                                    class="font-bold text-primary"
+                                                >
+                                                    Pojok Lapangan Basket
+                                                </p>
+                                                <p
+                                                    class="text-sm text-on-surface-variant/70 italic"
+                                                >
+                                                    Koleksi Seni
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">Galeri Seni</td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-2">
+                                            <div
+                                                class="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-[10px] font-bold text-primary"
+                                            >
+                                                CR
+                                            </div>
+                                            <span class="">Citra Rahayu</span>
+                                        </div>
+                                    </td>
+                                    <td
+                                        class="px-6 py-4 text-sm text-on-surface-variant"
+                                    >
+                                        08 Okt 2026
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="px-3 py-1 bg-green-100 text-green-800 text-[11px] font-bold rounded-full uppercase tracking-tight"
+                                            >Published</span
+                                        >
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <div
+                                            class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                                        >
+                                            <button
+                                                class="p-2 hover:bg-secondary/10 text-secondary rounded transition-colors"
+                                                title="Edit"
+                                            >
+                                                <span
+                                                    class="material-symbols-outlined text-[20px]"
+                                                    data-icon="edit"
+                                                    >edit</span
+                                                >
+                                            </button>
+                                            <button
+                                                class="p-2 hover:bg-error/10 text-error rounded transition-colors"
+                                                title="Delete"
+                                            >
+                                                <span
+                                                    class="material-symbols-outlined text-[20px]"
+                                                    data-icon="delete"
+                                                    >delete</span
+                                                >
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Pagination footer -->
+                    <div
+                        class="p-4 bg-surface-container-low/30 border-t border-outline-variant/10 flex justify-between items-center text-on-surface-variant text-sm"
+                    >
+                        <p class="">Menampilkan 1-10 dari 124 entri</p>
+                        <div class="flex items-center gap-2">
+                            <button
+                                class="p-1 hover:bg-surface-variant rounded disabled:opacity-30"
+                                disabled=""
+                            >
+                                <span
+                                    class="material-symbols-outlined"
+                                    data-icon="chevron_left"
+                                    >chevron_left</span
+                                >
+                            </button>
+                            <span
+                                class="px-3 py-1 bg-primary text-on-primary font-bold rounded"
+                                >1</span
+                            >
+                            <button
+                                class="px-3 py-1 hover:bg-surface-variant rounded"
+                            >
+                                2
+                            </button>
+                            <button
+                                class="px-3 py-1 hover:bg-surface-variant rounded"
+                            >
+                                3
+                            </button>
+                            <button
+                                class="p-1 hover:bg-surface-variant rounded"
+                            >
+                                <span
+                                    class="material-symbols-outlined"
+                                    data-icon="chevron_right"
+                                    >chevron_right</span
+                                >
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Asymmetric Layout: Quick Insights & Recently Active -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+                    <!-- Activity Feed -->
+
+                    <!-- Class Favorites Widget -->
+                </div>
+            </section>
+        </main>
+        <!-- Floating Action Button (FAB) - For Global Context on Dashboard -->
+
+        <script>
+            // Micro-interaction for hover effects on table rows
+            document.querySelectorAll("tr").forEach((row) => {
+                row.addEventListener("mouseenter", () => {
+                    row.style.transform = "translateX(8px)";
+                    row.style.transition =
+                        "transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)";
+                });
+                row.addEventListener("mouseleave", () => {
+                    row.style.transform = "translateX(0)";
+                });
+            });
+
+            // Simple search focus effect
+            const searchInput = document.querySelector('input[type="text"]');
+            searchInput.addEventListener("focus", () => {
+                searchInput.parentElement.classList.add("scale-[1.02]");
+                searchInput.parentElement.style.transition = "all 0.3s ease";
+            });
+            searchInput;
+        </script>
+    </body>
+</html>
