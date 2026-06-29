@@ -145,18 +145,18 @@ export default function KenanganKelasPage() {
 
   return (
     <AdminLayout>
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="font-headline text-[24px] leading-[1.4] font-semibold text-primary">Kenangan Kelas</h2>
-          <p className="font-body text-[16px] leading-[1.6] text-on-surface-variant">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="min-w-0">
+          <h2 className="font-headline text-[20px] sm:text-[24px] leading-[1.4] font-semibold text-primary">Kenangan Kelas</h2>
+          <p className="font-body text-[14px] sm:text-[16px] leading-[1.6] text-on-surface-variant">
             Kelola foto kenangan kelas. Pilih foto dari Galeri Kenangan atau dari foto siswa.
           </p>
         </div>
         <button
           onClick={() => setShowPicker(true)}
-              className="flex items-center gap-2 bg-secondary text-on-secondary px-5 py-2.5 rounded-xl hover:shadow-lg transition-all font-[600] text-[13px] leading-[1.2] tracking-[0.05em]"
+              className="flex items-center gap-2 bg-secondary text-on-secondary px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl hover:shadow-lg transition-all font-[600] text-[12px] sm:text-[13px] leading-[1.2] tracking-[0.05em] self-start sm:self-auto"
             >
-              <span className="material-symbols-outlined text-[18px]">add_photo_alternate</span>
+              <span className="material-symbols-outlined text-[16px] sm:text-[18px]">add_photo_alternate</span>
               Tambah Foto
         </button>
       </div>
@@ -183,12 +183,12 @@ export default function KenanganKelasPage() {
             {memories.map((m) => (
               <div key={m.id} className="group relative aspect-square rounded-xl overflow-hidden border border-outline-variant/20 bg-surface-variant shadow-sm">
                 <img className="w-full h-full object-cover" src={optimizeCld(m.photoUrl, 400)} alt={m.sourceAlbumTitle} />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                   <p className="text-white text-[11px] font-bold truncate">{m.sourceAlbumTitle}</p>
                 </div>
                 <button
                   onClick={() => setConfirmDelete(m.id)}
-                  className="absolute top-2 right-2 p-1.5 rounded-full bg-white/80 text-error hover:bg-white transition-all opacity-0 group-hover:opacity-100"
+                  className="absolute top-2 right-2 p-1.5 rounded-full bg-white/80 text-error hover:bg-white transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100"
                   title="Hapus"
                 >
                   <span className="material-symbols-outlined text-[16px]">close</span>
@@ -210,29 +210,29 @@ export default function KenanganKelasPage() {
 
       {showPicker && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-          <div className="bg-surface-container-lowest rounded-xl p-8 max-w-4xl w-full mx-4 shadow-2xl max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="font-headline text-[24px] leading-[1.4] font-semibold text-primary">
+          <div className="bg-surface-container-lowest rounded-xl p-4 sm:p-8 max-w-4xl w-full mx-4 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-4 sm:mb-6">
+              <h3 className="font-headline text-[20px] sm:text-[24px] leading-[1.4] font-semibold text-primary">
                 Pilih Foto
               </h3>
-              <button onClick={() => { setShowPicker(false); setSelectedPhotos(new Set()); setSourceTab("gallery") }} className="p-2 hover:bg-surface-container rounded transition-colors">
-                <span className="material-symbols-outlined text-[24px]">close</span>
+              <button onClick={() => { setShowPicker(false); setSelectedPhotos(new Set()); setSourceTab("gallery") }} className="p-1 sm:p-2 hover:bg-surface-container rounded transition-colors">
+                <span className="material-symbols-outlined text-[20px] sm:text-[24px]">close</span>
               </button>
             </div>
 
-            <div className="flex gap-3 mb-6">
+            <div className="flex gap-2 sm:gap-3 mb-6 flex-wrap">
               <button
                 onClick={() => { setSourceTab("gallery"); setSelectedPhotos(new Set()); setSelectedAlbum("all") }}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-[600] text-[12px] leading-[1.2] tracking-[0.05em] transition-colors ${sourceTab === "gallery" ? "bg-primary text-on-primary" : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container"}`}
+                className={`flex items-center gap-1 sm:gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-lg font-[600] text-[11px] sm:text-[12px] leading-[1.2] tracking-[0.05em] transition-colors ${sourceTab === "gallery" ? "bg-primary text-on-primary" : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container"}`}
               >
-                <span className="material-symbols-outlined text-[16px]">photo_library</span>
+                <span className="material-symbols-outlined text-[14px] sm:text-[16px]">photo_library</span>
                 Dari Galeri
               </button>
               <button
                 onClick={() => { setSourceTab("students"); setSelectedPhotos(new Set()); setSelectedStudent("all") }}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-[600] text-[12px] leading-[1.2] tracking-[0.05em] transition-colors ${sourceTab === "students" ? "bg-primary text-on-primary" : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container"}`}
+                className={`flex items-center gap-1 sm:gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-lg font-[600] text-[11px] sm:text-[12px] leading-[1.2] tracking-[0.05em] transition-colors ${sourceTab === "students" ? "bg-primary text-on-primary" : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container"}`}
               >
-                <span className="material-symbols-outlined text-[16px]">group</span>
+                <span className="material-symbols-outlined text-[14px] sm:text-[16px]">group</span>
                 Dari Siswa
               </button>
             </div>
@@ -275,7 +275,7 @@ export default function KenanganKelasPage() {
               </div>
             )}
 
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 mb-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3 mb-6">
               {(sourceTab === "gallery" ? filteredPhotos : filteredStudentPhotos).map((p, pi) => (
                 <div
                   key={p.url}
@@ -306,21 +306,21 @@ export default function KenanganKelasPage() {
               )}
             </div>
 
-            <div className="flex items-center justify-between border-t border-outline-variant/20 pt-4">
-              <p className="text-on-surface-variant text-sm">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between border-t border-outline-variant/20 pt-4 gap-3">
+              <p className="text-on-surface-variant text-[13px] sm:text-sm text-center sm:text-left">
                 {selectedPhotos.size} foto dipilih
               </p>
-              <div className="flex gap-3">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                 <button
                   onClick={() => { setShowPicker(false); setSelectedPhotos(new Set()); setSourceTab("gallery") }}
-                  className="px-6 py-2 border border-outline-variant rounded-lg font-[600] text-[13px] leading-[1.2] tracking-[0.05em] hover:bg-surface-container transition-colors"
+                  className="px-4 sm:px-6 py-2 border border-outline-variant rounded-lg font-[600] text-[12px] sm:text-[13px] leading-[1.2] tracking-[0.05em] hover:bg-surface-container transition-colors"
                 >
                   Batal
                 </button>
                 <button
                   onClick={addSelectedPhotos}
                   disabled={selectedPhotos.size === 0}
-                  className="px-6 py-2 bg-secondary text-on-secondary rounded-lg font-[600] text-[13px] leading-[1.2] tracking-[0.05em] hover:shadow-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="px-4 sm:px-6 py-2 bg-secondary text-on-secondary rounded-lg font-[600] text-[12px] sm:text-[13px] leading-[1.2] tracking-[0.05em] hover:shadow-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   Tambahkan ke Kenangan ({selectedPhotos.size})
                 </button>

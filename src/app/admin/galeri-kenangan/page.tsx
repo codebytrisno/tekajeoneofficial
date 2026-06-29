@@ -146,27 +146,27 @@ export default function GaleriKenanganPage() {
 
   return (
     <AdminLayout>
-      <div className="flex items-center justify-between flex-wrap gap-4">
-        <div>
-          <h2 className="font-headline text-[24px] leading-[1.4] font-semibold text-primary">Galeri Kenangan</h2>
-          <p className="font-body text-[16px] leading-[1.6] text-on-surface-variant">Manajemen album foto galeri kenangan.</p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="min-w-0">
+          <h2 className="font-headline text-[20px] sm:text-[24px] leading-[1.4] font-semibold text-primary">Galeri Kenangan</h2>
+          <p className="font-body text-[14px] sm:text-[16px] leading-[1.6] text-on-surface-variant">Manajemen album foto galeri kenangan.</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 self-start sm:self-auto">
           <div className="relative">
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Cari judul..."
-              className="w-56 bg-surface-container-low border border-outline-variant rounded-lg pl-9 pr-4 py-2 text-[14px] leading-[1.5] focus:ring-2 focus:ring-secondary/30 focus:border-secondary outline-none placeholder:text-on-surface-variant/60"
+              className="w-full sm:w-56 bg-surface-container-low border border-outline-variant rounded-lg pl-9 pr-4 py-2 text-[13px] sm:text-[14px] leading-[1.5] focus:ring-2 focus:ring-secondary/30 focus:border-secondary outline-none placeholder:text-on-surface-variant/60"
             />
-            <span className="material-symbols-outlined absolute left-2.5 top-2.5 text-[18px] text-on-surface-variant">search</span>
+            <span className="material-symbols-outlined absolute left-2.5 top-2.5 text-[16px] sm:text-[18px] text-on-surface-variant">search</span>
           </div>
           <button
             onClick={openCreate}
-            className="flex items-center gap-2 bg-primary text-on-primary px-5 py-2.5 rounded-xl hover:shadow-lg transition-all font-[600] text-[13px] leading-[1.2] tracking-[0.05em]"
+            className="flex items-center gap-2 bg-primary text-on-primary px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl hover:shadow-lg transition-all font-[600] text-[12px] sm:text-[13px] leading-[1.2] tracking-[0.05em]"
           >
-            <span className="material-symbols-outlined text-[18px]">add</span>
+            <span className="material-symbols-outlined text-[16px] sm:text-[18px]">add</span>
             Tambah Album
           </button>
         </div>
@@ -176,13 +176,13 @@ export default function GaleriKenanganPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-surface-container-low/30 border-b border-outline-variant/10 text-on-surface-variant font-[600] text-[13px] leading-[1.2] tracking-[0.05em] uppercase tracking-wider">
-                <th className="px-2 py-4 font-semibold w-12 text-center">Pin</th>
-                <th className="px-6 py-4 font-semibold">Sampul</th>
-                <th className="px-6 py-4 font-semibold">Judul</th>
-                <th className="px-6 py-4 font-semibold">Foto</th>
-                <th className="px-6 py-4 font-semibold">Tanggal</th>
-                <th className="px-6 py-4 font-semibold text-right">Aksi</th>
+              <tr className="bg-surface-container-low/30 border-b border-outline-variant/10 text-on-surface-variant font-[600] text-[12px] sm:text-[13px] leading-[1.2] tracking-[0.05em] uppercase tracking-wider">
+                <th className="px-2 py-3 sm:py-4 font-semibold w-12 text-center">Pin</th>
+                <th className="px-3 sm:px-6 py-3 sm:py-4 font-semibold">Sampul</th>
+                <th className="px-3 sm:px-6 py-3 sm:py-4 font-semibold">Judul</th>
+                <th className="px-3 sm:px-6 py-3 sm:py-4 font-semibold hidden sm:table-cell">Foto</th>
+                <th className="px-3 sm:px-6 py-3 sm:py-4 font-semibold hidden sm:table-cell">Tanggal</th>
+                <th className="px-3 sm:px-6 py-3 sm:py-4 font-semibold text-right">Aksi</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-outline-variant/10 font-body text-[16px] leading-[1.6]">
@@ -195,32 +195,32 @@ export default function GaleriKenanganPage() {
               )}
               {filteredItems.map((item) => (
                 <tr key={item.id} className="hover:bg-surface-container-low/50 transition-colors group">
-                  <td className="px-2 py-4 text-center">
+                  <td className="px-2 py-3 sm:py-4 text-center">
                     <button
                       onClick={() => togglePin(item.id, !!item.pinned)}
                       className={`p-1.5 rounded-lg transition-all ${item.pinned ? "text-secondary bg-secondary/10" : "text-on-surface-variant/40 hover:text-secondary hover:bg-secondary/5"}`}
                       title={item.pinned ? "Lepas pin" : "Pin ke atas"}
                     >
-                      <span className="material-symbols-outlined text-[18px]">push_pin</span>
+                      <span className="material-symbols-outlined text-[16px] sm:text-[18px]">push_pin</span>
                     </button>
                   </td>
-                  <td className="px-6 py-4">
-                    <div className="w-16 h-16 rounded border border-outline-variant/20 overflow-hidden bg-surface-variant">
+                  <td className="px-3 sm:px-6 py-3 sm:py-4">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded border border-outline-variant/20 overflow-hidden bg-surface-variant">
                       <img className="w-full h-full object-cover" src={optimizeCld(item.coverImageUrl || item.imageUrl || "", 128)} alt="" />
                     </div>
                   </td>
-                  <td className="px-6 py-4 font-bold text-primary">{item.title}</td>
-                  <td className="px-6 py-4 text-on-surface-variant">
+                  <td className="px-3 sm:px-6 py-3 sm:py-4 font-bold text-primary truncate max-w-[120px] sm:max-w-none text-[14px] sm:text-[16px]">{item.title}</td>
+                  <td className="px-3 sm:px-6 py-3 sm:py-4 text-on-surface-variant text-[13px] sm:text-[16px] hidden sm:table-cell">
                     {getPhotoCount(item)} foto
                   </td>
-                  <td className="px-6 py-4 text-sm text-on-surface-variant">{item.date}</td>
-                  <td className="px-6 py-4 text-right">
-                    <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button onClick={() => openEdit(item)} className="p-2 hover:bg-secondary/10 text-secondary rounded transition-colors" title="Edit">
-                        <span className="material-symbols-outlined text-[20px]">edit</span>
+                  <td className="px-3 sm:px-6 py-3 sm:py-4 text-[12px] sm:text-sm text-on-surface-variant hidden sm:table-cell">{item.date}</td>
+                  <td className="px-3 sm:px-6 py-3 sm:py-4 text-right">
+                    <div className="flex justify-end gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
+                      <button onClick={() => openEdit(item)} className="p-1.5 sm:p-2 hover:bg-secondary/10 text-secondary rounded transition-colors" title="Edit">
+                        <span className="material-symbols-outlined text-[18px] sm:text-[20px]">edit</span>
                       </button>
-                      <button onClick={() => setConfirmDelete(item.id)} className="p-2 hover:bg-error/10 text-error rounded transition-colors" title="Delete">
-                        <span className="material-symbols-outlined text-[20px]">delete</span>
+                      <button onClick={() => setConfirmDelete(item.id)} className="p-1.5 sm:p-2 hover:bg-error/10 text-error rounded transition-colors" title="Delete">
+                        <span className="material-symbols-outlined text-[18px] sm:text-[20px]">delete</span>
                       </button>
                     </div>
                   </td>
@@ -228,14 +228,14 @@ export default function GaleriKenanganPage() {
               ))}
               {!loading && items.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-on-surface-variant">
+                  <td colSpan={6} className="px-3 sm:px-6 py-8 sm:py-12 text-center text-on-surface-variant">
                     Belum ada data galeri.
                   </td>
                 </tr>
               )}
               {!loading && items.length > 0 && filteredItems.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-on-surface-variant">
+                  <td colSpan={6} className="px-3 sm:px-6 py-8 sm:py-12 text-center text-on-surface-variant">
                     Tidak ditemukan album dengan judul &ldquo;{searchQuery}&rdquo;.
                   </td>
                 </tr>
@@ -258,34 +258,34 @@ export default function GaleriKenanganPage() {
       <Toast open={toast.open} message={toast.message} type={toast.type} onClose={() => setToast({ ...toast, open: false })} />
 
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-          <div className="bg-surface-container-lowest rounded-xl p-8 max-w-2xl w-full mx-4 shadow-2xl max-h-[90vh] overflow-y-auto">
-            <h3 className="font-headline text-[24px] leading-[1.4] font-semibold text-primary mb-6">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-3 sm:p-4">
+          <div className="bg-surface-container-lowest rounded-xl p-4 sm:p-8 max-w-2xl w-full mx-4 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <h3 className="font-headline text-[20px] sm:text-[24px] leading-[1.4] font-semibold text-primary mb-4 sm:mb-6">
               {editing ? "Edit Album" : "Tambah Album Baru"}
             </h3>
             <div className="space-y-4">
               <div>
-                <label className="block font-[600] text-[13px] leading-[1.2] tracking-[0.05em] text-primary mb-1">Judul Album</label>
+                <label className="block font-[600] text-[12px] sm:text-[13px] leading-[1.2] tracking-[0.05em] text-primary mb-1">Judul Album</label>
                 <input
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-[16px] leading-[1.6] focus:ring-2 focus:ring-secondary/30 focus:border-secondary outline-none"
+                  className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-[14px] sm:text-[16px] leading-[1.6] focus:ring-2 focus:ring-secondary/30 focus:border-secondary outline-none"
                   placeholder="Judul album..."
                 />
               </div>
               <div>
-                <label className="block font-[600] text-[13px] leading-[1.2] tracking-[0.05em] text-primary mb-1">Tanggal</label>
+                <label className="block font-[600] text-[12px] sm:text-[13px] leading-[1.2] tracking-[0.05em] text-primary mb-1">Tanggal</label>
                 <input
                   type="date"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
-                  className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-[16px] leading-[1.6] focus:ring-2 focus:ring-secondary/30 focus:border-secondary outline-none"
+                  className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-[14px] sm:text-[16px] leading-[1.6] focus:ring-2 focus:ring-secondary/30 focus:border-secondary outline-none"
                 />
               </div>
               <div>
-                <label className="block font-[600] text-[13px] leading-[1.2] tracking-[0.05em] text-primary mb-1">Foto-Foto</label>
-                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 mb-3">
+                <label className="block font-[600] text-[12px] sm:text-[13px] leading-[1.2] tracking-[0.05em] text-primary mb-1">Foto-Foto</label>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3 mb-3">
                   {photos.map((url, i) => (
                     <div key={url} className="relative group/photo aspect-square rounded-lg overflow-hidden border border-outline-variant/20 bg-surface-variant">
                       <img className="w-full h-full object-cover" src={optimizeCld(url, 200)} alt={`Foto ${i + 1}`} />
@@ -296,7 +296,7 @@ export default function GaleriKenanganPage() {
                           className={`p-1 rounded-full transition-all opacity-0 group-hover/photo:opacity-100 ${coverImageUrl === url ? "bg-secondary text-white" : "bg-white/80 text-primary hover:bg-white"}`}
                           title="Jadikan sampul"
                         >
-                          <span className="material-symbols-outlined text-[16px]">photo_frame</span>
+                          <span className="material-symbols-outlined text-[14px] sm:text-[16px]">photo_frame</span>
                         </button>
                         <button
                           type="button"
@@ -304,11 +304,11 @@ export default function GaleriKenanganPage() {
                           className="p-1 rounded-full bg-white/80 text-error hover:bg-white transition-all opacity-0 group-hover/photo:opacity-100"
                           title="Hapus foto"
                         >
-                          <span className="material-symbols-outlined text-[16px]">close</span>
+                          <span className="material-symbols-outlined text-[14px] sm:text-[16px]">close</span>
                         </button>
                       </div>
                       {coverImageUrl === url && (
-                        <span className="absolute top-1 left-1 bg-secondary text-white text-[9px] font-bold px-1.5 py-0.5 rounded uppercase leading-none">Sampul</span>
+                        <span className="absolute top-1 left-1 bg-secondary text-white text-[8px] sm:text-[9px] font-bold px-1 sm:px-1.5 py-0.5 rounded uppercase leading-none">Sampul</span>
                       )}
                     </div>
                   ))}
@@ -325,25 +325,25 @@ export default function GaleriKenanganPage() {
                         onClick={() => open()}
                         className="aspect-square rounded-lg border-2 border-dashed border-outline-variant flex flex-col items-center justify-center gap-1 hover:bg-surface-container-low transition-colors text-on-surface-variant hover:text-primary"
                       >
-                        <span className="material-symbols-outlined text-2xl">add_photo_alternate</span>
-                        <span className="text-[10px] font-bold">Tambah Foto (Banyak)</span>
+                        <span className="material-symbols-outlined text-xl sm:text-2xl">add_photo_alternate</span>
+                        <span className="text-[9px] sm:text-[10px] font-bold">Tambah Foto (Banyak)</span>
                       </button>
                     )}
                   </CldUploadWidget>
                 </div>
-                <p className="text-[12px] text-on-surface-variant">
+                <p className="text-[11px] sm:text-[12px] text-on-surface-variant">
                   {photos.length === 0
                     ? "Belum ada foto. Klik tombol di atas untuk menambah foto."
                     : `Foto sampul adalah foto yang bertanda "Sampul". Klik ikon bingkai untuk mengganti sampul.`}
                 </p>
               </div>
             </div>
-            <div className="flex gap-3 mt-8 justify-end">
-              <button onClick={resetForm} className="px-6 py-2 border border-outline-variant rounded-lg font-[600] text-[13px] leading-[1.2] tracking-[0.05em] hover:bg-surface-container transition-colors">Batal</button>
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-6 sm:mt-8 justify-end">
+              <button onClick={resetForm} className="w-full sm:w-auto px-4 sm:px-6 py-2 border border-outline-variant rounded-lg font-[600] text-[12px] sm:text-[13px] leading-[1.2] tracking-[0.05em] hover:bg-surface-container transition-colors">Batal</button>
               <button
                 onClick={handleSave}
                 disabled={!title || !coverImageUrl}
-                className="px-6 py-2 bg-primary text-on-primary rounded-lg font-[600] text-[13px] leading-[1.2] tracking-[0.05em] hover:shadow-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                className="w-full sm:w-auto px-4 sm:px-6 py-2 bg-primary text-on-primary rounded-lg font-[600] text-[12px] sm:text-[13px] leading-[1.2] tracking-[0.05em] hover:shadow-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 {editing ? "Update" : "Simpan"}
               </button>

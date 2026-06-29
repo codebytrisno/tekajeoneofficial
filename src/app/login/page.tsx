@@ -69,15 +69,15 @@ export default function LoginPage() {
           box-shadow: 0 4px 12px rgba(115,92,0,0.2);
         }
       `}</style>
-      <header className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-4 bg-transparent">
+      <header className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 sm:px-6 py-3 sm:py-4 bg-transparent">
         <div />
         <nav className="hidden md:flex items-center gap-8">
           <Link href="/" className="text-on-surface-variant hover:text-primary transition-colors font-[600] text-[13px] leading-[1.2] tracking-[0.05em] uppercase tracking-widest">HOME</Link>
           <Link href="/gallery" className="text-on-surface-variant hover:text-primary transition-colors font-[600] text-[13px] leading-[1.2] tracking-[0.05em] uppercase tracking-widest">GALLERY</Link>
         </nav>
       </header>
-      <main className="flex-grow flex items-center justify-center pt-24 pb-12 px-4 bg-nostalgia">
-        <div className="w-full max-w-md login-card rounded-xl p-10 relative overflow-hidden">
+      <main className="flex-grow flex items-center justify-center pt-20 sm:pt-24 pb-8 sm:pb-12 px-4 bg-nostalgia">
+        <div className="w-full max-w-md login-card rounded-xl p-6 sm:p-10 relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-primary" />
           <div className="text-center mb-10">
             <h1 className="font-headline text-[24px] leading-[1.4] font-semibold text-primary mb-2">

@@ -41,7 +41,7 @@ export default function Toast({ open, message, type = "success", onClose, durati
 
   return (
     <div
-      className={`fixed bottom-6 right-6 z-[100] flex items-center gap-3 ${bgMap[type]} text-white px-5 py-3.5 rounded-xl shadow-2xl transition-all duration-300 ${visible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
+      className={`fixed bottom-4 sm:bottom-6 right-4 sm:right-6 z-[100] flex items-center gap-3 ${bgMap[type]} text-white px-4 sm:px-5 py-3 sm:py-3.5 rounded-xl shadow-2xl transition-all duration-300 max-w-[calc(100vw-32px)] sm:max-w-none ${visible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
     >
       <span className="material-symbols-outlined text-[22px]">{iconMap[type]}</span>
       <span className="font-[600] text-[13px] leading-[1.2] tracking-[0.05em]">{message}</span>

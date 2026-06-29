@@ -90,20 +90,20 @@ export default function GalleryPage() {
       <>
         <Navbar />
         <div className="fixed inset-0 paper-texture opacity-10 z-[100] pointer-events-none" />
-        <main className="max-w-[1200px] mx-auto px-6 py-20">
+        <main className="max-w-[1200px] mx-auto px-4 sm:px-6 py-12 sm:py-20">
           <button
             onClick={() => { setSelectedAlbum(null); setLightboxIdx(-1) }}
-            className="flex items-center gap-2 text-primary hover:text-secondary transition-colors mb-8 font-[600] text-[14px]"
+            className="flex items-center gap-2 text-primary hover:text-secondary transition-colors mb-6 sm:mb-8 font-[600] text-[14px]"
           >
             <span className="material-symbols-outlined">arrow_back</span>
             Kembali ke Galeri
           </button>
 
           <section className="text-center mb-12">
-            <h1 className="font-headline text-[40px] leading-[1.2] font-bold tracking-[-0.02em] text-primary mb-2">
+            <h1 className="font-headline text-[28px] sm:text-[34px] lg:text-[40px] leading-[1.2] font-bold tracking-[-0.02em] text-primary mb-2">
               {selectedAlbum.title}
             </h1>
-            <p className="font-body text-[16px] leading-[1.6] text-on-surface-variant">
+            <p className="font-body text-[14px] sm:text-[16px] leading-[1.6] text-on-surface-variant">
               {selectedAlbum.date} &bull; {albumPhotos.length} foto
             </p>
           </section>
@@ -163,9 +163,9 @@ export default function GalleryPage() {
           </div>
         )}
 
-        <footer className="w-full mt-20 bg-surface-container border-t border-outline-variant">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-2 px-6 py-10 max-w-[1200px] mx-auto opacity-90 hover:opacity-100 transition-all">
-            <p className="font-body text-[14px] leading-[1.5]">&copy; 2026 TekajeOneOfficial</p>
+        <footer className="w-full mt-12 sm:mt-20 bg-surface-container border-t border-outline-variant">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-2 px-4 sm:px-6 py-8 sm:py-10 max-w-[1200px] mx-auto opacity-90 hover:opacity-100 transition-all">
+            <p className="font-body text-[13px] sm:text-[14px] leading-[1.5]">&copy; 2026 TekajeOneOfficial</p>
           </div>
         </footer>
       </>
@@ -178,10 +178,10 @@ export default function GalleryPage() {
       <div className="fixed inset-0 paper-texture opacity-10 z-[100] pointer-events-none" />
       <main className="max-w-[1200px] mx-auto px-6 py-20">
         <section className="text-center mb-16">
-          <h1 className="font-headline text-[48px] leading-[1.2] font-bold tracking-[-0.02em] text-primary mb-4">
+          <h1 className="font-headline text-[32px] sm:text-[40px] lg:text-[48px] leading-[1.2] font-bold tracking-[-0.02em] text-primary mb-3 sm:mb-4">
             Galeri Kenangan Abadi
           </h1>
-          <p className="font-body text-[18px] leading-[1.6] text-on-surface-variant max-w-2xl mx-auto">
+          <p className="font-body text-[15px] sm:text-[18px] leading-[1.6] text-on-surface-variant max-w-2xl mx-auto">
             Buku tempel digital dari perjalanan bersama kita. Setiap bingkai menceritakan sebuah kisah,
             setiap senyuman mengabadikan momen dari tahun-tahun tak terlupakan kita bersama.
           </p>

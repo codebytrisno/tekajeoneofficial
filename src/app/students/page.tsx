@@ -64,13 +64,13 @@ export default function StudentsPage() {
       <div className="fixed inset-0 paper-texture opacity-5 z-50 pointer-events-none" />
       <main className="max-w-[1200px] mx-auto px-6 py-20">
         <div className="mb-16 text-center max-w-2xl mx-auto">
-          <h1 className="font-headline text-[48px] leading-[1.2] font-bold tracking-[-0.02em] text-primary mb-4">
+          <h1 className="font-headline text-[32px] sm:text-[40px] lg:text-[48px] leading-[1.2] font-bold tracking-[-0.02em] text-primary mb-3 sm:mb-4">
             Direktori Siswa
           </h1>
-          <p className="font-body text-[18px] leading-[1.6] text-on-surface-variant">
+          <p className="font-body text-[15px] sm:text-[18px] leading-[1.6] text-on-surface-variant">
             Menelusuri jejak perjalanan bersama kita. Kumpulan wajah yang mendefinisikan generasi kita.
           </p>
-          <div className="mt-8 flex justify-center gap-4">
+          <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
             <div className="relative w-full max-w-md">
               <input
                 className="w-full bg-surface-container-low border-none border-b-2 border-outline-variant focus:border-secondary focus:ring-0 px-4 py-3 rounded-t-lg transition-all"
@@ -109,8 +109,8 @@ export default function StudentsPage() {
                 </div>
               </div>
               <div className="text-center md:text-left">
-                <h2 className="font-headline text-[36px] leading-[1.2] font-bold text-primary mb-2">{selected.name}</h2>
-                <p className="font-body text-[18px] leading-[1.6] italic text-on-surface-variant mb-4">
+                <h2 className="font-headline text-[24px] sm:text-[28px] lg:text-[36px] leading-[1.2] font-bold text-primary mb-2">{selected.name}</h2>
+                <p className="font-body text-[15px] sm:text-[18px] leading-[1.6] italic text-on-surface-variant mb-4">
                   &ldquo;{selected.quote}&rdquo;
                 </p>
                 <p className="font-[600] text-[13px] leading-[1.2] tracking-[0.05em] text-secondary">

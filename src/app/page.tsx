@@ -126,7 +126,7 @@ export default function HomePage() {
   return (
     <>
       <Navbar />
-      <section className="relative overflow-hidden pt-12 pb-24 md:pt-24 md:pb-32 min-h-[600px] flex items-center">
+        <section className="relative overflow-hidden pt-10 pb-16 sm:pt-12 sm:pb-24 md:pt-24 md:pb-32 min-h-[500px] sm:min-h-[600px] flex items-center">
         <div className="absolute inset-0 z-0 pointer-events-none marquee-container overflow-hidden">
           <div className="animate-marquee flex gap-8 py-12">
             {[1, 2].map((set) =>
@@ -149,14 +149,14 @@ export default function HomePage() {
         </div>
         <div className="max-w-[1200px] mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10">
           <div>
-            <h1 className="font-headline text-[48px] leading-[1.2] font-bold tracking-[-0.02em] text-primary mb-6">
+            <h1 className="font-headline text-[32px] sm:text-[40px] lg:text-[48px] leading-[1.2] font-bold tracking-[-0.02em] text-primary mb-4 sm:mb-6">
               Mengenang Kenangan
               <br />
               <span className="text-secondary italic">
                 TekajeOneOfficial Angkatan2024/2025
               </span>
             </h1>
-            <p className="font-body text-[18px] leading-[1.6] text-on-surface-variant mb-8 max-w-lg">
+            <p className="font-body text-[15px] sm:text-[18px] leading-[1.6] text-on-surface-variant mb-6 sm:mb-8 max-w-lg">
               Website untuk merayakan setiap tawa, mengabadikan setiap momen, dan
               menjaga erat tali persahabatan yang telah kita jalin bersama di masa
               sekolah.
@@ -164,14 +164,14 @@ export default function HomePage() {
             <div className="flex flex-wrap gap-4">
               <a
                 href="/gallery"
-                className="bg-primary text-on-primary px-8 py-4 rounded-lg font-[600] text-[13px] leading-[1.2] tracking-[0.05em] flex items-center gap-2 hover:translate-y-[-2px] transition-transform"
+                className="bg-primary text-on-primary px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-[600] text-[12px] sm:text-[13px] leading-[1.2] tracking-[0.05em] flex items-center gap-2 hover:translate-y-[-2px] transition-transform"
               >
                 Eksplor Galeri
                 <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
               </a>
               <a
                 href="/students"
-                className="border border-primary text-primary px-8 py-4 rounded-lg font-[600] text-[13px] leading-[1.2] tracking-[0.05em] hover:bg-primary/5 transition-colors"
+                className="border border-primary text-primary px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-[600] text-[12px] sm:text-[13px] leading-[1.2] tracking-[0.05em] hover:bg-primary/5 transition-colors"
               >
                 Tentang Kami
               </a>
@@ -183,13 +183,13 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-      <section className="py-20 overflow-hidden">
+      <section className="py-12 sm:py-20 overflow-hidden">
         <div className="max-w-[1200px] mx-auto px-6 mb-12 flex justify-between items-end">
           <div>
-            <h2 className="font-headline text-[32px] leading-[1.3] font-semibold text-primary mb-2">
+            <h2 className="font-headline text-[24px] sm:text-[32px] leading-[1.3] font-semibold text-primary mb-1 sm:mb-2">
               Kenangan Kelas
             </h2>
-            <p className="font-body text-[16px] leading-[1.6] text-on-surface-variant">
+            <p className="font-body text-[14px] sm:text-[16px] leading-[1.6] text-on-surface-variant">
               Kilas balik momen-momen terbaik kita
             </p>
           </div>
@@ -215,9 +215,9 @@ export default function HomePage() {
             <div className="cards-marquee-container overflow-hidden w-full relative">
               <div className="animate-cards-marquee flex gap-8 px-6">
                 {[...classMemories, ...classMemories].map((m, i) => (
-                  <div key={`${m.id}-${i}`} className="flex-none w-80 md:w-96">
+                  <div key={`${m.id}-${i}`} className="flex-none w-72 sm:w-80 md:w-96">
                     <div className="paper-card bg-white rounded-xl overflow-hidden group h-full">
-                      <div className="relative h-64 overflow-hidden">
+                      <div className="relative h-48 sm:h-64 overflow-hidden">
                         <img
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                           src={optimizeCld(m.photoUrl, 500)}
@@ -227,8 +227,8 @@ export default function HomePage() {
                           {m.sourceAlbumTitle}
                         </div>
                       </div>
-                      <div className="p-6">
-                        <h3 className="font-headline text-[24px] leading-[1.4] font-semibold text-primary mb-2">
+                      <div className="p-4 sm:p-6">
+                        <h3 className="font-headline text-[18px] sm:text-[24px] leading-[1.4] font-semibold text-primary mb-1 sm:mb-2">
                           {m.sourceAlbumTitle}
                         </h3>
                         <p className="font-body text-[16px] leading-[1.6] text-on-surface-variant mb-4">

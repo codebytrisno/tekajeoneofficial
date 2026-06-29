@@ -155,18 +155,18 @@ export default function HomeCardsPage() {
 
   return (
     <AdminLayout>
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="font-headline text-[24px] leading-[1.4] font-semibold text-primary">Kartu Home</h2>
-          <p className="font-body text-[16px] leading-[1.6] text-on-surface-variant">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="min-w-0">
+          <h2 className="font-headline text-[20px] sm:text-[24px] leading-[1.4] font-semibold text-primary">Kartu Home</h2>
+          <p className="font-body text-[14px] sm:text-[16px] leading-[1.6] text-on-surface-variant">
             Kelola kartu polaroid di halaman utama. Foto dari Galeri Kenangan atau foto siswa.
           </p>
         </div>
         <button
           onClick={handleAdd}
-          className="flex items-center gap-2 bg-primary text-on-primary px-5 py-2.5 rounded-xl hover:shadow-lg transition-all font-[600] text-[13px] leading-[1.2] tracking-[0.05em]"
+          className="flex items-center gap-2 bg-primary text-on-primary px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl hover:shadow-lg transition-all font-[600] text-[12px] sm:text-[13px] leading-[1.2] tracking-[0.05em] self-start sm:self-auto"
         >
-          <span className="material-symbols-outlined text-[18px]">add</span>
+          <span className="material-symbols-outlined text-[16px] sm:text-[18px]">add</span>
           Tambah Kartu
         </button>
       </div>
@@ -196,16 +196,16 @@ export default function HomeCardsPage() {
         ) : (
           <div className="divide-y divide-outline-variant/10">
             {cards.map((card, i) => (
-              <div key={card.id} className="flex items-center gap-4 px-6 py-4 hover:bg-surface-container-low/50 transition-colors group">
+              <div key={card.id} className="flex items-center gap-3 sm:gap-4 px-3 sm:px-6 py-3 sm:py-4 hover:bg-surface-container-low/50 transition-colors group">
                 <div className="flex flex-col gap-0.5">
                   <button onClick={() => moveUp(i)} disabled={i === 0} className="text-on-surface-variant hover:text-primary disabled:opacity-20 disabled:cursor-not-allowed leading-none">
-                    <span className="material-symbols-outlined text-[16px]">expand_less</span>
+                    <span className="material-symbols-outlined text-[14px] sm:text-[16px]">expand_less</span>
                   </button>
                   <button onClick={() => moveDown(i)} disabled={i === cards.length - 1} className="text-on-surface-variant hover:text-primary disabled:opacity-20 disabled:cursor-not-allowed leading-none">
-                    <span className="material-symbols-outlined text-[16px]">expand_more</span>
+                    <span className="material-symbols-outlined text-[14px] sm:text-[16px]">expand_more</span>
                   </button>
                 </div>
-                <div className="w-20 h-20 rounded-lg overflow-hidden border border-outline-variant/20 bg-surface-variant flex-shrink-0">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden border border-outline-variant/20 bg-surface-variant flex-shrink-0">
                   <img className="w-full h-full object-cover" src={optimizeCld(card.photoUrl, 160)} alt="" />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -215,34 +215,34 @@ export default function HomeCardsPage() {
                         type="text"
                         value={label}
                         onChange={(e) => setLabel(e.target.value)}
-                        className="flex-1 bg-surface-container-low border border-outline-variant rounded-lg px-3 py-1.5 text-[16px] leading-[1.6] focus:ring-2 focus:ring-secondary/30 focus:border-secondary outline-none"
+                        className="flex-1 bg-surface-container-low border border-outline-variant rounded-lg px-2 sm:px-3 py-1.5 text-[14px] sm:text-[16px] leading-[1.6] focus:ring-2 focus:ring-secondary/30 focus:border-secondary outline-none"
                         autoFocus
                       />
                       <button onClick={() => handleSaveLabel(card)} className="p-1.5 text-green-600 hover:bg-green-50 rounded transition-colors" title="Simpan">
-                        <span className="material-symbols-outlined text-[18px]">check</span>
+                        <span className="material-symbols-outlined text-[16px] sm:text-[18px]">check</span>
                       </button>
                       <button onClick={() => setEditing(null)} className="p-1.5 text-error hover:bg-error/10 rounded transition-colors" title="Batal">
-                        <span className="material-symbols-outlined text-[18px]">close</span>
+                        <span className="material-symbols-outlined text-[16px] sm:text-[18px]">close</span>
                       </button>
                     </div>
                   ) : (
-                    <p className="font-bold text-primary truncate">{card.label}</p>
+                    <p className="font-bold text-primary truncate text-[14px] sm:text-[16px]">{card.label}</p>
                   )}
                 </div>
-                <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
+                <div className="flex gap-1 sm:gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity flex-shrink-0">
                   <button
                     onClick={() => { setEditing(card); setLabel(card.label) }}
-                    className="p-2 hover:bg-secondary/10 text-secondary rounded transition-colors"
+                    className="p-1.5 sm:p-2 hover:bg-secondary/10 text-secondary rounded transition-colors"
                     title="Edit label"
                   >
-                    <span className="material-symbols-outlined text-[20px]">edit</span>
+                    <span className="material-symbols-outlined text-[18px] sm:text-[20px]">edit</span>
                   </button>
                   <button
                     onClick={() => setConfirmDelete(card.id)}
-                    className="p-2 hover:bg-error/10 text-error rounded transition-colors"
+                    className="p-1.5 sm:p-2 hover:bg-error/10 text-error rounded transition-colors"
                     title="Hapus"
                   >
-                    <span className="material-symbols-outlined text-[20px]">delete</span>
+                    <span className="material-symbols-outlined text-[18px] sm:text-[20px]">delete</span>
                   </button>
                 </div>
               </div>
@@ -264,82 +264,82 @@ export default function HomeCardsPage() {
       <Toast open={toast.open} message={toast.message} type={toast.type} onClose={() => setToast({ ...toast, open: false })} />
 
       {showPicker && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-          <div className="bg-surface-container-lowest rounded-xl p-8 max-w-4xl w-full mx-4 shadow-2xl max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="font-headline text-[24px] leading-[1.4] font-semibold text-primary">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-3 sm:p-4">
+          <div className="bg-surface-container-lowest rounded-xl p-4 sm:p-8 max-w-4xl w-full mx-4 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-4 sm:mb-6">
+              <h3 className="font-headline text-[20px] sm:text-[24px] leading-[1.4] font-semibold text-primary">
                 {editing ? "Edit Kartu" : "Tambah Kartu Baru"}
               </h3>
-              <button onClick={() => { setShowPicker(false); setSelectedPhotos(new Set()) }} className="p-2 hover:bg-surface-container rounded transition-colors">
-                <span className="material-symbols-outlined text-[24px]">close</span>
+              <button onClick={() => { setShowPicker(false); setSelectedPhotos(new Set()) }} className="p-1 sm:p-2 hover:bg-surface-container rounded transition-colors">
+                <span className="material-symbols-outlined text-[20px] sm:text-[24px]">close</span>
               </button>
             </div>
 
             <div className="mb-6 space-y-4">
               <div>
-                <label className="block font-[600] text-[13px] leading-[1.2] tracking-[0.05em] text-primary mb-1">Label</label>
+                <label className="block font-[600] text-[12px] sm:text-[13px] leading-[1.2] tracking-[0.05em] text-primary mb-1">Label</label>
                 <input
                   type="text"
                   value={label}
                   onChange={(e) => setLabel(e.target.value)}
-                  className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-[16px] leading-[1.6] focus:ring-2 focus:ring-secondary/30 focus:border-secondary outline-none"
+                  className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-[14px] sm:text-[16px] leading-[1.6] focus:ring-2 focus:ring-secondary/30 focus:border-secondary outline-none"
                   placeholder="Contoh: 7 Mei 2024"
                 />
               </div>
 
               {photoUrl && (
                 <div>
-                  <label className="block font-[600] text-[13px] leading-[1.2] tracking-[0.05em] text-primary mb-1">Foto Terpilih</label>
-                  <div className="w-24 h-24 rounded-lg overflow-hidden border border-outline-variant/20">
+                  <label className="block font-[600] text-[12px] sm:text-[13px] leading-[1.2] tracking-[0.05em] text-primary mb-1">Foto Terpilih</label>
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-lg overflow-hidden border border-outline-variant/20">
                     <img className="w-full h-full object-cover" src={optimizeCld(photoUrl, 200)} alt="" />
                   </div>
                 </div>
               )}
 
               <div>
-                <label className="block font-[600] text-[13px] leading-[1.2] tracking-[0.05em] text-primary mb-2">Pilih Foto</label>
-                <div className="flex gap-3 mb-4">
+                <label className="block font-[600] text-[12px] sm:text-[13px] leading-[1.2] tracking-[0.05em] text-primary mb-2">Pilih Foto</label>
+                <div className="flex gap-2 sm:gap-3 mb-4 flex-wrap">
                   <button
                     onClick={() => { setSourceTab("gallery"); setSelectedPhotos(new Set()) }}
-                    className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-[600] text-[12px] leading-[1.2] tracking-[0.05em] transition-colors ${sourceTab === "gallery" ? "bg-primary text-on-primary" : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container"}`}
+                    className={`flex items-center gap-1 sm:gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-lg font-[600] text-[11px] sm:text-[12px] leading-[1.2] tracking-[0.05em] transition-colors ${sourceTab === "gallery" ? "bg-primary text-on-primary" : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container"}`}
                   >
-                    <span className="material-symbols-outlined text-[16px]">photo_library</span>
+                    <span className="material-symbols-outlined text-[14px] sm:text-[16px]">photo_library</span>
                     Dari Galeri
                   </button>
                   <button
                     onClick={() => { setSourceTab("students"); setSelectedPhotos(new Set()) }}
-                    className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-[600] text-[12px] leading-[1.2] tracking-[0.05em] transition-colors ${sourceTab === "students" ? "bg-primary text-on-primary" : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container"}`}
+                    className={`flex items-center gap-1 sm:gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-lg font-[600] text-[11px] sm:text-[12px] leading-[1.2] tracking-[0.05em] transition-colors ${sourceTab === "students" ? "bg-primary text-on-primary" : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container"}`}
                   >
-                    <span className="material-symbols-outlined text-[16px]">group</span>
+                    <span className="material-symbols-outlined text-[14px] sm:text-[16px]">group</span>
                     Dari Siswa
                   </button>
                 </div>
 
                 {sourceTab === "gallery" ? (
-                  <div className="flex gap-3 mb-4 flex-wrap">
+                  <div className="flex gap-2 sm:gap-3 mb-4 flex-wrap">
                     <button onClick={() => setSelectedAlbum("all")}
-                      className={`px-4 py-2 rounded-lg font-[600] text-[12px] leading-[1.2] tracking-[0.05em] transition-colors ${selectedAlbum === "all" ? "bg-primary text-on-primary" : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container"}`}
+                      className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-[600] text-[11px] sm:text-[12px] leading-[1.2] tracking-[0.05em] transition-colors ${selectedAlbum === "all" ? "bg-primary text-on-primary" : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container"}`}
                     >Semua Album</button>
                     {allGalleryItems.map((g) => (
                       <button key={g.id} onClick={() => setSelectedAlbum(g.id)}
-                        className={`px-4 py-2 rounded-lg font-[600] text-[12px] leading-[1.2] tracking-[0.05em] transition-colors ${selectedAlbum === g.id ? "bg-primary text-on-primary" : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container"}`}
+                        className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-[600] text-[11px] sm:text-[12px] leading-[1.2] tracking-[0.05em] transition-colors ${selectedAlbum === g.id ? "bg-primary text-on-primary" : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container"}`}
                       >{g.title}</button>
                     ))}
                   </div>
                 ) : (
-                  <div className="flex gap-3 mb-4 flex-wrap">
+                  <div className="flex gap-2 sm:gap-3 mb-4 flex-wrap">
                     <button onClick={() => setSelectedStudent("all")}
-                      className={`px-4 py-2 rounded-lg font-[600] text-[12px] leading-[1.2] tracking-[0.05em] transition-colors ${selectedStudent === "all" ? "bg-primary text-on-primary" : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container"}`}
+                      className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-[600] text-[11px] sm:text-[12px] leading-[1.2] tracking-[0.05em] transition-colors ${selectedStudent === "all" ? "bg-primary text-on-primary" : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container"}`}
                     >Semua Siswa</button>
                     {allStudents.map((s) => (
                       <button key={s.id} onClick={() => setSelectedStudent(s.id)}
-                        className={`px-4 py-2 rounded-lg font-[600] text-[12px] leading-[1.2] tracking-[0.05em] transition-colors ${selectedStudent === s.id ? "bg-primary text-on-primary" : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container"}`}
+                        className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-[600] text-[11px] sm:text-[12px] leading-[1.2] tracking-[0.05em] transition-colors ${selectedStudent === s.id ? "bg-primary text-on-primary" : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container"}`}
                       >{s.name}</button>
                     ))}
                   </div>
                 )}
 
-                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3">
                   {(sourceTab === "gallery" ? filteredPhotos : filteredStudentPhotos).map((p) => (
                     <div
                       key={p.url}
@@ -350,14 +350,14 @@ export default function HomeCardsPage() {
                         <img className="w-full h-full object-cover" src={optimizeCld(p.url, 200)} alt="" />
                         {selectedPhotos.has(p.url) && (
                           <div className="absolute inset-0 bg-secondary/20 flex items-center justify-center">
-                            <span className="material-symbols-outlined text-white text-3xl bg-secondary rounded-full p-1">check_circle</span>
+                            <span className="material-symbols-outlined text-white text-2xl sm:text-3xl bg-secondary rounded-full p-1">check_circle</span>
                           </div>
                         )}
                       </div>
                     </div>
                   ))}
                   {(sourceTab === "gallery" ? filteredPhotos : filteredStudentPhotos).length === 0 && (
-                    <p className="col-span-full text-center text-on-surface-variant py-12">
+                    <p className="col-span-full text-center text-on-surface-variant py-8 sm:py-12">
                       Tidak ada foto.
                     </p>
                   )}
@@ -365,14 +365,14 @@ export default function HomeCardsPage() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between border-t border-outline-variant/20 pt-4">
-              <p className="text-on-surface-variant text-sm">{selectedPhotos.size} foto dipilih</p>
-              <div className="flex gap-3">
-                <button onClick={() => { setShowPicker(false); setSelectedPhotos(new Set()) }} className="px-6 py-2 border border-outline-variant rounded-lg font-[600] text-[13px] leading-[1.2] tracking-[0.05em] hover:bg-surface-container transition-colors">Batal</button>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between border-t border-outline-variant/20 pt-4 gap-3">
+              <p className="text-on-surface-variant text-[13px] sm:text-sm text-center sm:text-left">{selectedPhotos.size} foto dipilih</p>
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                <button onClick={() => { setShowPicker(false); setSelectedPhotos(new Set()) }} className="px-4 sm:px-6 py-2 border border-outline-variant rounded-lg font-[600] text-[12px] sm:text-[13px] leading-[1.2] tracking-[0.05em] hover:bg-surface-container transition-colors">Batal</button>
                 <button
                   onClick={confirmAdd}
                   disabled={selectedPhotos.size === 0 || !label}
-                  className="px-6 py-2 bg-primary text-on-primary rounded-lg font-[600] text-[13px] leading-[1.2] tracking-[0.05em] hover:shadow-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="px-4 sm:px-6 py-2 bg-primary text-on-primary rounded-lg font-[600] text-[12px] sm:text-[13px] leading-[1.2] tracking-[0.05em] hover:shadow-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                 >Simpan {selectedPhotos.size > 0 ? `(${selectedPhotos.size})` : ""}</button>
               </div>
             </div>
