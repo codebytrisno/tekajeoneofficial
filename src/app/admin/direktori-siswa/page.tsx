@@ -37,10 +37,14 @@ export default function DirektoriSiswaPage() {
   const [toast, setToast] = useState({ open: false, message: "", type: "success" as "success" | "error" | "info" })
   const [sortField, setSortField] = useState<"name" | "photos" | null>(null)
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc")
+  const [searchQuery, setSearchQuery] = useState("")
 
   const sortedStudents = useMemo(() => {
-    if (!sortField) return students
-    const sorted = [...students].sort((a, b) => {
+    const filtered = students.filter((s) =>
+      s.name.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    if (!sortField) return filtered
+    const sorted = [...filtered].sort((a, b) => {
       let cmp: number
       if (sortField === "name") {
         cmp = a.name.localeCompare(b.name)
@@ -50,7 +54,7 @@ export default function DirektoriSiswaPage() {
       return sortDir === "asc" ? cmp : -cmp
     })
     return sorted
-  }, [students, sortField, sortDir])
+  }, [students, sortField, sortDir, searchQuery])
 
   function toggleSort(field: "name" | "photos") {
     if (sortField === field) {
@@ -163,18 +167,30 @@ export default function DirektoriSiswaPage() {
 
   return (
     <AdminLayout>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
           <h2 className="font-headline text-[24px] leading-[1.4] font-semibold text-primary">Direktori Siswa</h2>
           <p className="font-body text-[16px] leading-[1.6] text-on-surface-variant">Manajemen data siswa dan alumni.</p>
         </div>
-        <button
-          onClick={openCreate}
-          className="flex items-center gap-2 bg-primary text-on-primary px-5 py-2.5 rounded-xl hover:shadow-lg transition-all font-[600] text-[13px] leading-[1.2] tracking-[0.05em]"
-        >
-          <span className="material-symbols-outlined text-[18px]">add</span>
-          Tambah Siswa
-        </button>
+        <div className="flex items-center gap-3">
+          <div className="relative">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Cari nama..."
+              className="w-56 bg-surface-container-low border border-outline-variant rounded-lg pl-9 pr-4 py-2 text-[14px] leading-[1.5] focus:ring-2 focus:ring-secondary/30 focus:border-secondary outline-none placeholder:text-on-surface-variant/60"
+            />
+            <span className="material-symbols-outlined absolute left-2.5 top-2.5 text-[18px] text-on-surface-variant">search</span>
+          </div>
+          <button
+            onClick={openCreate}
+            className="flex items-center gap-2 bg-primary text-on-primary px-5 py-2.5 rounded-xl hover:shadow-lg transition-all font-[600] text-[13px] leading-[1.2] tracking-[0.05em]"
+          >
+            <span className="material-symbols-outlined text-[18px]">add</span>
+            Tambah Siswa
+          </button>
+        </div>
       </div>
 
       <div className="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">

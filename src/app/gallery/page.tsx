@@ -10,11 +10,11 @@ import { optimizeCld } from "@/lib/cloudinary"
 interface GalleryItem {
   id: string
   title: string
-  category: string
   date: string
   coverImageUrl?: string
   photos?: string[]
   imageUrl?: string
+  pinned?: boolean
 }
 
 interface LightboxData {
@@ -34,7 +34,13 @@ export default function GalleryPage() {
   useEffect(() => {
     const q = query(collection(db, "galleryItems"), orderBy("createdAt", "desc"))
     const unsub = onSnapshot(q, (snap) => {
-      setItems(snap.docs.map((d) => ({ id: d.id, ...d.data() } as GalleryItem)))
+      const raw = snap.docs.map((d) => ({ id: d.id, ...d.data() } as GalleryItem))
+      const sorted = [...raw].sort((a, b) => {
+        if (a.pinned && !b.pinned) return -1
+        if (!a.pinned && b.pinned) return 1
+        return 0
+      })
+      setItems(sorted)
       setLoading(false)
     })
     return unsub

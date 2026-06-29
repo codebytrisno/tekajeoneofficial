@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { Skeleton, SkeletonTableRow } from "@/components/Skeleton"
 import {
   collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, Timestamp, serverTimestamp, query, orderBy,
@@ -20,6 +20,7 @@ interface GalleryItem {
   coverImageUrl?: string
   photos?: string[]
   imageUrl?: string
+  pinned?: boolean
   createdAt: Timestamp
 }
 
@@ -34,6 +35,13 @@ export default function GaleriKenanganPage() {
   const [photos, setPhotos] = useState<string[]>([])
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null)
   const [toast, setToast] = useState({ open: false, message: "", type: "success" as "success" | "error" | "info" })
+  const [searchQuery, setSearchQuery] = useState("")
+
+  const filteredItems = useMemo(() => {
+    if (!searchQuery) return items
+    const q = searchQuery.toLowerCase()
+    return items.filter((item) => item.title.toLowerCase().includes(q))
+  }, [items, searchQuery])
 
   useEffect(() => {
     const q = query(collection(db, "galleryItems"), orderBy("createdAt", "desc"))
@@ -82,11 +90,12 @@ export default function GaleriKenanganPage() {
 
   const handleSave = async () => {
     if (!title || !coverImageUrl) return
-    const data = {
+    const data: Record<string, unknown> = {
       title,
       date: date ? toDisplayDate(date) : new Date().toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" }),
       coverImageUrl,
       photos,
+      pinned: editing?.pinned ?? false,
       createdAt: serverTimestamp(),
     }
     if (editing) {
@@ -98,6 +107,11 @@ export default function GaleriKenanganPage() {
     }
     resetForm()
     setToast({ open: true, message: editing ? "Album berhasil diupdate" : "Album berhasil disimpan", type: "success" })
+  }
+
+  const togglePin = async (id: string, current: boolean) => {
+    await updateDoc(doc(db, "galleryItems", id), { pinned: !current })
+    setToast({ open: true, message: !current ? "Album dipasang di atas" : "Pin album dilepas", type: "success" })
   }
 
   const handleDelete = async (id: string) => {
@@ -132,18 +146,30 @@ export default function GaleriKenanganPage() {
 
   return (
     <AdminLayout>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
           <h2 className="font-headline text-[24px] leading-[1.4] font-semibold text-primary">Galeri Kenangan</h2>
           <p className="font-body text-[16px] leading-[1.6] text-on-surface-variant">Manajemen album foto galeri kenangan.</p>
         </div>
-        <button
-          onClick={openCreate}
-          className="flex items-center gap-2 bg-primary text-on-primary px-5 py-2.5 rounded-xl hover:shadow-lg transition-all font-[600] text-[13px] leading-[1.2] tracking-[0.05em]"
-        >
-          <span className="material-symbols-outlined text-[18px]">add</span>
-          Tambah Album
-        </button>
+        <div className="flex items-center gap-3">
+          <div className="relative">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Cari judul..."
+              className="w-56 bg-surface-container-low border border-outline-variant rounded-lg pl-9 pr-4 py-2 text-[14px] leading-[1.5] focus:ring-2 focus:ring-secondary/30 focus:border-secondary outline-none placeholder:text-on-surface-variant/60"
+            />
+            <span className="material-symbols-outlined absolute left-2.5 top-2.5 text-[18px] text-on-surface-variant">search</span>
+          </div>
+          <button
+            onClick={openCreate}
+            className="flex items-center gap-2 bg-primary text-on-primary px-5 py-2.5 rounded-xl hover:shadow-lg transition-all font-[600] text-[13px] leading-[1.2] tracking-[0.05em]"
+          >
+            <span className="material-symbols-outlined text-[18px]">add</span>
+            Tambah Album
+          </button>
+        </div>
       </div>
 
       <div className="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
@@ -151,6 +177,7 @@ export default function GaleriKenanganPage() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-surface-container-low/30 border-b border-outline-variant/10 text-on-surface-variant font-[600] text-[13px] leading-[1.2] tracking-[0.05em] uppercase tracking-wider">
+                <th className="px-2 py-4 font-semibold w-12 text-center">Pin</th>
                 <th className="px-6 py-4 font-semibold">Sampul</th>
                 <th className="px-6 py-4 font-semibold">Judul</th>
                 <th className="px-6 py-4 font-semibold">Foto</th>
@@ -166,8 +193,17 @@ export default function GaleriKenanganPage() {
                   <SkeletonTableRow cols={5} />
                 </>
               )}
-              {items.map((item) => (
+              {filteredItems.map((item) => (
                 <tr key={item.id} className="hover:bg-surface-container-low/50 transition-colors group">
+                  <td className="px-2 py-4 text-center">
+                    <button
+                      onClick={() => togglePin(item.id, !!item.pinned)}
+                      className={`p-1.5 rounded-lg transition-all ${item.pinned ? "text-secondary bg-secondary/10" : "text-on-surface-variant/40 hover:text-secondary hover:bg-secondary/5"}`}
+                      title={item.pinned ? "Lepas pin" : "Pin ke atas"}
+                    >
+                      <span className="material-symbols-outlined text-[18px]">push_pin</span>
+                    </button>
+                  </td>
                   <td className="px-6 py-4">
                     <div className="w-16 h-16 rounded border border-outline-variant/20 overflow-hidden bg-surface-variant">
                       <img className="w-full h-full object-cover" src={optimizeCld(item.coverImageUrl || item.imageUrl || "", 128)} alt="" />
@@ -192,8 +228,15 @@ export default function GaleriKenanganPage() {
               ))}
               {!loading && items.length === 0 && (
                 <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center text-on-surface-variant">
+                  <td colSpan={6} className="px-6 py-12 text-center text-on-surface-variant">
                     Belum ada data galeri.
+                  </td>
+                </tr>
+              )}
+              {!loading && items.length > 0 && filteredItems.length === 0 && (
+                <tr>
+                  <td colSpan={6} className="px-6 py-12 text-center text-on-surface-variant">
+                    Tidak ditemukan album dengan judul &ldquo;{searchQuery}&rdquo;.
                   </td>
                 </tr>
               )}
@@ -201,7 +244,7 @@ export default function GaleriKenanganPage() {
           </table>
         </div>
         <div className="p-4 bg-surface-container-low/30 border-t border-outline-variant/10 flex justify-between items-center text-on-surface-variant text-sm">
-          <p>Menampilkan {items.length} entri</p>
+          <p>Menampilkan {filteredItems.length} entri</p>
         </div>
       </div>
 
