@@ -10,6 +10,7 @@ import { CldUploadWidget } from "next-cloudinary"
 import ConfirmDialog from "@/components/ConfirmDialog"
 import Toast from "@/components/Toast"
 import { addActivity } from "@/lib/activity"
+import { optimizeCld } from "@/lib/cloudinary"
 
 interface GalleryItem {
   id: string
@@ -167,7 +168,7 @@ export default function GaleriKenanganPage() {
                 <tr key={item.id} className="hover:bg-surface-container-low/50 transition-colors group">
                   <td className="px-6 py-4">
                     <div className="w-16 h-16 rounded border border-outline-variant/20 overflow-hidden bg-surface-variant">
-                      <img className="w-full h-full object-cover" src={item.coverImageUrl || item.imageUrl || ""} alt="" />
+                      <img className="w-full h-full object-cover" src={optimizeCld(item.coverImageUrl || item.imageUrl || "", 128)} alt="" />
                     </div>
                   </td>
                   <td className="px-6 py-4 font-bold text-primary">{item.title}</td>
@@ -247,7 +248,7 @@ export default function GaleriKenanganPage() {
                 <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 mb-3">
                   {photos.map((url, i) => (
                     <div key={url} className="relative group/photo aspect-square rounded-lg overflow-hidden border border-outline-variant/20 bg-surface-variant">
-                      <img className="w-full h-full object-cover" src={url} alt={`Foto ${i + 1}`} />
+                      <img className="w-full h-full object-cover" src={optimizeCld(url, 200)} alt={`Foto ${i + 1}`} />
                       <div className="absolute inset-0 bg-black/0 group-hover/photo:bg-black/40 transition-colors flex items-center justify-center gap-1">
                         <button
                           type="button"

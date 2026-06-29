@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore"
 import { db } from "@/lib/firebase"
 import Navbar from "@/components/Navbar"
+import { optimizeCld } from "@/lib/cloudinary"
 
 interface Student {
   id: string
@@ -74,7 +75,7 @@ export default function StudentsPage() {
             <div className="flex flex-col md:flex-row gap-8 mb-12">
               <div className="flex-shrink-0">
                 <div className="w-40 h-40 rounded-full border-4 border-white shadow-lg overflow-hidden bg-surface-variant mx-auto md:mx-0">
-                  <img className="w-full h-full object-cover" src={selected.photo} alt={selected.name} />
+                  <img className="w-full h-full object-cover" src={optimizeCld(selected.photo, 200)} alt={selected.name} />
                 </div>
               </div>
               <div className="text-center md:text-left">
@@ -98,7 +99,7 @@ export default function StudentsPage() {
                     className="group cursor-pointer aspect-square rounded-xl overflow-hidden border border-outline-variant/10 bg-surface-variant shadow-sm hover:shadow-lg transition-all"
                     onClick={() => setLightbox(url)}
                   >
-                    <img className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src={url} alt={`${selected.name} - ${i + 1}`} />
+                    <img className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src={optimizeCld(url, 400)} alt={`${selected.name} - ${i + 1}`} />
                   </div>
                 ))}
               </div>
@@ -115,7 +116,7 @@ export default function StudentsPage() {
                     <div className="overflow-hidden rounded-lg">
                       <img
                         className="w-full aspect-square object-cover transition-transform duration-500 group-hover:scale-105"
-                        src={student.photo}
+                        src={optimizeCld(student.photo, 400)}
                         alt={student.name}
                       />
                     </div>
@@ -146,7 +147,7 @@ export default function StudentsPage() {
             <span className="material-symbols-outlined text-4xl">close</span>
           </button>
           <div className="max-w-5xl w-full" onClick={(e) => e.stopPropagation()}>
-            <img className="max-h-[85vh] w-full object-contain rounded-lg shadow-2xl" src={lightbox} alt="" />
+            <img className="max-h-[85vh] w-full object-contain rounded-lg shadow-2xl" src={optimizeCld(lightbox, 1200)} alt="" />
           </div>
         </div>
       )}

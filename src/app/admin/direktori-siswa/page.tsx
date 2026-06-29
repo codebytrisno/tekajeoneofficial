@@ -10,6 +10,7 @@ import { CldUploadWidget } from "next-cloudinary"
 import ConfirmDialog from "@/components/ConfirmDialog"
 import Toast from "@/components/Toast"
 import { addActivity } from "@/lib/activity"
+import { optimizeCld } from "@/lib/cloudinary"
 
 interface Student {
   id: string
@@ -160,7 +161,7 @@ export default function DirektoriSiswaPage() {
                 <tr key={s.id} className="hover:bg-surface-container-low/50 transition-colors group">
                   <td className="px-6 py-4">
                     <div className="w-12 h-12 rounded-full border border-outline-variant/20 overflow-hidden bg-surface-variant">
-                      <img className="w-full h-full object-cover" src={s.photo} alt="" />
+                      <img className="w-full h-full object-cover" src={optimizeCld(s.photo, 128)} alt="" />
                     </div>
                   </td>
                   <td className="px-6 py-4 font-bold text-primary">{s.name}</td>
@@ -250,7 +251,7 @@ export default function DirektoriSiswaPage() {
                     <button type="button" onClick={() => open()} className="w-full border-2 border-dashed border-outline-variant rounded-lg py-6 px-4 text-center hover:bg-surface-container-low transition-colors group">
                       {photo ? (
                         <div className="space-y-2">
-                          <img src={photo} alt="Preview" className="w-20 h-20 object-cover rounded-full mx-auto" />
+                          <img src={optimizeCld(photo, 200)} alt="Preview" className="w-20 h-20 object-cover rounded-full mx-auto" />
                           <p className="text-sm text-green-600 font-bold">Upload berhasil!</p>
                         </div>
                       ) : (
@@ -266,7 +267,7 @@ export default function DirektoriSiswaPage() {
                 <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 mb-3">
                   {photos.map((url, i) => (
                     <div key={url} className="relative group/photo aspect-square rounded-lg overflow-hidden border border-outline-variant/20 bg-surface-variant">
-                      <img className="w-full h-full object-cover" src={url} alt={`Foto ${i + 1}`} />
+                      <img className="w-full h-full object-cover" src={optimizeCld(url, 200)} alt={`Foto ${i + 1}`} />
                       <div className="absolute inset-0 bg-black/0 group-hover/photo:bg-black/40 transition-colors flex items-center justify-center">
                         <button
                           type="button"

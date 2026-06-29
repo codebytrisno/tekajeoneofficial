@@ -5,6 +5,7 @@ import { collection, query, orderBy, onSnapshot, Timestamp } from "firebase/fire
 import { db } from "@/lib/firebase"
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
+import { optimizeCld } from "@/lib/cloudinary"
 
 interface ClassMemory {
   id: string
@@ -178,7 +179,7 @@ export default function HomePage() {
                       <div className="relative h-64 overflow-hidden">
                         <img
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                          src={m.photoUrl}
+                          src={optimizeCld(m.photoUrl, 500)}
                           alt={m.sourceAlbumTitle}
                         />
                         <div className="absolute top-4 right-4 bg-secondary text-on-secondary px-3 py-1 rounded-full text-[12px] font-[600] text-[13px] leading-[1.2] tracking-[0.05em]">

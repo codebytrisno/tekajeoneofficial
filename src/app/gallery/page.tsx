@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore"
 import { db } from "@/lib/firebase"
 import Navbar from "@/components/Navbar"
+import { optimizeCld } from "@/lib/cloudinary"
 
 interface GalleryItem {
   id: string
@@ -82,7 +83,7 @@ export default function GalleryPage() {
                 >
                   <div className="polaroid-border bg-white p-2 transition-transform duration-500 group-hover:-rotate-1 group-hover:scale-[1.02]">
                     <div className={`relative overflow-hidden ${aspects[i % aspects.length]}`}>
-                      <img className="w-full h-full object-cover" src={url} alt={`${selectedAlbum.title} - ${i + 1}`} />
+                      <img className="w-full h-full object-cover" src={optimizeCld(url, 600)} alt={`${selectedAlbum.title} - ${i + 1}`} />
                       <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                         <span className="material-symbols-outlined text-white text-4xl">zoom_in</span>
                       </div>
@@ -102,7 +103,7 @@ export default function GalleryPage() {
             <div className="max-w-4xl w-full flex flex-col items-center" onClick={(e) => e.stopPropagation()}>
               <img
                 className="max-h-[80vh] object-contain mb-8 rounded-lg shadow-2xl border-4 border-white/10"
-                src={lightbox.img}
+                src={optimizeCld(lightbox.img, 1200)}
                 alt={lightbox.title}
               />
               <div className="text-center">
@@ -151,7 +152,7 @@ export default function GalleryPage() {
                 >
                   <div className="polaroid-border bg-white p-2 transition-all duration-500 group-hover:-rotate-1 group-hover:scale-[1.02] group-hover:shadow-xl">
                     <div className="relative overflow-hidden aspect-[4/3]">
-                      <img className="w-full h-full object-cover" src={getCover(item)} alt={item.title} />
+                      <img className="w-full h-full object-cover" src={optimizeCld(getCover(item), 600)} alt={item.title} />
                       <div className="absolute inset-0 bg-primary/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                         <span className="material-symbols-outlined text-white text-4xl">photo_library</span>
                       </div>

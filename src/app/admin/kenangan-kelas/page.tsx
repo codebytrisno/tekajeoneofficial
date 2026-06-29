@@ -9,6 +9,7 @@ import AdminLayout from "@/components/AdminLayout"
 import ConfirmDialog from "@/components/ConfirmDialog"
 import Toast from "@/components/Toast"
 import { addActivity } from "@/lib/activity"
+import { optimizeCld } from "@/lib/cloudinary"
 
 interface ClassMemory {
   id: string
@@ -135,7 +136,7 @@ export default function KenanganKelasPage() {
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {memories.map((m) => (
               <div key={m.id} className="group relative aspect-square rounded-xl overflow-hidden border border-outline-variant/20 bg-surface-variant shadow-sm">
-                <img className="w-full h-full object-cover" src={m.photoUrl} alt={m.sourceAlbumTitle} />
+                <img className="w-full h-full object-cover" src={optimizeCld(m.photoUrl, 400)} alt={m.sourceAlbumTitle} />
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity">
                   <p className="text-white text-[11px] font-bold truncate">{m.sourceAlbumTitle}</p>
                 </div>
@@ -199,7 +200,7 @@ export default function KenanganKelasPage() {
                   className={`aspect-square rounded-lg overflow-hidden border-2 cursor-pointer transition-all ${selectedPhotos.has(p.url) ? "border-secondary shadow-md shadow-secondary/20 scale-[1.02]" : "border-outline-variant/20 hover:border-secondary/50"}`}
                 >
                   <div className="relative w-full h-full">
-                    <img className="w-full h-full object-cover" src={p.url} alt="" />
+                    <img className="w-full h-full object-cover" src={optimizeCld(p.url, 200)} alt="" />
                     {selectedPhotos.has(p.url) && (
                       <div className="absolute inset-0 bg-secondary/20 flex items-center justify-center">
                         <span className="material-symbols-outlined text-white text-3xl bg-secondary rounded-full p-1">check_circle</span>
