@@ -279,6 +279,7 @@ export default function DirektoriSiswaPage() {
                     </div>
                   ))}
                   <CldUploadWidget
+                    options={{ multiple: true }}
                     uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!}
                     onSuccess={(result: any) => {
                       if (result?.info?.secure_url) addPhoto(result.info.secure_url)
@@ -291,7 +292,7 @@ export default function DirektoriSiswaPage() {
                         className="aspect-square rounded-lg border-2 border-dashed border-outline-variant flex flex-col items-center justify-center gap-1 hover:bg-surface-container-low transition-colors text-on-surface-variant hover:text-primary"
                       >
                         <span className="material-symbols-outlined text-2xl">add_photo_alternate</span>
-                        <span className="text-[10px] font-bold">Tambah Foto</span>
+                        <span className="text-[10px] font-bold">Tambah Foto (Banyak)</span>
                       </button>
                     )}
                   </CldUploadWidget>
