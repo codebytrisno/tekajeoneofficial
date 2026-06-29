@@ -37,6 +37,9 @@ export default function KenanganKelasPage() {
   const [selectedPhotos, setSelectedPhotos] = useState<Set<string>>(new Set())
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null)
   const [toast, setToast] = useState({ open: false, message: "", type: "success" as "success" | "error" | "info" })
+  const [allStudents, setAllStudents] = useState<{ id: string; name: string; photo: string; photos?: string[] }[]>([])
+  const [sourceTab, setSourceTab] = useState<"gallery" | "students">("gallery")
+  const [selectedStudent, setSelectedStudent] = useState<string | "all">("all")
 
   useEffect(() => {
     const unsub = onSnapshot(
@@ -59,11 +62,33 @@ export default function KenanganKelasPage() {
     return unsub
   }, [])
 
+  useEffect(() => {
+    const unsub = onSnapshot(
+      query(collection(db, "students"), orderBy("createdAt", "desc")),
+      (snap) => {
+        setAllStudents(snap.docs.map((d) => ({ id: d.id, ...d.data() } as { id: string; name: string; photo: string; photos?: string[] })))
+      },
+    )
+    return unsub
+  }, [])
+
   const getPhotos = (item: { photos?: string[]; imageUrl?: string }): string[] => {
     if (item.photos && item.photos.length > 0) return item.photos
     if (item.imageUrl) return [item.imageUrl]
     return []
   }
+
+  const allStudentPhotos = allStudents.flatMap((s) => {
+    const seen = new Set<string>()
+    const urls: string[] = []
+    if (s.photo && !seen.has(s.photo)) { seen.add(s.photo); urls.push(s.photo) }
+    if (s.photos) s.photos.forEach((u) => { if (!seen.has(u)) { seen.add(u); urls.push(u) } })
+    if (urls.length === 0) return []
+    return urls.map((url) => ({ url, studentId: s.id, studentName: s.name }))
+  })
+
+  const filteredStudentPhotos =
+    selectedStudent === "all" ? allStudentPhotos : allStudentPhotos.filter((p) => p.studentId === selectedStudent)
 
   const togglePhoto = (url: string) => {
     setSelectedPhotos((prev) => {
@@ -76,15 +101,25 @@ export default function KenanganKelasPage() {
 
   const addSelectedPhotos = async () => {
     for (const photoUrl of selectedPhotos) {
-      const src = allGalleryItems.find((g) => getPhotos(g).includes(photoUrl))
+      let srcTitle = ""
+      let srcId = ""
+      if (sourceTab === "gallery") {
+        const src = allGalleryItems.find((g) => getPhotos(g).includes(photoUrl))
+        srcTitle = src?.title || ""
+        srcId = src?.id || ""
+      } else {
+        const src = allStudents.find((s) => (s.photo === photoUrl || (s.photos || []).includes(photoUrl)))
+        srcTitle = src?.name || ""
+        srcId = src?.id || ""
+      }
       const ref = await addDoc(collection(db, "classMemories"), {
         photoUrl,
-        sourceAlbumId: src?.id || "",
-        sourceAlbumTitle: src?.title || "",
+        sourceAlbumId: srcId,
+        sourceAlbumTitle: srcTitle,
         caption: "",
         createdAt: serverTimestamp(),
       })
-      addActivity("add", "classMemories", ref.id, src?.title || "Foto kenangan")
+      addActivity("add", "classMemories", ref.id, srcTitle || "Foto kenangan")
     }
     setSelectedPhotos(new Set())
     setShowPicker(false)
@@ -114,15 +149,15 @@ export default function KenanganKelasPage() {
         <div>
           <h2 className="font-headline text-[24px] leading-[1.4] font-semibold text-primary">Kenangan Kelas</h2>
           <p className="font-body text-[16px] leading-[1.6] text-on-surface-variant">
-            Kelola foto kenangan kelas. Pilih foto dari Galeri Kenangan.
+            Kelola foto kenangan kelas. Pilih foto dari Galeri Kenangan atau dari foto siswa.
           </p>
         </div>
         <button
           onClick={() => setShowPicker(true)}
-          className="flex items-center gap-2 bg-secondary text-on-secondary px-5 py-2.5 rounded-xl hover:shadow-lg transition-all font-[600] text-[13px] leading-[1.2] tracking-[0.05em]"
-        >
-          <span className="material-symbols-outlined text-[18px]">add_photo_alternate</span>
-          Tambah dari Galeri
+              className="flex items-center gap-2 bg-secondary text-on-secondary px-5 py-2.5 rounded-xl hover:shadow-lg transition-all font-[600] text-[13px] leading-[1.2] tracking-[0.05em]"
+            >
+              <span className="material-symbols-outlined text-[18px]">add_photo_alternate</span>
+              Tambah Foto
         </button>
       </div>
 
@@ -141,7 +176,7 @@ export default function KenanganKelasPage() {
         ) : memories.length === 0 ? (
           <div className="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-12 text-center text-on-surface-variant">
             <span className="material-symbols-outlined text-5xl mb-3 block">photo_library</span>
-            <p>Belum ada foto kenangan. Klik "Tambah dari Galeri" untuk memilih foto.</p>
+            <p>Belum ada foto kenangan. Klik &ldquo;Tambah Foto&rdquo; untuk memilih foto.</p>
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
@@ -178,33 +213,70 @@ export default function KenanganKelasPage() {
           <div className="bg-surface-container-lowest rounded-xl p-8 max-w-4xl w-full mx-4 shadow-2xl max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
               <h3 className="font-headline text-[24px] leading-[1.4] font-semibold text-primary">
-                Pilih Foto dari Galeri
+                Pilih Foto
               </h3>
-              <button onClick={() => { setShowPicker(false); setSelectedPhotos(new Set()) }} className="p-2 hover:bg-surface-container rounded transition-colors">
+              <button onClick={() => { setShowPicker(false); setSelectedPhotos(new Set()); setSourceTab("gallery") }} className="p-2 hover:bg-surface-container rounded transition-colors">
                 <span className="material-symbols-outlined text-[24px]">close</span>
               </button>
             </div>
 
-            <div className="flex gap-3 mb-6 flex-wrap">
+            <div className="flex gap-3 mb-6">
               <button
-                onClick={() => setSelectedAlbum("all")}
-                className={`px-4 py-2 rounded-lg font-[600] text-[12px] leading-[1.2] tracking-[0.05em] transition-colors ${selectedAlbum === "all" ? "bg-primary text-on-primary" : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container"}`}
+                onClick={() => { setSourceTab("gallery"); setSelectedPhotos(new Set()); setSelectedAlbum("all") }}
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-[600] text-[12px] leading-[1.2] tracking-[0.05em] transition-colors ${sourceTab === "gallery" ? "bg-primary text-on-primary" : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container"}`}
               >
-                Semua Album
+                <span className="material-symbols-outlined text-[16px]">photo_library</span>
+                Dari Galeri
               </button>
-              {allGalleryItems.map((g) => (
-                <button
-                  key={g.id}
-                  onClick={() => setSelectedAlbum(g.id)}
-                  className={`px-4 py-2 rounded-lg font-[600] text-[12px] leading-[1.2] tracking-[0.05em] transition-colors ${selectedAlbum === g.id ? "bg-primary text-on-primary" : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container"}`}
-                >
-                  {g.title}
-                </button>
-              ))}
+              <button
+                onClick={() => { setSourceTab("students"); setSelectedPhotos(new Set()); setSelectedStudent("all") }}
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-[600] text-[12px] leading-[1.2] tracking-[0.05em] transition-colors ${sourceTab === "students" ? "bg-primary text-on-primary" : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container"}`}
+              >
+                <span className="material-symbols-outlined text-[16px]">group</span>
+                Dari Siswa
+              </button>
             </div>
 
+            {sourceTab === "gallery" ? (
+              <div className="flex gap-3 mb-6 flex-wrap">
+                <button
+                  onClick={() => setSelectedAlbum("all")}
+                  className={`px-4 py-2 rounded-lg font-[600] text-[12px] leading-[1.2] tracking-[0.05em] transition-colors ${selectedAlbum === "all" ? "bg-primary text-on-primary" : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container"}`}
+                >
+                  Semua Album
+                </button>
+                {allGalleryItems.map((g) => (
+                  <button
+                    key={g.id}
+                    onClick={() => setSelectedAlbum(g.id)}
+                    className={`px-4 py-2 rounded-lg font-[600] text-[12px] leading-[1.2] tracking-[0.05em] transition-colors ${selectedAlbum === g.id ? "bg-primary text-on-primary" : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container"}`}
+                  >
+                    {g.title}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <div className="flex gap-3 mb-6 flex-wrap">
+                <button
+                  onClick={() => setSelectedStudent("all")}
+                  className={`px-4 py-2 rounded-lg font-[600] text-[12px] leading-[1.2] tracking-[0.05em] transition-colors ${selectedStudent === "all" ? "bg-primary text-on-primary" : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container"}`}
+                >
+                  Semua Siswa
+                </button>
+                {allStudents.map((s) => (
+                  <button
+                    key={s.id}
+                    onClick={() => setSelectedStudent(s.id)}
+                    className={`px-4 py-2 rounded-lg font-[600] text-[12px] leading-[1.2] tracking-[0.05em] transition-colors ${selectedStudent === s.id ? "bg-primary text-on-primary" : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container"}`}
+                  >
+                    {s.name}
+                  </button>
+                ))}
+              </div>
+            )}
+
             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 mb-6">
-              {filteredPhotos.map((p) => (
+              {(sourceTab === "gallery" ? filteredPhotos : filteredStudentPhotos).map((p, pi) => (
                 <div
                   key={p.url}
                   onClick={() => togglePhoto(p.url)}
@@ -217,12 +289,19 @@ export default function KenanganKelasPage() {
                         <span className="material-symbols-outlined text-white text-3xl bg-secondary rounded-full p-1">check_circle</span>
                       </div>
                     )}
+                    {sourceTab === "students" && !selectedPhotos.has(p.url) && (
+                      <div className="absolute bottom-1 left-1 right-1">
+                        <p className="text-[9px] font-bold text-white bg-black/60 px-1.5 py-0.5 rounded truncate text-center">
+                          {(p as { studentName: string }).studentName}
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
-              {filteredPhotos.length === 0 && (
+              {(sourceTab === "gallery" ? filteredPhotos : filteredStudentPhotos).length === 0 && (
                 <p className="col-span-full text-center text-on-surface-variant py-12">
-                  Tidak ada foto di album ini.
+                  {sourceTab === "gallery" ? "Tidak ada foto di album ini." : "Tidak ada foto siswa."}
                 </p>
               )}
             </div>
@@ -233,7 +312,7 @@ export default function KenanganKelasPage() {
               </p>
               <div className="flex gap-3">
                 <button
-                  onClick={() => { setShowPicker(false); setSelectedPhotos(new Set()) }}
+                  onClick={() => { setShowPicker(false); setSelectedPhotos(new Set()); setSourceTab("gallery") }}
                   className="px-6 py-2 border border-outline-variant rounded-lg font-[600] text-[13px] leading-[1.2] tracking-[0.05em] hover:bg-surface-container transition-colors"
                 >
                   Batal

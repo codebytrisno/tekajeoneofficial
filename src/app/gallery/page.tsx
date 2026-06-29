@@ -50,15 +50,43 @@ export default function GalleryPage() {
     return item.coverImageUrl || item.imageUrl || ""
   }
 
+  const [lightboxIdx, setLightboxIdx] = useState(-1)
+
+  const goNext = () => {
+    if (!selectedAlbum) return
+    const photos = getPhotos(selectedAlbum)
+    setLightboxIdx((prev) => (prev + 1) % photos.length)
+  }
+
+  const goPrev = () => {
+    if (!selectedAlbum) return
+    const photos = getPhotos(selectedAlbum)
+    setLightboxIdx((prev) => (prev - 1 + photos.length) % photos.length)
+  }
+
+  useEffect(() => {
+    if (lightboxIdx < 0 || !selectedAlbum) return
+    const photos = getPhotos(selectedAlbum)
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight") setLightboxIdx((prev) => (prev + 1) % photos.length)
+      else if (e.key === "ArrowLeft") setLightboxIdx((prev) => (prev - 1 + photos.length) % photos.length)
+      else if (e.key === "Escape") setLightboxIdx(-1)
+    }
+    window.addEventListener("keydown", handler)
+    return () => window.removeEventListener("keydown", handler)
+  }, [lightboxIdx, selectedAlbum])
+
   if (selectedAlbum) {
     const albumPhotos = getPhotos(selectedAlbum)
+    const lightboxUrl = lightboxIdx >= 0 ? albumPhotos[lightboxIdx] : null
+
     return (
       <>
         <Navbar />
         <div className="fixed inset-0 paper-texture opacity-10 z-[100] pointer-events-none" />
         <main className="max-w-[1200px] mx-auto px-6 py-20">
           <button
-            onClick={() => { setSelectedAlbum(null); setLightbox(null) }}
+            onClick={() => { setSelectedAlbum(null); setLightboxIdx(-1) }}
             className="flex items-center gap-2 text-primary hover:text-secondary transition-colors mb-8 font-[600] text-[14px]"
           >
             <span className="material-symbols-outlined">arrow_back</span>
@@ -82,7 +110,7 @@ export default function GalleryPage() {
                 <div
                   key={url}
                   className="gallery-item group cursor-pointer"
-                  onClick={() => setLightbox({ img: url, title: selectedAlbum.title, meta: `${i + 1} / ${albumPhotos.length}` })}
+                  onClick={() => setLightboxIdx(i)}
                 >
                   <div className="polaroid-border bg-white p-2 transition-transform duration-500 group-hover:-rotate-1 group-hover:scale-[1.02]">
                     <div className={`relative overflow-hidden ${aspects[i % aspects.length]}`}>
@@ -98,20 +126,32 @@ export default function GalleryPage() {
           )}
         </main>
 
-        {lightbox && (
-          <div className="fixed inset-0 z-[200] bg-primary/95 flex items-center justify-center p-8 backdrop-blur-xl" onClick={() => setLightbox(null)}>
-            <button className="absolute top-8 right-8 text-white hover:text-secondary transition-colors" onClick={() => setLightbox(null)}>
+        {lightboxUrl && (
+          <div className="fixed inset-0 z-[200] bg-primary/95 flex items-center justify-center p-8 backdrop-blur-xl" onClick={() => setLightboxIdx(-1)}>
+            <button className="absolute top-8 right-8 text-white hover:text-secondary transition-colors z-10" onClick={() => setLightboxIdx(-1)}>
               <span className="material-symbols-outlined text-4xl">close</span>
+            </button>
+            <button
+              onClick={(e) => { e.stopPropagation(); goPrev() }}
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-white bg-black/20 hover:bg-black/40 p-3 rounded-full transition-all z-10"
+            >
+              <span className="material-symbols-outlined text-4xl">chevron_left</span>
+            </button>
+            <button
+              onClick={(e) => { e.stopPropagation(); goNext() }}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-white bg-black/20 hover:bg-black/40 p-3 rounded-full transition-all z-10"
+            >
+              <span className="material-symbols-outlined text-4xl">chevron_right</span>
             </button>
             <div className="max-w-4xl w-full flex flex-col items-center" onClick={(e) => e.stopPropagation()}>
               <img
                 className="max-h-[80vh] object-contain mb-8 rounded-lg shadow-2xl border-4 border-white/10"
-                src={optimizeCld(lightbox.img, 1200)}
-                alt={lightbox.title}
+                src={optimizeCld(lightboxUrl, 1200)}
+                alt={selectedAlbum.title}
               />
               <div className="text-center">
-                <h3 className="font-headline text-[32px] leading-[1.3] font-semibold text-white mb-2">{lightbox.title}</h3>
-                <p className="font-body text-[16px] leading-[1.6] text-on-primary-container">{lightbox.meta}</p>
+                <h3 className="font-headline text-[32px] leading-[1.3] font-semibold text-white mb-2">{selectedAlbum.title}</h3>
+                <p className="font-body text-[16px] leading-[1.6] text-on-primary-container">{lightboxIdx + 1} / {albumPhotos.length}</p>
               </div>
             </div>
           </div>
@@ -142,7 +182,7 @@ export default function GalleryPage() {
         </section>
 
         {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {Array.from({ length: 6 }).map((_, i) => (
               <SkeletonCard key={i} />
             ))}
@@ -150,7 +190,7 @@ export default function GalleryPage() {
         ) : items.length === 0 ? (
           <p className="text-center text-on-surface-variant font-body">Belum ada album galeri.</p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {items.map((item) => {
               const photoCount = getPhotos(item).length
               return (
@@ -170,9 +210,9 @@ export default function GalleryPage() {
                         {photoCount}
                       </div>
                     </div>
-                    <div className="pt-4 pb-2 px-2 text-center">
-                      <p className="font-headline text-[22px] leading-[1.4] font-semibold text-primary">{item.title}</p>
-                      <p className="font-[600] text-[13px] leading-[1.2] tracking-[0.05em] text-secondary italic">
+                    <div className="pt-3 pb-1 px-1 text-center">
+                      <p className="font-headline text-[16px] leading-[1.3] font-semibold text-primary">{item.title}</p>
+                      <p className="font-[600] text-[12px] leading-[1.2] tracking-[0.05em] text-secondary italic mt-0.5">
                         {item.date}
                       </p>
                     </div>

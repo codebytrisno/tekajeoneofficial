@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { Skeleton, SkeletonCard } from "@/components/Skeleton"
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore"
 import { db } from "@/lib/firebase"
@@ -21,6 +21,7 @@ export default function StudentsPage() {
   const [selected, setSelected] = useState<Student | null>(null)
   const [lightbox, setLightbox] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("asc")
 
   useEffect(() => {
     const q = query(collection(db, "students"), orderBy("createdAt", "desc"))
@@ -31,11 +32,17 @@ export default function StudentsPage() {
     return unsub
   }, [])
 
-  const filtered = students.filter(
-    (s) =>
-      s.name.toLowerCase().includes(search.toLowerCase()) ||
-      s.quote.toLowerCase().includes(search.toLowerCase())
-  )
+  const filtered = useMemo(() => {
+    const f = students.filter(
+      (s) =>
+        s.name.toLowerCase().includes(search.toLowerCase()) ||
+        s.quote.toLowerCase().includes(search.toLowerCase())
+    )
+    return [...f].sort((a, b) => {
+      const cmp = a.name.localeCompare(b.name)
+      return sortDir === "asc" ? cmp : -cmp
+    })
+  }, [students, search, sortDir])
 
   const getPhotos = (s: Student): string[] => s.photos || []
 
@@ -62,6 +69,14 @@ export default function StudentsPage() {
               />
               <span className="material-symbols-outlined absolute right-4 top-3.5 text-outline">search</span>
             </div>
+            <button
+              onClick={() => setSortDir((d) => (d === "asc" ? "desc" : "asc"))}
+              className="flex items-center gap-1.5 px-4 py-3 border border-outline-variant rounded-lg text-on-surface-variant hover:text-primary hover:border-primary transition-colors font-[600] text-[13px] leading-[1.2] tracking-[0.05em]"
+              title="Sort by name"
+            >
+              <span className="material-symbols-outlined text-[18px]">sort_by_alpha</span>
+              {sortDir === "asc" ? "A-Z" : "Z-A"}
+            </button>
           </div>
         </div>
 
@@ -121,28 +136,28 @@ export default function StudentsPage() {
             ) : (
               filtered.map((student) => (
                 <div key={student.id} className="student-card group cursor-pointer" onClick={() => setSelected(student)}>
-                  <div className="polaroid-frame transition-all duration-500">
-                    <div className="overflow-hidden rounded-lg">
-                      <img
-                        className="w-full aspect-square object-cover transition-transform duration-500 group-hover:scale-105"
-                        src={optimizeCld(student.photo, 400)}
-                        alt={student.name}
-                      />
-                    </div>
-                    <div className="mt-6 text-center">
-                      <h3 className="font-headline text-[24px] leading-[1.4] font-semibold text-primary mb-2">
-                        {student.name}
-                      </h3>
-                      <p className="font-body text-[16px] leading-[1.6] italic text-on-surface-variant">
-                        &ldquo;{student.quote}&rdquo;
-                      </p>
-                      {getPhotos(student).length > 0 && (
-                        <p className="mt-2 text-[12px] font-[600] text-secondary">
-                          {getPhotos(student).length} foto
+                    <div className="polaroid-frame transition-all duration-500">
+                      <div className="overflow-hidden rounded-lg">
+                        <img
+                          className="w-full aspect-square object-cover transition-transform duration-500 group-hover:scale-105"
+                          src={optimizeCld(student.photo, 400)}
+                          alt={student.name}
+                        />
+                      </div>
+                      <div className="mt-4 text-center">
+                        <h3 className="font-headline text-[16px] leading-[1.3] font-semibold text-primary">
+                          {student.name}
+                        </h3>
+                        <p className="font-body text-[13px] leading-[1.5] italic text-on-surface-variant mt-1 line-clamp-2">
+                          &ldquo;{student.quote}&rdquo;
                         </p>
-                      )}
+                        {getPhotos(student).length > 0 && (
+                          <p className="mt-1.5 text-[11px] font-[600] text-secondary">
+                            {getPhotos(student).length} foto
+                          </p>
+                        )}
+                      </div>
                     </div>
-                  </div>
                 </div>
               ))
             )}

@@ -4,11 +4,13 @@ Website kenangan alumni TekajeOneOfficial Angkatan 2024/2025 — dibangun dengan
 
 ## Fitur
 
-- **Beranda** — Hero section dengan polaroid interaktif otomatis, kenangan kelas dalam marquee cards
-- **Galeri Kenangan Abadi** — Album foto multi-gambar dengan masonry grid dan lightbox
-- **Direktori Siswa** — Profil siswa dengan galeri foto pribadi
-- **Kenangan Kelas** — Arsip foto dan cerita kolektif dengan filter status Published/Draft
-- **Admin Panel** — CRUD untuk semua konten dengan upload Cloudinary
+- **Beranda** — Hero section dengan polaroid interaktif otomatis (real-time dari Firestore), kenangan kelas dalam marquee cards
+- **Galeri Kenangan Abadi** — Album foto multi-gambar dengan masonry grid 4 kolom, lightbox dengan navigasi prev/next & keyboard, EXIF date
+- **Direktori Siswa** — Profil siswa dengan galeri foto pribadi, grid 5 kolom, sort A-Z/Z-A
+- **Kenangan Kelas** — Arsip foto dan cerita kolektif dengan filter status Published/Draft, picker foto multi-source (Galeri + Siswa) dengan deduplikasi URL
+- **Kartu Home** — CRUD kartu foto dengan label untuk tampilan polaroid di beranda, photo picker multi-source, reorder
+- **Admin Panel** — CRUD untuk semua konten dengan upload Cloudinary, real-time via Firestore onSnapshot, loading skeleton, konfirmasi dialog & toast notifications
+- **Responsive Design** — Grid menyesuaikan kolom di setiap breakpoint, ukuran teks proporsional
 
 ## Tech Stack
 

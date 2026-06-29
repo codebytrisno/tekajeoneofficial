@@ -16,7 +16,6 @@ import { optimizeCld } from "@/lib/cloudinary"
 interface GalleryItem {
   id: string
   title: string
-  category: string
   date: string
   coverImageUrl?: string
   photos?: string[]
@@ -24,15 +23,12 @@ interface GalleryItem {
   createdAt: Timestamp
 }
 
-const categories = ["study-tour", "daily-class", "special-events"]
-
 export default function GaleriKenanganPage() {
   const [items, setItems] = useState<GalleryItem[]>([])
   const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
   const [editing, setEditing] = useState<GalleryItem | null>(null)
   const [title, setTitle] = useState("")
-  const [category, setCategory] = useState("daily-class")
   const [coverImageUrl, setCoverImageUrl] = useState("")
   const [date, setDate] = useState("")
   const [photos, setPhotos] = useState<string[]>([])
@@ -63,7 +59,6 @@ export default function GaleriKenanganPage() {
 
   const resetForm = () => {
     setTitle("")
-    setCategory("daily-class")
     setCoverImageUrl("")
     setDate("")
     setPhotos([])
@@ -79,7 +74,6 @@ export default function GaleriKenanganPage() {
   const openEdit = (item: GalleryItem) => {
     setEditing(item)
     setTitle(item.title)
-    setCategory(item.category)
     setCoverImageUrl(item.coverImageUrl || item.imageUrl || "")
     setDate(toInputDate(item.date))
     setPhotos(item.photos || (item.imageUrl ? [item.imageUrl] : []))
@@ -90,7 +84,6 @@ export default function GaleriKenanganPage() {
     if (!title || !coverImageUrl) return
     const data = {
       title,
-      category,
       date: date ? toDisplayDate(date) : new Date().toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" }),
       coverImageUrl,
       photos,
@@ -160,7 +153,6 @@ export default function GaleriKenanganPage() {
               <tr className="bg-surface-container-low/30 border-b border-outline-variant/10 text-on-surface-variant font-[600] text-[13px] leading-[1.2] tracking-[0.05em] uppercase tracking-wider">
                 <th className="px-6 py-4 font-semibold">Sampul</th>
                 <th className="px-6 py-4 font-semibold">Judul</th>
-                <th className="px-6 py-4 font-semibold">Kategori</th>
                 <th className="px-6 py-4 font-semibold">Foto</th>
                 <th className="px-6 py-4 font-semibold">Tanggal</th>
                 <th className="px-6 py-4 font-semibold text-right">Aksi</th>
@@ -169,9 +161,9 @@ export default function GaleriKenanganPage() {
             <tbody className="divide-y divide-outline-variant/10 font-body text-[16px] leading-[1.6]">
               {loading && (
                 <>
-                  <SkeletonTableRow cols={6} />
-                  <SkeletonTableRow cols={6} />
-                  <SkeletonTableRow cols={6} />
+                  <SkeletonTableRow cols={5} />
+                  <SkeletonTableRow cols={5} />
+                  <SkeletonTableRow cols={5} />
                 </>
               )}
               {items.map((item) => (
@@ -182,11 +174,6 @@ export default function GaleriKenanganPage() {
                     </div>
                   </td>
                   <td className="px-6 py-4 font-bold text-primary">{item.title}</td>
-                  <td className="px-6 py-4">
-                    <span className="px-3 py-1 text-[11px] font-bold rounded-full uppercase tracking-tight bg-secondary/10 text-secondary">
-                      {item.category}
-                    </span>
-                  </td>
                   <td className="px-6 py-4 text-on-surface-variant">
                     {getPhotoCount(item)} foto
                   </td>
@@ -205,7 +192,7 @@ export default function GaleriKenanganPage() {
               ))}
               {!loading && items.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-on-surface-variant">
+                  <td colSpan={5} className="px-6 py-12 text-center text-on-surface-variant">
                     Belum ada data galeri.
                   </td>
                 </tr>

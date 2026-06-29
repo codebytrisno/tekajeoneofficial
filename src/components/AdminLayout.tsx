@@ -7,6 +7,7 @@ import { useAuth } from "@/lib/auth"
 
 const navLinks = [
   { href: "/admin/dashboard", icon: "dashboard", label: "Dashboard" },
+  { href: "/admin/home-cards", icon: "style", label: "Kartu Home" },
   { href: "/admin/kenangan-kelas", icon: "auto_stories", label: "Kenangan Kelas" },
   { href: "/admin/direktori-siswa", icon: "group", label: "Direktori Siswa" },
   { href: "/admin/galeri-kenangan", icon: "auto_awesome_motion", label: "Galeri Kenangan" },

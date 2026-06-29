@@ -17,17 +17,32 @@ interface ClassMemory {
   createdAt: Timestamp
 }
 
-function PolaroidStack() {
-  const cards = [
-    { src: "/wadon.jpg", label: "7 Mei 2024" },
-    { src: "/wadon-2.jpg", label: "7 Mei 2024" },
-    { src: "/wadon-4.jpg", label: "Foto 3" },
-    { src: "/wadon4.jpg", label: "30 Sep 2024" },
-  ]
+interface HomeCard {
+  id: string
+  photoUrl: string
+  label: string
+  order: number
+  createdAt: Timestamp
+}
 
-  const [order, setOrder] = useState(cards.map((_, i) => i))
+function PolaroidStack() {
+  const [cards, setCards] = useState<HomeCard[]>([])
+  const [order, setOrder] = useState<number[]>([])
 
   useEffect(() => {
+    const unsub = onSnapshot(
+      query(collection(db, "homeCards"), orderBy("order", "asc")),
+      (snap) => {
+        const data = snap.docs.map((d) => ({ id: d.id, ...d.data() } as HomeCard))
+        setCards(data)
+        setOrder(data.map((_, i) => i))
+      },
+    )
+    return unsub
+  }, [])
+
+  useEffect(() => {
+    if (cards.length === 0) return
     const timer = setInterval(() => {
       setOrder((prev) => {
         const next = [...prev]
@@ -37,7 +52,15 @@ function PolaroidStack() {
       })
     }, 3000)
     return () => clearInterval(timer)
-  }, [])
+  }, [cards.length])
+
+  if (cards.length === 0) {
+    return (
+      <div className="relative w-full h-full flex items-center justify-center">
+        <p className="text-on-surface-variant text-sm">Belum ada kartu.</p>
+      </div>
+    )
+  }
 
   const positions = [
     { x: -12, y: -8, r: -6, s: 1 },
@@ -50,12 +73,13 @@ function PolaroidStack() {
     <div className="relative w-full h-full flex items-center justify-center">
       {order.map((cardIndex, i) => {
         const card = cards[cardIndex]
+        if (!card) return null
         const isFront = i === order.length - 1
-        const pos = positions[cardIndex] || { x: 0, y: 0, r: 0, s: 1 }
+        const pos = positions[i] || { x: 0, y: 0, r: 0, s: 1 }
 
         return (
           <div
-            key={cardIndex}
+            key={card.id}
             className="polaroid w-48 sm:w-56 md:w-72 select-none absolute"
             style={{
               zIndex: i,
@@ -67,7 +91,7 @@ function PolaroidStack() {
               <div className="aspect-square overflow-hidden">
                 <img
                   className="w-full h-full object-cover"
-                  src={card.src}
+                  src={optimizeCld(card.photoUrl, 400)}
                   alt={card.label}
                 />
               </div>

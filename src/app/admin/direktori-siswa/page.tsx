@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { Skeleton, SkeletonTableRow } from "@/components/Skeleton"
 import {
   collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, Timestamp, serverTimestamp, query, orderBy,
@@ -35,6 +35,31 @@ export default function DirektoriSiswaPage() {
   const [photos, setPhotos] = useState<string[]>([])
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null)
   const [toast, setToast] = useState({ open: false, message: "", type: "success" as "success" | "error" | "info" })
+  const [sortField, setSortField] = useState<"name" | "photos" | null>(null)
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("asc")
+
+  const sortedStudents = useMemo(() => {
+    if (!sortField) return students
+    const sorted = [...students].sort((a, b) => {
+      let cmp: number
+      if (sortField === "name") {
+        cmp = a.name.localeCompare(b.name)
+      } else {
+        cmp = (a.photos?.length ?? 0) - (b.photos?.length ?? 0)
+      }
+      return sortDir === "asc" ? cmp : -cmp
+    })
+    return sorted
+  }, [students, sortField, sortDir])
+
+  function toggleSort(field: "name" | "photos") {
+    if (sortField === field) {
+      setSortDir((d) => (d === "asc" ? "desc" : "asc"))
+    } else {
+      setSortField(field)
+      setSortDir("asc")
+    }
+  }
 
   useEffect(() => {
     const q = query(collection(db, "students"), orderBy("createdAt", "desc"))
@@ -157,16 +182,22 @@ export default function DirektoriSiswaPage() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-surface-container-low/30 border-b border-outline-variant/10 text-on-surface-variant font-[600] text-[13px] leading-[1.2] tracking-[0.05em] uppercase tracking-wider">
+                <th className="px-4 py-4 font-semibold w-12 text-center">#</th>
                 <th className="px-6 py-4 font-semibold">Foto</th>
-                <th className="px-6 py-4 font-semibold">Nama</th>
+                <th className="px-6 py-4 font-semibold cursor-pointer select-none hover:text-primary transition-colors" onClick={() => toggleSort("name")}>
+                  Nama {sortField === "name" ? (sortDir === "asc" ? "▲" : "▼") : "⇅"}
+                </th>
                 <th className="px-6 py-4 font-semibold">Quote</th>
-                <th className="px-6 py-4 font-semibold">Galeri</th>
+                <th className="px-6 py-4 font-semibold cursor-pointer select-none hover:text-primary transition-colors" onClick={() => toggleSort("photos")}>
+                  Galeri {sortField === "photos" ? (sortDir === "asc" ? "▲" : "▼") : "⇅"}
+                </th>
                 <th className="px-6 py-4 font-semibold text-right">Aksi</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-outline-variant/10 font-body text-[16px] leading-[1.6]">
-              {students.map((s) => (
+              {sortedStudents.map((s, i) => (
                 <tr key={s.id} className="hover:bg-surface-container-low/50 transition-colors group">
+                  <td className="px-4 py-4 text-center text-on-surface-variant text-sm">{i + 1}</td>
                   <td className="px-6 py-4">
                     <div className="w-12 h-12 rounded-full border border-outline-variant/20 overflow-hidden bg-surface-variant">
                       <img className="w-full h-full object-cover" src={optimizeCld(s.photo, 128)} alt="" />
@@ -187,9 +218,9 @@ export default function DirektoriSiswaPage() {
                   </td>
                 </tr>
               ))}
-              {!loading && students.length === 0 && (
+              {!loading && sortedStudents.length === 0 && (
                 <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center text-on-surface-variant">
+                  <td colSpan={6} className="px-6 py-12 text-center text-on-surface-variant">
                     Belum ada data siswa.
                   </td>
                 </tr>
@@ -198,7 +229,7 @@ export default function DirektoriSiswaPage() {
           </table>
         </div>
         <div className="p-4 bg-surface-container-low/30 border-t border-outline-variant/10 flex justify-between items-center text-on-surface-variant text-sm">
-          <p>Menampilkan {students.length} entri</p>
+          <p>Menampilkan {sortedStudents.length} entri</p>
         </div>
       </div>
 
