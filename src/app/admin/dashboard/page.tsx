@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import { collection, query, orderBy, onSnapshot, Timestamp } from "firebase/firestore"
 import { db } from "@/lib/firebase"
 import { useAuth } from "@/lib/auth"
+import { Skeleton, SkeletonTableRow } from "@/components/Skeleton"
 
 interface Activity {
   id: string
@@ -18,10 +19,11 @@ interface Activity {
 export default function AdminDashboard() {
   const { user, loading, logout } = useAuth()
   const router = useRouter()
-  const [totalKenangan, setTotalKenangan] = useState(0)
-  const [totalSiswa, setTotalSiswa] = useState(0)
-  const [totalGaleri, setTotalGaleri] = useState(0)
+  const [totalKenangan, setTotalKenangan] = useState<number | null>(null)
+  const [totalSiswa, setTotalSiswa] = useState<number | null>(null)
+  const [totalGaleri, setTotalGaleri] = useState<number | null>(null)
   const [activities, setActivities] = useState<Activity[]>([])
+  const [dataLoading, setDataLoading] = useState(true)
 
   useEffect(() => {
     if (!loading && !user) {
@@ -54,6 +56,7 @@ export default function AdminDashboard() {
     const q = query(collection(db, "activityLog"), orderBy("createdAt", "desc"))
     const unsub = onSnapshot(q, (snap) => {
       setActivities(snap.docs.map((d) => ({ id: d.id, ...d.data() } as Activity)))
+      setDataLoading(false)
     })
     return unsub
   }, [])
@@ -158,7 +161,7 @@ export default function AdminDashboard() {
               <div className="flex justify-between items-start">
                 <div>
                   <p className="font-[600] text-[13px] leading-[1.2] tracking-[0.05em] text-on-surface-variant">Kenangan Kelas</p>
-                  <h3 className="font-headline text-[48px] leading-[1.2] font-bold tracking-[-0.02em] text-primary mt-2 group-hover:scale-105 transition-transform origin-left">{totalKenangan}</h3>
+                  <h3 className="font-headline text-[48px] leading-[1.2] font-bold tracking-[-0.02em] text-primary mt-2 group-hover:scale-105 transition-transform origin-left">{totalKenangan ?? <Skeleton className="h-12 w-16 inline-block align-middle" />}</h3>
                 </div>
                 <span className="material-symbols-outlined text-secondary text-[32px] opacity-40">auto_stories</span>
               </div>
@@ -171,7 +174,7 @@ export default function AdminDashboard() {
               <div className="flex justify-between items-start">
                 <div>
                   <p className="font-[600] text-[13px] leading-[1.2] tracking-[0.05em] text-on-surface-variant">Total Siswa</p>
-                  <h3 className="font-headline text-[48px] leading-[1.2] font-bold tracking-[-0.02em] text-primary mt-2 group-hover:scale-105 transition-transform origin-left">{totalSiswa}</h3>
+                  <h3 className="font-headline text-[48px] leading-[1.2] font-bold tracking-[-0.02em] text-primary mt-2 group-hover:scale-105 transition-transform origin-left">{totalSiswa ?? <Skeleton className="h-12 w-16 inline-block align-middle" />}</h3>
                 </div>
                 <span className="material-symbols-outlined text-secondary text-[32px] opacity-40">group</span>
               </div>
@@ -184,7 +187,7 @@ export default function AdminDashboard() {
               <div className="flex justify-between items-start">
                 <div>
                   <p className="font-[600] text-[13px] leading-[1.2] tracking-[0.05em] text-on-surface-variant">Album Galeri</p>
-                  <h3 className="font-headline text-[48px] leading-[1.2] font-bold tracking-[-0.02em] text-primary mt-2 group-hover:scale-105 transition-transform origin-left">{totalGaleri}</h3>
+                  <h3 className="font-headline text-[48px] leading-[1.2] font-bold tracking-[-0.02em] text-primary mt-2 group-hover:scale-105 transition-transform origin-left">{totalGaleri ?? <Skeleton className="h-12 w-16 inline-block align-middle" />}</h3>
                 </div>
                 <span className="material-symbols-outlined text-secondary text-[32px] opacity-40">photo_library</span>
               </div>
@@ -211,6 +214,14 @@ export default function AdminDashboard() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-outline-variant/10 font-body text-[16px] leading-[1.6]">
+                  {dataLoading && (
+                    <>
+                      <SkeletonTableRow cols={4} />
+                      <SkeletonTableRow cols={4} />
+                      <SkeletonTableRow cols={4} />
+                      <SkeletonTableRow cols={4} />
+                    </>
+                  )}
                   {activities.map((a) => {
                     const isAdd = a.type === "add"
                     const colLabel =
@@ -232,7 +243,7 @@ export default function AdminDashboard() {
                       </tr>
                     )
                   })}
-                  {activities.length === 0 && (
+                  {!dataLoading && activities.length === 0 && (
                     <tr>
                       <td colSpan={4} className="px-6 py-12 text-center text-on-surface-variant">
                         Belum ada aktivitas.

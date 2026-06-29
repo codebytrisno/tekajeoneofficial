@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { Skeleton, SkeletonCard } from "@/components/Skeleton"
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore"
 import { db } from "@/lib/firebase"
 import Navbar from "@/components/Navbar"
@@ -28,11 +29,13 @@ export default function GalleryPage() {
   const [items, setItems] = useState<GalleryItem[]>([])
   const [selectedAlbum, setSelectedAlbum] = useState<GalleryItem | null>(null)
   const [lightbox, setLightbox] = useState<LightboxData | null>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const q = query(collection(db, "galleryItems"), orderBy("createdAt", "desc"))
     const unsub = onSnapshot(q, (snap) => {
       setItems(snap.docs.map((d) => ({ id: d.id, ...d.data() } as GalleryItem)))
+      setLoading(false)
     })
     return unsub
   }, [])
@@ -138,7 +141,13 @@ export default function GalleryPage() {
           </p>
         </section>
 
-        {items.length === 0 ? (
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <SkeletonCard key={i} />
+            ))}
+          </div>
+        ) : items.length === 0 ? (
           <p className="text-center text-on-surface-variant font-body">Belum ada album galeri.</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">

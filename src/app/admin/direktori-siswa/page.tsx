@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { Skeleton, SkeletonTableRow } from "@/components/Skeleton"
 import {
   collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, Timestamp, serverTimestamp, query, orderBy,
 } from "firebase/firestore"
@@ -24,6 +25,7 @@ interface Student {
 
 export default function DirektoriSiswaPage() {
   const [students, setStudents] = useState<Student[]>([])
+  const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
   const [editing, setEditing] = useState<Student | null>(null)
   const [name, setName] = useState("")
@@ -38,6 +40,7 @@ export default function DirektoriSiswaPage() {
     const q = query(collection(db, "students"), orderBy("createdAt", "desc"))
     const unsub = onSnapshot(q, (snap) => {
       setStudents(snap.docs.map((d) => ({ id: d.id, ...d.data() } as Student)))
+      setLoading(false)
     })
     return unsub
   }, [])
@@ -179,7 +182,7 @@ export default function DirektoriSiswaPage() {
                   </td>
                 </tr>
               ))}
-              {students.length === 0 && (
+              {!loading && students.length === 0 && (
                 <tr>
                   <td colSpan={5} className="px-6 py-12 text-center text-on-surface-variant">
                     Belum ada data siswa.

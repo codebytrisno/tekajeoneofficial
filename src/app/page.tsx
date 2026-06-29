@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { Skeleton } from "@/components/Skeleton"
 import { collection, query, orderBy, onSnapshot, Timestamp } from "firebase/firestore"
 import { db } from "@/lib/firebase"
 import Navbar from "@/components/Navbar"
@@ -85,12 +86,14 @@ function PolaroidStack() {
 
 export default function HomePage() {
   const [classMemories, setClassMemories] = useState<ClassMemory[]>([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const unsub = onSnapshot(
       query(collection(db, "classMemories"), orderBy("createdAt", "desc")),
       (snap) => {
         setClassMemories(snap.docs.map((d) => ({ id: d.id, ...d.data() } as ClassMemory)))
+        setLoading(false)
       },
     )
     return unsub
@@ -168,7 +171,21 @@ export default function HomePage() {
           </div>
         </div>
         <div className="max-w-[1200px] mx-auto px-6">
-          {classMemories.length === 0 ? (
+          {loading ? (
+            <div className="flex gap-8 overflow-hidden">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="flex-none w-80 md:w-96">
+                  <div className="bg-white rounded-xl overflow-hidden">
+                    <Skeleton className="h-64 rounded-none" />
+                    <div className="p-6 space-y-3">
+                      <Skeleton className="h-6 w-3/4" />
+                      <Skeleton className="h-4 w-1/2" />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : classMemories.length === 0 ? (
             <p className="font-body text-on-surface-variant text-center">Belum ada kenangan.</p>
           ) : (
             <div className="cards-marquee-container overflow-hidden w-full relative">

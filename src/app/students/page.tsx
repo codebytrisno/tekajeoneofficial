@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { Skeleton, SkeletonCard } from "@/components/Skeleton"
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore"
 import { db } from "@/lib/firebase"
 import Navbar from "@/components/Navbar"
@@ -19,11 +20,13 @@ export default function StudentsPage() {
   const [search, setSearch] = useState("")
   const [selected, setSelected] = useState<Student | null>(null)
   const [lightbox, setLightbox] = useState<string | null>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const q = query(collection(db, "students"), orderBy("createdAt", "desc"))
     const unsub = onSnapshot(q, (snap) => {
       setStudents(snap.docs.map((d) => ({ id: d.id, ...d.data() } as Student)))
+      setLoading(false)
     })
     return unsub
   }, [])
@@ -107,7 +110,13 @@ export default function StudentsPage() {
           </section>
         ) : (
           <div className="bento-grid">
-            {filtered.length === 0 ? (
+            {loading ? (
+              <div className="bento-grid">
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <SkeletonCard key={i} />
+                ))}
+              </div>
+            ) : filtered.length === 0 ? (
               <p className="font-body text-on-surface-variant col-span-full text-center">Belum ada data siswa.</p>
             ) : (
               filtered.map((student) => (

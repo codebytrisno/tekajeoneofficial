@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { Skeleton } from "@/components/Skeleton"
 import {
   collection, addDoc, deleteDoc, doc, query, orderBy, onSnapshot, Timestamp, serverTimestamp,
 } from "firebase/firestore"
@@ -22,6 +23,7 @@ interface ClassMemory {
 
 export default function KenanganKelasPage() {
   const [memories, setMemories] = useState<ClassMemory[]>([])
+  const [loading, setLoading] = useState(true)
   const [allGalleryItems, setAllGalleryItems] = useState<{
     id: string
     title: string
@@ -41,6 +43,7 @@ export default function KenanganKelasPage() {
       query(collection(db, "classMemories"), orderBy("createdAt", "desc")),
       (snap) => {
         setMemories(snap.docs.map((d) => ({ id: d.id, ...d.data() } as ClassMemory)))
+        setLoading(false)
       },
     )
     return unsub
@@ -127,7 +130,15 @@ export default function KenanganKelasPage() {
         <h3 className="font-headline text-[20px] leading-[1.4] font-semibold text-primary mb-4">
           Foto Kenangan ({memories.length})
         </h3>
-        {memories.length === 0 ? (
+        {loading ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div key={i} className="aspect-square rounded-xl overflow-hidden">
+                <Skeleton className="w-full h-full rounded-none" />
+              </div>
+            ))}
+          </div>
+        ) : memories.length === 0 ? (
           <div className="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-12 text-center text-on-surface-variant">
             <span className="material-symbols-outlined text-5xl mb-3 block">photo_library</span>
             <p>Belum ada foto kenangan. Klik "Tambah dari Galeri" untuk memilih foto.</p>

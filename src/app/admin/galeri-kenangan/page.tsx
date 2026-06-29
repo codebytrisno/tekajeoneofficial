@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { Skeleton, SkeletonTableRow } from "@/components/Skeleton"
 import {
   collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, Timestamp, serverTimestamp, query, orderBy,
 } from "firebase/firestore"
@@ -27,6 +28,7 @@ const categories = ["study-tour", "daily-class", "special-events"]
 
 export default function GaleriKenanganPage() {
   const [items, setItems] = useState<GalleryItem[]>([])
+  const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
   const [editing, setEditing] = useState<GalleryItem | null>(null)
   const [title, setTitle] = useState("")
@@ -41,6 +43,7 @@ export default function GaleriKenanganPage() {
     const q = query(collection(db, "galleryItems"), orderBy("createdAt", "desc"))
     const unsub = onSnapshot(q, (snap) => {
       setItems(snap.docs.map((d) => ({ id: d.id, ...d.data() } as GalleryItem)))
+      setLoading(false)
     })
     return unsub
   }, [])
@@ -164,6 +167,13 @@ export default function GaleriKenanganPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-outline-variant/10 font-body text-[16px] leading-[1.6]">
+              {loading && (
+                <>
+                  <SkeletonTableRow cols={6} />
+                  <SkeletonTableRow cols={6} />
+                  <SkeletonTableRow cols={6} />
+                </>
+              )}
               {items.map((item) => (
                 <tr key={item.id} className="hover:bg-surface-container-low/50 transition-colors group">
                   <td className="px-6 py-4">
@@ -193,7 +203,7 @@ export default function GaleriKenanganPage() {
                   </td>
                 </tr>
               ))}
-              {items.length === 0 && (
+              {!loading && items.length === 0 && (
                 <tr>
                   <td colSpan={6} className="px-6 py-12 text-center text-on-surface-variant">
                     Belum ada data galeri.
