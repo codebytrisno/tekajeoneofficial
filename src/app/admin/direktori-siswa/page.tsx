@@ -211,29 +211,37 @@ export default function DirektoriSiswaPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-outline-variant/10 font-body text-[16px] leading-[1.6]">
-              {sortedStudents.map((s, i) => (
-                <tr key={s.id} className="hover:bg-surface-container-low/50 transition-colors group">
-                  <td className="px-4 py-4 text-center text-on-surface-variant text-sm">{i + 1}</td>
-                  <td className="px-6 py-4">
-                    <div className="w-12 h-12 rounded-full border border-outline-variant/20 overflow-hidden bg-surface-variant">
-                      <img className="w-full h-full object-cover" src={optimizeCld(s.photo, 128)} alt="" />
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 font-bold text-primary">{s.name}</td>
-                  <td className="px-6 py-4 text-sm text-on-surface-variant italic max-w-xs truncate">{s.quote}</td>
-                  <td className="px-6 py-4 text-on-surface-variant">{getPhotoCount(s)} foto</td>
-                  <td className="px-6 py-4 text-right">
-                    <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button onClick={() => openEdit(s)} className="p-2 hover:bg-secondary/10 text-secondary rounded transition-colors" title="Edit">
-                        <span className="material-symbols-outlined text-[20px]">edit</span>
-                      </button>
-                      <button onClick={() => setConfirmDelete(s.id)} className="p-2 hover:bg-error/10 text-error rounded transition-colors" title="Delete">
-                        <span className="material-symbols-outlined text-[20px]">delete</span>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+              {loading ? (
+                <>
+                  <SkeletonTableRow cols={6} />
+                  <SkeletonTableRow cols={6} />
+                  <SkeletonTableRow cols={6} />
+                </>
+              ) : (
+                sortedStudents.map((s, i) => (
+                  <tr key={s.id} className="hover:bg-surface-container-low/50 transition-colors group">
+                    <td className="px-4 py-4 text-center text-on-surface-variant text-sm">{i + 1}</td>
+                    <td className="px-6 py-4">
+                      <div className="w-12 h-12 rounded-full border border-outline-variant/20 overflow-hidden bg-surface-variant">
+                        <img className="w-full h-full object-cover" src={optimizeCld(s.photo, 128)} alt="" />
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 font-bold text-primary">{s.name}</td>
+                    <td className="px-6 py-4 text-sm text-on-surface-variant italic max-w-xs truncate">{s.quote}</td>
+                    <td className="px-6 py-4 text-on-surface-variant">{getPhotoCount(s)} foto</td>
+                    <td className="px-6 py-4 text-right">
+                      <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button onClick={() => openEdit(s)} className="p-2 hover:bg-secondary/10 text-secondary rounded transition-colors" title="Edit">
+                          <span className="material-symbols-outlined text-[20px]">edit</span>
+                        </button>
+                        <button onClick={() => setConfirmDelete(s.id)} className="p-2 hover:bg-error/10 text-error rounded transition-colors" title="Delete">
+                          <span className="material-symbols-outlined text-[20px]">delete</span>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
               {!loading && sortedStudents.length === 0 && (
                 <tr>
                   <td colSpan={6} className="px-6 py-12 text-center text-on-surface-variant">

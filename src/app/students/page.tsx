@@ -19,7 +19,7 @@ export default function StudentsPage() {
   const [students, setStudents] = useState<Student[]>([])
   const [search, setSearch] = useState("")
   const [selected, setSelected] = useState<Student | null>(null)
-  const [lightbox, setLightbox] = useState<string | null>(null)
+  const [lightboxIdx, setLightboxIdx] = useState(-1)
   const [loading, setLoading] = useState(true)
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc")
 
@@ -45,6 +45,18 @@ export default function StudentsPage() {
   }, [students, search, sortDir])
 
   const getPhotos = (s: Student): string[] => s.photos || []
+
+  useEffect(() => {
+    if (lightboxIdx < 0 || !selected) return
+    const photos = getPhotos(selected)
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight") setLightboxIdx((prev) => (prev + 1) % photos.length)
+      else if (e.key === "ArrowLeft") setLightboxIdx((prev) => (prev - 1 + photos.length) % photos.length)
+      else if (e.key === "Escape") setLightboxIdx(-1)
+    }
+    window.addEventListener("keydown", handler)
+    return () => window.removeEventListener("keydown", handler)
+  }, [lightboxIdx, selected])
 
   return (
     <>
@@ -83,7 +95,7 @@ export default function StudentsPage() {
         {selected ? (
           <section>
             <button
-              onClick={() => { setSelected(null); setLightbox(null) }}
+              onClick={() => { setSelected(null); setLightboxIdx(-1) }}
               className="flex items-center gap-2 text-primary hover:text-secondary transition-colors mb-8 font-[600] text-[14px]"
             >
               <span className="material-symbols-outlined">arrow_back</span>
@@ -115,7 +127,7 @@ export default function StudentsPage() {
                   <div
                     key={url}
                     className="group cursor-pointer aspect-square rounded-xl overflow-hidden border border-outline-variant/10 bg-surface-variant shadow-sm hover:shadow-lg transition-all"
-                    onClick={() => setLightbox(url)}
+                    onClick={() => setLightboxIdx(i)}
                   >
                     <img className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src={optimizeCld(url, 400)} alt={`${selected.name} - ${i + 1}`} />
                   </div>
@@ -165,16 +177,38 @@ export default function StudentsPage() {
         )}
       </main>
 
-      {lightbox && (
-        <div className="fixed inset-0 z-[200] bg-primary/95 flex items-center justify-center p-8 backdrop-blur-xl" onClick={() => setLightbox(null)}>
-          <button className="absolute top-8 right-8 text-white hover:text-secondary transition-colors" onClick={() => setLightbox(null)}>
-            <span className="material-symbols-outlined text-4xl">close</span>
-          </button>
-          <div className="max-w-5xl w-full" onClick={(e) => e.stopPropagation()}>
-            <img className="max-h-[85vh] w-full object-contain rounded-lg shadow-2xl" src={optimizeCld(lightbox, 1200)} alt="" />
+      {selected && lightboxIdx >= 0 && (() => {
+        const photos = getPhotos(selected)
+        const url = photos[lightboxIdx]
+        if (!url) return null
+
+        const goNext = () => setLightboxIdx((prev) => (prev + 1) % photos.length)
+        const goPrev = () => setLightboxIdx((prev) => (prev - 1 + photos.length) % photos.length)
+
+        return (
+          <div className="fixed inset-0 z-[200] bg-primary/95 flex items-center justify-center p-8 backdrop-blur-xl" onClick={() => setLightboxIdx(-1)}>
+            <button className="absolute top-8 right-8 text-white hover:text-secondary transition-colors z-10" onClick={() => setLightboxIdx(-1)}>
+              <span className="material-symbols-outlined text-4xl">close</span>
+            </button>
+            <button
+              onClick={(e) => { e.stopPropagation(); goPrev() }}
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-white bg-black/20 hover:bg-black/40 p-3 rounded-full transition-all z-10"
+            >
+              <span className="material-symbols-outlined text-4xl">chevron_left</span>
+            </button>
+            <button
+              onClick={(e) => { e.stopPropagation(); goNext() }}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-white bg-black/20 hover:bg-black/40 p-3 rounded-full transition-all z-10"
+            >
+              <span className="material-symbols-outlined text-4xl">chevron_right</span>
+            </button>
+            <div className="max-w-5xl w-full flex flex-col items-center" onClick={(e) => e.stopPropagation()}>
+              <img className="max-h-[80vh] w-full object-contain rounded-lg shadow-2xl border-4 border-white/10 mb-4" src={optimizeCld(url, 1200)} alt={`${selected.name} - ${lightboxIdx + 1}`} />
+              <p className="font-body text-[16px] leading-[1.6] text-on-primary-container">{lightboxIdx + 1} / {photos.length}</p>
+            </div>
           </div>
-        </div>
-      )}
+        )
+      })()}
 
       <footer className="w-full mt-20 bg-surface-container border-t border-outline-variant">
         <div className="flex flex-col md:flex-row justify-between items-center gap-2 px-6 py-10 max-w-[1200px] mx-auto">

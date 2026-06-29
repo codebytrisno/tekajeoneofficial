@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { Skeleton } from "@/components/Skeleton"
 import {
   collection, addDoc, updateDoc, deleteDoc, doc, query, orderBy, onSnapshot, Timestamp, serverTimestamp,
 } from "firebase/firestore"
@@ -172,7 +173,21 @@ export default function HomeCardsPage() {
 
       <div className="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
         {loading ? (
-          <div className="p-12 text-center text-on-surface-variant">Loading...</div>
+          <div className="divide-y divide-outline-variant/10">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="flex items-center gap-4 px-6 py-4">
+                <div className="flex flex-col gap-0.5">
+                  <Skeleton className="w-4 h-4 rounded" />
+                  <Skeleton className="w-4 h-4 rounded" />
+                </div>
+                <Skeleton className="w-20 h-20 rounded-lg flex-shrink-0" />
+                <div className="flex-1 space-y-2">
+                  <Skeleton className="h-5 w-3/4" />
+                  <Skeleton className="h-4 w-1/2" />
+                </div>
+              </div>
+            ))}
+          </div>
         ) : cards.length === 0 ? (
           <div className="p-12 text-center text-on-surface-variant">
             <span className="material-symbols-outlined text-5xl mb-3 block">style</span>
