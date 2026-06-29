@@ -26,9 +26,6 @@ interface Student {
 export default function DirektoriSiswaPage() {
   const [students, setStudents] = useState<Student[]>([])
   const [loading, setLoading] = useState(true)
-  const [allGalleryItems, setAllGalleryItems] = useState<{ id: string; title?: string; photos?: string[]; imageUrl?: string }[]>([])
-  const [showPhotoPicker, setShowPhotoPicker] = useState(false)
-  const [pickerAlbum, setPickerAlbum] = useState<string | "all">("all")
   const [showModal, setShowModal] = useState(false)
   const [editing, setEditing] = useState<Student | null>(null)
   const [name, setName] = useState("")
@@ -48,16 +45,7 @@ export default function DirektoriSiswaPage() {
     return unsub
   }, [])
 
-  useEffect(() => {
-    const q = query(collection(db, "galleryItems"), orderBy("createdAt", "desc"))
-    const unsub = onSnapshot(q, (snap) => {
-      setAllGalleryItems(snap.docs.map((d) => ({ id: d.id, ...d.data() } as { id: string; title?: string; photos?: string[]; imageUrl?: string })))
-    })
-    return unsub
-  }, [])
 
-  const pickerAllPhotos = allGalleryItems.flatMap((g) => g.photos || (g.imageUrl ? [g.imageUrl] : []))
-  const pickerFiltered = pickerAlbum === "all" ? pickerAllPhotos : allGalleryItems.find((g) => g.id === pickerAlbum)?.photos || []
 
   function toInputDate(dateStr?: string) {
     if (!dateStr) return ""
@@ -134,10 +122,13 @@ export default function DirektoriSiswaPage() {
   }
 
   const removePhoto = (url: string) => {
-    setPhotos(photos.filter((p) => p !== url))
-    if (photo === url) {
-      setPhoto(photos.find((p) => p !== url) || "")
-    }
+    setPhotos((prev) => {
+      const next = prev.filter((p) => p !== url)
+      if (photo === url) {
+        setPhoto(next[0] || "")
+      }
+      return next
+    })
   }
 
   const getPhotoCount = (s: Student) => {
@@ -258,7 +249,6 @@ export default function DirektoriSiswaPage() {
               </div>
               <div>
                 <label className="block font-[600] text-[13px] leading-[1.2] tracking-[0.05em] text-primary mb-1">Foto Profil</label>
-                <div className="flex gap-3">
                   <CldUploadWidget
                     uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!}
                     onSuccess={(result: any) => {
@@ -266,7 +256,7 @@ export default function DirektoriSiswaPage() {
                     }}
                   >
                     {({ open }) => (
-                      <button type="button" onClick={() => open()} className="flex-1 border-2 border-dashed border-outline-variant rounded-lg py-6 px-4 text-center hover:bg-surface-container-low transition-colors group">
+                      <button type="button" onClick={() => open()} className="w-full border-2 border-dashed border-outline-variant rounded-lg py-6 px-4 text-center hover:bg-surface-container-low transition-colors group">
                         {photo ? (
                           <div className="space-y-2">
                             <img src={optimizeCld(photo, 200)} alt="Preview" className="w-20 h-20 object-cover rounded-full mx-auto" />
@@ -278,33 +268,33 @@ export default function DirektoriSiswaPage() {
                       </button>
                     )}
                   </CldUploadWidget>
-                  <button
-                    type="button"
-                    onClick={() => setShowPhotoPicker(true)}
-                    className="flex-1 border-2 border-dashed border-outline-variant rounded-lg py-6 px-4 text-center hover:bg-surface-container-low transition-colors group"
-                  >
-                    <span className="material-symbols-outlined text-3xl text-on-surface-variant group-hover:text-primary transition-colors">photo_library</span>
-                    <p className="text-sm text-on-surface-variant mt-2">Pilih dari Galeri</p>
-                  </button>
-                </div>
               </div>
 
               <div>
                 <label className="block font-[600] text-[13px] leading-[1.2] tracking-[0.05em] text-primary mb-1">Galeri Foto</label>
+                {photos.length > 0 && (
+                  <p className="text-[11px] text-on-surface-variant mb-2">Klik foto untuk dijadikan foto profil</p>
+                )}
                 <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 mb-3">
                   {photos.map((url, i) => (
-                    <div key={url} className="relative group/photo aspect-square rounded-lg overflow-hidden border border-outline-variant/20 bg-surface-variant">
-                      <img className="w-full h-full object-cover" src={optimizeCld(url, 200)} alt={`Foto ${i + 1}`} />
-                      <div className="absolute inset-0 bg-black/0 group-hover/photo:bg-black/40 transition-colors flex items-center justify-center">
-                        <button
-                          type="button"
-                          onClick={() => removePhoto(url)}
-                          className="p-1 rounded-full bg-white/80 text-error hover:bg-white transition-all opacity-0 group-hover/photo:opacity-100"
-                          title="Hapus foto"
-                        >
-                          <span className="material-symbols-outlined text-[16px]">close</span>
-                        </button>
+                    <div key={url} className="relative group/aspect-square rounded-lg overflow-hidden border border-outline-variant/20 bg-surface-variant">
+                      <div
+                        onClick={() => setPhoto(url)}
+                        className="cursor-pointer"
+                      >
+                        <img className="w-full aspect-square object-cover" src={optimizeCld(url, 200)} alt={`Foto ${i + 1}`} />
                       </div>
+                      <button
+                        type="button"
+                        onClick={() => removePhoto(url)}
+                        className="absolute top-1 right-1 p-0.5 rounded-full bg-white/80 text-error hover:bg-white transition-all text-[12px] leading-none shadow"
+                        title="Hapus foto"
+                      >
+                        <span className="material-symbols-outlined text-[14px]">close</span>
+                      </button>
+                      {photo === url && (
+                        <span className="absolute bottom-1 left-1 bg-secondary text-white text-[8px] font-bold px-1 py-0.5 rounded uppercase leading-none">Profil</span>
+                      )}
                     </div>
                   ))}
                   <CldUploadWidget
@@ -344,56 +334,6 @@ export default function DirektoriSiswaPage() {
               </div>
             </div>
           )}
-
-      {showPhotoPicker && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-          <div className="bg-surface-container-lowest rounded-xl p-8 max-w-4xl w-full mx-4 shadow-2xl max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="font-headline text-[24px] leading-[1.4] font-semibold text-primary">
-                Pilih Foto dari Galeri
-              </h3>
-              <button onClick={() => setShowPhotoPicker(false)} className="p-2 hover:bg-surface-container rounded transition-colors">
-                <span className="material-symbols-outlined text-[24px]">close</span>
-              </button>
-            </div>
-
-            <div className="flex gap-3 mb-6 flex-wrap">
-              <button
-                onClick={() => setPickerAlbum("all")}
-                className={`px-4 py-2 rounded-lg font-[600] text-[12px] leading-[1.2] tracking-[0.05em] transition-colors ${pickerAlbum === "all" ? "bg-primary text-on-primary" : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container"}`}
-              >
-                Semua Album
-              </button>
-              {allGalleryItems.map((g) => (
-                <button
-                  key={g.id}
-                  onClick={() => setPickerAlbum(g.id)}
-                  className={`px-4 py-2 rounded-lg font-[600] text-[12px] leading-[1.2] tracking-[0.05em] transition-colors ${pickerAlbum === g.id ? "bg-primary text-on-primary" : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container"}`}
-                >
-                  {g.title}
-                </button>
-              ))}
-            </div>
-
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 mb-6">
-              {pickerFiltered.map((url) => (
-                <div
-                  key={url}
-                  onClick={() => { setPhoto(url); setShowPhotoPicker(false) }}
-                  className="aspect-square rounded-lg overflow-hidden border-2 border-outline-variant/20 cursor-pointer hover:border-secondary/50 transition-all"
-                >
-                  <img className="w-full h-full object-cover" src={optimizeCld(url, 200)} alt="" />
-                </div>
-              ))}
-              {pickerFiltered.length === 0 && (
-                <p className="col-span-full text-center text-on-surface-variant py-12">
-                  Tidak ada foto di album ini.
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
     </AdminLayout>
   )
 }
