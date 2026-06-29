@@ -7,6 +7,9 @@ import {
 import { db } from "@/lib/firebase"
 import AdminLayout from "@/components/AdminLayout"
 import { CldUploadWidget } from "next-cloudinary"
+import ConfirmDialog from "@/components/ConfirmDialog"
+import Toast from "@/components/Toast"
+import { addActivity } from "@/lib/activity"
 
 interface GalleryItem {
   id: string
@@ -30,6 +33,8 @@ export default function GaleriKenanganPage() {
   const [coverImageUrl, setCoverImageUrl] = useState("")
   const [date, setDate] = useState("")
   const [photos, setPhotos] = useState<string[]>([])
+  const [confirmDelete, setConfirmDelete] = useState<string | null>(null)
+  const [toast, setToast] = useState({ open: false, message: "", type: "success" as "success" | "error" | "info" })
 
   useEffect(() => {
     const q = query(collection(db, "galleryItems"), orderBy("createdAt", "desc"))
@@ -89,16 +94,21 @@ export default function GaleriKenanganPage() {
     }
     if (editing) {
       await updateDoc(doc(db, "galleryItems", editing.id), data)
+      addActivity("add", "galleryItems", editing.id, title)
     } else {
-      await addDoc(collection(db, "galleryItems"), data)
+      const ref = await addDoc(collection(db, "galleryItems"), data)
+      addActivity("add", "galleryItems", ref.id, title)
     }
     resetForm()
+    setToast({ open: true, message: editing ? "Album berhasil diupdate" : "Album berhasil disimpan", type: "success" })
   }
 
   const handleDelete = async (id: string) => {
-    if (confirm("Hapus album galeri ini?")) {
-      await deleteDoc(doc(db, "galleryItems", id))
-    }
+    const item = items.find((g) => g.id === id)
+    await deleteDoc(doc(db, "galleryItems", id))
+    setConfirmDelete(null)
+    setToast({ open: true, message: "Album berhasil dihapus", type: "success" })
+    if (item) addActivity("delete", "galleryItems", id, item.title)
   }
 
   const addPhoto = (url: string) => {
@@ -175,7 +185,7 @@ export default function GaleriKenanganPage() {
                       <button onClick={() => openEdit(item)} className="p-2 hover:bg-secondary/10 text-secondary rounded transition-colors" title="Edit">
                         <span className="material-symbols-outlined text-[20px]">edit</span>
                       </button>
-                      <button onClick={() => handleDelete(item.id)} className="p-2 hover:bg-error/10 text-error rounded transition-colors" title="Delete">
+                      <button onClick={() => setConfirmDelete(item.id)} className="p-2 hover:bg-error/10 text-error rounded transition-colors" title="Delete">
                         <span className="material-symbols-outlined text-[20px]">delete</span>
                       </button>
                     </div>
@@ -196,6 +206,15 @@ export default function GaleriKenanganPage() {
           <p>Menampilkan {items.length} entri</p>
         </div>
       </div>
+
+      <ConfirmDialog
+        open={confirmDelete !== null}
+        title="Hapus Album"
+        message="Apakah kamu yakin ingin menghapus album galeri ini?"
+        onConfirm={() => confirmDelete && handleDelete(confirmDelete)}
+        onCancel={() => setConfirmDelete(null)}
+      />
+      <Toast open={toast.open} message={toast.message} type={toast.type} onClose={() => setToast({ ...toast, open: false })} />
 
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">

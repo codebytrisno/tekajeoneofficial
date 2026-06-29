@@ -1,18 +1,18 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { collection, query, orderBy, onSnapshot } from "firebase/firestore"
+import { collection, query, orderBy, onSnapshot, Timestamp } from "firebase/firestore"
 import { db } from "@/lib/firebase"
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
 
-interface Memory {
+interface ClassMemory {
   id: string
-  title: string
-  desc: string
-  category: string
-  date: string
-  imageUrl: string
+  photoUrl: string
+  sourceAlbumId: string
+  sourceAlbumTitle: string
+  caption: string
+  createdAt: Timestamp
 }
 
 function PolaroidStack() {
@@ -83,13 +83,15 @@ function PolaroidStack() {
 }
 
 export default function HomePage() {
-  const [memories, setMemories] = useState<Memory[]>([])
+  const [classMemories, setClassMemories] = useState<ClassMemory[]>([])
 
   useEffect(() => {
-    const q = query(collection(db, "classMemories"), orderBy("createdAt", "desc"))
-    const unsub = onSnapshot(q, (snap) => {
-      setMemories(snap.docs.map((d) => ({ id: d.id, ...d.data() } as Memory)))
-    })
+    const unsub = onSnapshot(
+      query(collection(db, "classMemories"), orderBy("createdAt", "desc")),
+      (snap) => {
+        setClassMemories(snap.docs.map((d) => ({ id: d.id, ...d.data() } as ClassMemory)))
+      },
+    )
     return unsub
   }, [])
 
@@ -164,41 +166,43 @@ export default function HomePage() {
             </p>
           </div>
         </div>
-        <div className="cards-marquee-container overflow-hidden w-full relative">
-          <div className="animate-cards-marquee flex gap-8 px-6">
-            {memories.length === 0 ? (
-              <p className="font-body text-on-surface-variant px-6">Belum ada kenangan.</p>
-            ) : (
-              [...memories, ...memories].map((m, i) => (
-                <div key={`${m.id}-${i}`} className="flex-none w-80 md:w-96">
-                  <div className="paper-card bg-white rounded-xl overflow-hidden group h-full">
-                    <div className="relative h-64 overflow-hidden">
-                      <img
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                        src={m.imageUrl}
-                        alt={m.title}
-                      />
-                      <div className="absolute top-4 right-4 bg-secondary text-on-secondary px-3 py-1 rounded-full text-[12px] font-[600] text-[13px] leading-[1.2] tracking-[0.05em]">
-                        {m.category}
+        <div className="max-w-[1200px] mx-auto px-6">
+          {classMemories.length === 0 ? (
+            <p className="font-body text-on-surface-variant text-center">Belum ada kenangan.</p>
+          ) : (
+            <div className="cards-marquee-container overflow-hidden w-full relative">
+              <div className="animate-cards-marquee flex gap-8 px-6">
+                {[...classMemories, ...classMemories].map((m, i) => (
+                  <div key={`${m.id}-${i}`} className="flex-none w-80 md:w-96">
+                    <div className="paper-card bg-white rounded-xl overflow-hidden group h-full">
+                      <div className="relative h-64 overflow-hidden">
+                        <img
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                          src={m.photoUrl}
+                          alt={m.sourceAlbumTitle}
+                        />
+                        <div className="absolute top-4 right-4 bg-secondary text-on-secondary px-3 py-1 rounded-full text-[12px] font-[600] text-[13px] leading-[1.2] tracking-[0.05em]">
+                          {m.sourceAlbumTitle}
+                        </div>
                       </div>
-                    </div>
-                    <div className="p-6">
-                      <h3 className="font-headline text-[24px] leading-[1.4] font-semibold text-primary mb-2">
-                        {m.title}
-                      </h3>
-                      <p className="font-body text-[16px] leading-[1.6] text-on-surface-variant mb-4 line-clamp-2">
-                        {m.desc}
-                      </p>
-                      <div className="flex items-center gap-2 text-secondary">
-                        <span className="material-symbols-outlined text-[18px]">calendar_today</span>
-                        <span className="font-[600] text-[13px] leading-[1.2] tracking-[0.05em]">{m.date}</span>
+                      <div className="p-6">
+                        <h3 className="font-headline text-[24px] leading-[1.4] font-semibold text-primary mb-2">
+                          {m.sourceAlbumTitle}
+                        </h3>
+                        <p className="font-body text-[16px] leading-[1.6] text-on-surface-variant mb-4">
+                          Momen spesial
+                        </p>
+                        <div className="flex items-center gap-2 text-secondary">
+                          <span className="material-symbols-outlined text-[18px]">photo</span>
+                          <span className="font-[600] text-[13px] leading-[1.2] tracking-[0.05em]">Kenangan Kelas</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))
-            )}
-          </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </section>
       <Footer />

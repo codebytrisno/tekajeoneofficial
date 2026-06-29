@@ -3,8 +3,9 @@ import "./globals.css"
 import { AuthProvider } from "@/lib/auth"
 
 export const metadata: Metadata = {
-  title: "Alumni 2026 | Kenangan Abadi",
+  title: "TekajeOneOfficial",
   description: "Website untuk merayakan setiap tawa, mengabadikan setiap momen, dan menjaga erat tali persahabatan.",
+  icons: { icon: "/favicon.svg" },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

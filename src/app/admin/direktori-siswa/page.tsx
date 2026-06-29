@@ -7,6 +7,9 @@ import {
 import { db } from "@/lib/firebase"
 import AdminLayout from "@/components/AdminLayout"
 import { CldUploadWidget } from "next-cloudinary"
+import ConfirmDialog from "@/components/ConfirmDialog"
+import Toast from "@/components/Toast"
+import { addActivity } from "@/lib/activity"
 
 interface Student {
   id: string
@@ -27,6 +30,8 @@ export default function DirektoriSiswaPage() {
   const [photo, setPhoto] = useState("")
   const [date, setDate] = useState("")
   const [photos, setPhotos] = useState<string[]>([])
+  const [confirmDelete, setConfirmDelete] = useState<string | null>(null)
+  const [toast, setToast] = useState({ open: false, message: "", type: "success" as "success" | "error" | "info" })
 
   useEffect(() => {
     const q = query(collection(db, "students"), orderBy("createdAt", "desc"))
@@ -86,16 +91,21 @@ export default function DirektoriSiswaPage() {
     }
     if (editing) {
       await updateDoc(doc(db, "students", editing.id), data)
+      addActivity("add", "students", editing.id, name)
     } else {
-      await addDoc(collection(db, "students"), data)
+      const ref = await addDoc(collection(db, "students"), data)
+      addActivity("add", "students", ref.id, name)
     }
     resetForm()
+    setToast({ open: true, message: editing ? "Siswa berhasil diupdate" : "Siswa berhasil ditambahkan", type: "success" })
   }
 
   const handleDelete = async (id: string) => {
-    if (confirm("Hapus siswa ini?")) {
-      await deleteDoc(doc(db, "students", id))
-    }
+    const item = students.find((s) => s.id === id)
+    await deleteDoc(doc(db, "students", id))
+    setConfirmDelete(null)
+    setToast({ open: true, message: "Siswa berhasil dihapus", type: "success" })
+    if (item) addActivity("delete", "students", id, item.name)
   }
 
   const addPhoto = (url: string) => {
@@ -160,7 +170,7 @@ export default function DirektoriSiswaPage() {
                       <button onClick={() => openEdit(s)} className="p-2 hover:bg-secondary/10 text-secondary rounded transition-colors" title="Edit">
                         <span className="material-symbols-outlined text-[20px]">edit</span>
                       </button>
-                      <button onClick={() => handleDelete(s.id)} className="p-2 hover:bg-error/10 text-error rounded transition-colors" title="Delete">
+                      <button onClick={() => setConfirmDelete(s.id)} className="p-2 hover:bg-error/10 text-error rounded transition-colors" title="Delete">
                         <span className="material-symbols-outlined text-[20px]">delete</span>
                       </button>
                     </div>
@@ -181,6 +191,15 @@ export default function DirektoriSiswaPage() {
           <p>Menampilkan {students.length} entri</p>
         </div>
       </div>
+
+      <ConfirmDialog
+        open={confirmDelete !== null}
+        title="Hapus Siswa"
+        message="Apakah kamu yakin ingin menghapus siswa ini?"
+        onConfirm={() => confirmDelete && handleDelete(confirmDelete)}
+        onCancel={() => setConfirmDelete(null)}
+      />
+      <Toast open={toast.open} message={toast.message} type={toast.type} onClose={() => setToast({ ...toast, open: false })} />
 
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
