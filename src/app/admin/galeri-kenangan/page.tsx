@@ -112,11 +112,11 @@ export default function GaleriKenanganPage() {
   }
 
   const addPhoto = (url: string) => {
-    if (!photos.includes(url)) {
-      const next = [...photos, url]
-      setPhotos(next)
-      if (!coverImageUrl) setCoverImageUrl(url)
-    }
+    setPhotos((prev) => {
+      if (prev.includes(url)) return prev
+      setCoverImageUrl((prevUrl) => prevUrl || url)
+      return [...prev, url]
+    })
   }
 
   const removePhoto = (url: string) => {

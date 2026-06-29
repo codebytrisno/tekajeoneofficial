@@ -109,9 +109,10 @@ export default function DirektoriSiswaPage() {
   }
 
   const addPhoto = (url: string) => {
-    if (!photos.includes(url)) {
-      setPhotos([...photos, url])
-    }
+    setPhotos((prev) => {
+      if (prev.includes(url)) return prev
+      return [...prev, url]
+    })
   }
 
   const removePhoto = (url: string) => {
